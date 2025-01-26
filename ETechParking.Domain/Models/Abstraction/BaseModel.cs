@@ -1,6 +1,6 @@
 ﻿namespace ETechParking.Domain.Models.Abstraction;
 
-public abstract class BaseModel
+public abstract class BaseModel<TPrimaryKey>
 {
-    public int Id { get; set; }
+    public TPrimaryKey Id { get; set; } = default!;
 }
