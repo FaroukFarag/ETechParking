@@ -7,66 +7,59 @@ using ETechParking.Domain.Models.Abstraction;
 
 namespace ETechParking.Application.Services.Abstraction;
 
-public abstract class BaseService<T, TDto> : IBaseService<TDto>
-    where T : BaseModel
-    where TDto : BaseModelDto
+public abstract class BaseService<TEntity, TEntityDto, TPrimaryKey>(
+    IBaseRepository<TEntity, TPrimaryKey> repository,
+    IUnitOfWork unitOfWork,
+    IMapper mapper) : IBaseService<TEntityDto, TPrimaryKey>
+    where TEntity : BaseModel<TPrimaryKey>
+    where TEntityDto : BaseModelDto<TPrimaryKey>
 {
-    private readonly IBaseRepository<T> _repository;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
+    private readonly IBaseRepository<TEntity, TPrimaryKey> _repository = repository;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IMapper _mapper = mapper;
 
-    public BaseService(
-        IBaseRepository<T> repository,
-        IUnitOfWork unitOfWork,
-        IMapper mapper)
+    public virtual async Task<TEntityDto> CreateAsync(TEntityDto entityDto)
     {
-        _repository = repository;
-        _unitOfWork = unitOfWork;
-        _mapper = mapper;
-    }
-
-    public virtual async Task<TDto> CreateAsync(TDto entityDto)
-    {
-        var entity = _mapper.Map<T>(entityDto);
+        var entity = _mapper.Map<TEntity>(entityDto);
 
         await _repository.CreateAsync(entity);
 
         await _unitOfWork.Complete();
 
-        return _mapper.Map<TDto>(entity);
+        return _mapper.Map<TEntityDto>(entity);
     }
 
-    public virtual async Task<TDto> GetAsync(int id)
+    public virtual async Task<TEntityDto> GetAsync(TPrimaryKey id)
     {
         var entity = await _repository.GetAsync(id);
-        var entityDto = _mapper.Map<TDto>(entity);
+        var entityDto = _mapper.Map<TEntityDto>(entity);
 
         return entityDto;
     }
 
-    public virtual async Task<IEnumerable<TDto>> GetAllAsync()
+    public virtual async Task<IEnumerable<TEntityDto>> GetAllAsync()
     {
         var entities = await _repository.GetAllAsync();
-        var entitiesDtos = _mapper.Map<IReadOnlyList<TDto>>(entities);
+        var entitiesDtos = _mapper.Map<IReadOnlyList<TEntityDto>>(entities);
 
         return entitiesDtos;
     }
 
-    public virtual async Task<TDto> Update(TDto newEntityDto)
+    public virtual async Task<TEntityDto> Update(TEntityDto newEntityDto)
     {
-        var entity = _mapper.Map<T>(newEntityDto);
+        var entity = _mapper.Map<TEntity>(newEntityDto);
 
         _repository.Update(entity);
 
         await _unitOfWork.Complete();
 
-        return _mapper.Map<TDto>(entity);
+        return _mapper.Map<TEntityDto>(entity);
     }
 
-    public virtual async Task<TDto> Delete(int id)
+    public virtual async Task<TEntityDto> Delete(TPrimaryKey id)
     {
         var entity = _repository.Delete(id);
-        var entityDto = _mapper.Map<TDto>(entity);
+        var entityDto = _mapper.Map<TEntityDto>(entity);
 
         await _unitOfWork.Complete();
 

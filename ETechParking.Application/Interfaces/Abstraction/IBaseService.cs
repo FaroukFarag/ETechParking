@@ -2,11 +2,11 @@
 
 namespace ETechParking.Application.Interfaces.Abstraction;
 
-public interface IBaseService<TDto> where TDto : BaseModelDto
+public interface IBaseService<TEntityDto, TPrimaryKey> where TEntityDto : BaseModelDto<TPrimaryKey>
 {
-    Task<TDto> CreateAsync(TDto entityDto);
-    Task<TDto> GetAsync(int id);
-    Task<IEnumerable<TDto>> GetAllAsync();
-    Task<TDto> Update(TDto newEntityDto);
-    Task<TDto> Delete(int id);
+    Task<TEntityDto> CreateAsync(TEntityDto entityDto);
+    Task<TEntityDto> GetAsync(TPrimaryKey id);
+    Task<IEnumerable<TEntityDto>> GetAllAsync();
+    Task<TEntityDto> Update(TEntityDto newEntityDto);
+    Task<TEntityDto> Delete(TPrimaryKey id);
 }

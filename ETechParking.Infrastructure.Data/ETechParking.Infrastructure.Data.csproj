@@ -24,8 +24,4 @@
     <ProjectReference Include="..\ETechParking.Domain\ETechParking.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ModelsConfigurations\" />
-  </ItemGroup>
-
 </Project>

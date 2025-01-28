@@ -1,4 +1,4 @@
-﻿using ETechParking.Application.Dtos.Users;
+﻿using ETechParking.Application.Dtos.Locations.Users;
 using ETechParking.Application.Interfaces.Users;
 using Microsoft.AspNetCore.Mvc;
 

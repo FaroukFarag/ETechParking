@@ -1,6 +1,6 @@
 ﻿namespace ETechParking.Application.Dtos.Abstraction;
 
-public class BaseModelDto
+public class BaseModelDto<TPrimaryKey>
 {
-    public int Id { get; set; }
+    public TPrimaryKey Id { get; set; } = default!;
 }

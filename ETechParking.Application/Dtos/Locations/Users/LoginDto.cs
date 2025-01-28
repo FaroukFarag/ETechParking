@@ -1,4 +1,4 @@
-﻿namespace ETechParking.Application.Dtos.Users;
+﻿namespace ETechParking.Application.Dtos.Locations.Users;
 
 public class LoginDto
 {

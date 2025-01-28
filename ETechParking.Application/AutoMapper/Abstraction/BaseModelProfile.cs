@@ -8,6 +8,6 @@ public class BaseModelProfile : Profile
 {
     public BaseModelProfile()
     {
-        CreateMap<BaseModel, BaseModelDto>().ReverseMap();
+        CreateMap(typeof(BaseModel<>), typeof(BaseModelDto<>)).ReverseMap();
     }
 }

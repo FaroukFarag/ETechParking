@@ -1,12 +1,12 @@
 ﻿using ETechParking.Application.AutoMapper.Abstraction;
 using ETechParking.Application.AutoMapper.Users;
 using ETechParking.Application.Interfaces.Users;
-using ETechParking.Application.Services.Users;
+using ETechParking.Application.Services.Locations.Users;
 using ETechParking.Common.Tokens.Configurations;
 using ETechParking.Common.Tokens.Interfaces;
 using ETechParking.Common.Tokens.Services;
 using ETechParking.Domain.Interfaces.UnitOfWork;
-using ETechParking.Domain.Models.Users;
+using ETechParking.Domain.Models.Locations.Users;
 using ETechParking.Infrastructure.Data.Context;
 using ETechParking.Infrastructure.Data.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -63,7 +63,7 @@ public static class DependencyContainer
 
     public static void RegisterIdentity(this IServiceCollection services)
     {
-        services.AddIdentity<ApplicationUser, IdentityRole>()
+        services.AddIdentity<User, IdentityRole>()
             .AddEntityFrameworkStores<ETechParkingDbContext>()
             .AddDefaultTokenProviders();
     }

@@ -1,6 +1,6 @@
 ﻿using ETechParking.Application.Dtos.Locations.Users;
 
-namespace ETechParking.Application.Interfaces.Users;
+namespace ETechParking.Application.Interfaces.Locations.Users;
 
 public interface IUserService
 {

@@ -2,11 +2,11 @@
 
 namespace ETechParking.Domain.Interfaces.Repositories.Abstraction;
 
-public interface IBaseRepository<T> where T : BaseModel
+public interface IBaseRepository<TEntity, TPrimaryKey> where TEntity : BaseModel<TPrimaryKey>
 {
-    Task<T> CreateAsync(T entity);
-    Task<T> GetAsync(int id);
-    Task<IEnumerable<T>> GetAllAsync();
-    T Update(T newEntity);
-    T Delete(int id);
+    Task<TEntity> CreateAsync(TEntity entity);
+    Task<TEntity> GetAsync(TPrimaryKey id);
+    Task<IEnumerable<TEntity>> GetAllAsync();
+    TEntity Update(TEntity newEntity);
+    TEntity Delete(TPrimaryKey id);
 }

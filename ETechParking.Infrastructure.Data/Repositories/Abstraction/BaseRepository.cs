@@ -5,44 +5,39 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ETechParking.Infrastructure.Data.Repositories.Abstraction;
 
-public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
+public abstract class BaseRepository<TEntity, TPrimaryKey>(ETechParkingDbContext context) : IBaseRepository<TEntity, TPrimaryKey> where TEntity : BaseModel<TPrimaryKey>
 {
-    private readonly ETechParkingDbContext _context;
+    private readonly ETechParkingDbContext _context = context;
 
-    public BaseRepository(ETechParkingDbContext context)
+    public virtual async Task<TEntity> CreateAsync(TEntity entity)
     {
-        _context = context;
-    }
-
-    public virtual async Task<T> CreateAsync(T entity)
-    {
-        await _context.Set<T>().AddAsync(entity);
+        await _context.Set<TEntity>().AddAsync(entity);
 
         return entity;
     }
 
-    public virtual async Task<T> GetAsync(int id)
+    public virtual async Task<TEntity> GetAsync(TPrimaryKey id)
     {
-        var entity = await _context.Set<T>().FirstOrDefaultAsync(t => t.Id == id);
+        var entity = await _context.Set<TEntity>().FindAsync(id);
 
         return entity!;
     }
 
-    public virtual async Task<IEnumerable<T>> GetAllAsync()
+    public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
     {
-        return await _context.Set<T>().ToListAsync();
+        return await _context.Set<TEntity>().ToListAsync();
     }
 
-    public virtual T Update(T newEntity)
+    public virtual TEntity Update(TEntity newEntity)
     {
-        _context.Set<T>().Update(newEntity);
+        _context.Set<TEntity>().Update(newEntity);
 
         return newEntity;
     }
 
-    public virtual T Delete(int id)
+    public virtual TEntity Delete(TPrimaryKey id)
     {
-        T entity = _context.Set<T>().Where(t => t.Id == id)?.FirstOrDefault()!;
+        TEntity entity = _context.Set<TEntity>().Find(id)!;
 
         if (entity == null)
             return default!;
