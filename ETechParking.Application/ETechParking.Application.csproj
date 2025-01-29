@@ -17,8 +17,4 @@
     <ProjectReference Include="..\ETechParking.Domain\ETechParking.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Validators\" />
-  </ItemGroup>
-
 </Project>

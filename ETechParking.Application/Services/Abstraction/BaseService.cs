@@ -7,10 +7,10 @@ using ETechParking.Domain.Models.Abstraction;
 
 namespace ETechParking.Application.Services.Abstraction;
 
-public abstract class BaseService<TEntity, TEntityDto, TPrimaryKey>(
+public class BaseService<TEntity, TEntityDto, TPrimaryKey>(
     IBaseRepository<TEntity, TPrimaryKey> repository,
     IUnitOfWork unitOfWork,
-    IMapper mapper) : IBaseService<TEntityDto, TPrimaryKey>
+    IMapper mapper) : IBaseService<TEntity, TEntityDto, TPrimaryKey>
     where TEntity : BaseModel<TPrimaryKey>
     where TEntityDto : BaseModelDto<TPrimaryKey>
 {

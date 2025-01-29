@@ -1,19 +1,14 @@
 ﻿using ETechParking.Application.Dtos.Locations.Users;
-using ETechParking.Application.Interfaces.Users;
+using ETechParking.Application.Interfaces.Locations.Users;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ETechParking.WebApi.Controllers;
+namespace ETechParking.WebApi.Controllers.Locations.Users;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UsersController : ControllerBase
+public class UsersController(IUserService userService) : ControllerBase
 {
-    private readonly IUserService _userService;
-
-    public UsersController(IUserService userService)
-    {
-        _userService = userService;
-    }
+    private readonly IUserService _userService = userService;
 
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterDto registerDto)

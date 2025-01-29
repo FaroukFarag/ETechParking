@@ -1,12 +1,52 @@
-﻿using ETechParking.Application.Interfaces.Locations;
+﻿using ETechParking.Application.Dtos.Locations;
+using ETechParking.Application.Interfaces.Locations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ETechParking.WebApi.Controllers.Locations
+namespace ETechParking.WebApi.Controllers.Locations;
+
+[Route("api/[controller]")]
+[ApiController]
+public class LocationsController(ILocationService locationService) : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class LocationsController(ILocationService locationService) : ControllerBase
+    private readonly ILocationService _locationService = locationService;
+
+    [HttpPost("Create")]
+    public async Task<IActionResult> Create(LocationDto locationDto)
     {
-        private readonly ILocationService _locationService = locationService;
+        return Ok(await _locationService.CreateAsync(locationDto));
+    }
+
+    [HttpGet("Get")]
+    public async Task<IActionResult> Get(int id)
+    {
+        var locationDto = await _locationService.GetAsync(id);
+
+        if (locationDto == null)
+            return NotFound();
+
+        return Ok(locationDto);
+    }
+
+    [HttpGet("GetAll")]
+    public async Task<IActionResult> GetAll()
+    {
+        return Ok(await _locationService.GetAllAsync());
+    }
+
+    [HttpPut("Update")]
+    public async Task<IActionResult> Update(LocationDto newLocationDto)
+    {
+        return Ok(await _locationService.Update(newLocationDto));
+    }
+
+    [HttpDelete("Delete")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var locationDto = await _locationService.Delete(id);
+
+        if (locationDto == null)
+            return NotFound();
+
+        return Ok(locationDto);
     }
 }

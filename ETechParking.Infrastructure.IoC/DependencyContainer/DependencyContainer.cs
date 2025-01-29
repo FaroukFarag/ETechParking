@@ -1,14 +1,32 @@
 ﻿using ETechParking.Application.AutoMapper.Abstraction;
-using ETechParking.Application.AutoMapper.Users;
+using ETechParking.Application.AutoMapper.Locations;
+using ETechParking.Application.AutoMapper.Locations.Fares;
+using ETechParking.Application.AutoMapper.Locations.Users;
+using ETechParking.Application.Interfaces.Abstraction;
+using ETechParking.Application.Interfaces.Locations;
+using ETechParking.Application.Interfaces.Locations.Fares;
 using ETechParking.Application.Interfaces.Users;
+using ETechParking.Application.Services.Abstraction;
+using ETechParking.Application.Services.Locations;
+using ETechParking.Application.Services.Locations.Fares;
 using ETechParking.Application.Services.Locations.Users;
+using ETechParking.Application.Validators.Locations;
+using ETechParking.Application.Validators.Locations.Fares;
+using ETechParking.Application.Validators.Locations.Users;
 using ETechParking.Common.Tokens.Configurations;
 using ETechParking.Common.Tokens.Interfaces;
 using ETechParking.Common.Tokens.Services;
+using ETechParking.Domain.Interfaces.Repositories.Abstraction;
+using ETechParking.Domain.Interfaces.Repositories.Locations;
+using ETechParking.Domain.Interfaces.Repositories.Locations.Fares;
 using ETechParking.Domain.Interfaces.UnitOfWork;
 using ETechParking.Domain.Models.Locations.Users;
 using ETechParking.Infrastructure.Data.Context;
+using ETechParking.Infrastructure.Data.Repositories.Abstraction;
+using ETechParking.Infrastructure.Data.Repositories.Locations;
+using ETechParking.Infrastructure.Data.Repositories.Locations.Fares;
 using ETechParking.Infrastructure.Data.UnitOfWork;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -28,8 +46,11 @@ public static class DependencyContainer
 
     public static void RegisterServices(this IServiceCollection services)
     {
-        services.AddScoped<ITokensService, TokensService>()
-            .AddScoped<IUserService, UserService>();
+        services.AddScoped(typeof(IBaseService<,,>), typeof(BaseService<,,>))
+            .AddScoped<ITokensService, TokensService>()
+            .AddScoped<ILocationService, LocationService>()
+            .AddScoped<IUserService, UserService>()
+            .AddScoped<IFareService, FareService>();
     }
 
     public static void RegisterDbContext(this IServiceCollection services, IConfiguration configuration)
@@ -38,12 +59,13 @@ public static class DependencyContainer
         {
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
         });
-
-        services.AddScoped<ETechParkingDbContext>();
     }
 
     public static void RegisterRepositories(this IServiceCollection services)
     {
+        services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>))
+            .AddScoped<ILocationRepository, LocationRepository>()
+            .AddScoped<IFareRepository, FareRepository>();
     }
 
     public static void RegisterUnitOfWork(this IServiceCollection services)
@@ -54,11 +76,17 @@ public static class DependencyContainer
     public static void RegisterAutoMapper(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(BaseModelProfile).Assembly);
+        services.AddAutoMapper(typeof(LocationProfile).Assembly);
+        services.AddAutoMapper(typeof(FareProfile).Assembly);
         services.AddAutoMapper(typeof(UserProfile).Assembly);
     }
 
     public static void RegisterValidators(this IServiceCollection services)
     {
+        services.AddValidatorsFromAssemblyContaining<LocationDtoValidator>();
+        services.AddValidatorsFromAssemblyContaining<FareDtoValidator>();
+        services.AddValidatorsFromAssemblyContaining<RegisterDtoValidator>();
+        services.AddValidatorsFromAssemblyContaining<LoginDtoValidator>();
     }
 
     public static void RegisterIdentity(this IServiceCollection services)

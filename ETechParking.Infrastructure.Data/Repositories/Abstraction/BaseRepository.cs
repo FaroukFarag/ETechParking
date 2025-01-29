@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ETechParking.Infrastructure.Data.Repositories.Abstraction;
 
-public abstract class BaseRepository<TEntity, TPrimaryKey>(ETechParkingDbContext context) : IBaseRepository<TEntity, TPrimaryKey> where TEntity : BaseModel<TPrimaryKey>
+public class BaseRepository<TEntity, TPrimaryKey>(ETechParkingDbContext context) : IBaseRepository<TEntity, TPrimaryKey> where TEntity : BaseModel<TPrimaryKey>
 {
     private readonly ETechParkingDbContext _context = context;
 
