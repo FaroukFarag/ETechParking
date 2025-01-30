@@ -16,6 +16,7 @@ using ETechParking.Application.Validators.Locations.Users;
 using ETechParking.Common.Tokens.Configurations;
 using ETechParking.Common.Tokens.Interfaces;
 using ETechParking.Common.Tokens.Services;
+using ETechParking.Domain.Constants;
 using ETechParking.Domain.Interfaces.Repositories.Abstraction;
 using ETechParking.Domain.Interfaces.Repositories.Locations;
 using ETechParking.Domain.Interfaces.Repositories.Locations.Fares;
@@ -116,6 +117,20 @@ public static class DependencyContainer
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]!)),
                 ClockSkew = new TimeSpan(0, 2, 0)
             };
+        });
+    }
+
+    public static void RegisterCORS(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddCors(options =>
+        {
+            var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()!;
+
+            options.AddPolicy(AppSettings.AllowedOrigins,
+                policy => policy.WithOrigins(allowedOrigins)
+                                .AllowAnyMethod()
+                                .AllowAnyHeader()
+                                .AllowCredentials());
         });
     }
 }

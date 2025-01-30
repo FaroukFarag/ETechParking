@@ -1,3 +1,4 @@
+using ETechParking.Domain.Constants;
 using ETechParking.Infrastructure.IoC.DependencyContainer;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,7 @@ builder.Services.RegisterAutoMapper();
 builder.Services.RegisterValidators();
 builder.Services.RegisterIdentity();
 builder.Services.RegisterJwtSettings(builder.Configuration);
+builder.Services.RegisterCORS(builder.Configuration);
 
 var app = builder.Build();
 
@@ -29,6 +31,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(AppSettings.AllowedOrigins);
 
 app.UseAuthentication();
 

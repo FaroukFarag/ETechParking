@@ -1,0 +1,11 @@
+<form [formGroup]="locationsForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+        <label for="country" class="form-label">Country</label>
+        <input type="text" class="form-control" id="country" formControlName="country">
+    </div>
+    <div class="mb-3">
+        <label for="city" class="form-label">City</label>
+        <input type="text" class="form-control" id="city" formControlName="city">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

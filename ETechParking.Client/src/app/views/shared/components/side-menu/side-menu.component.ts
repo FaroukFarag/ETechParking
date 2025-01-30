@@ -5,20 +5,23 @@ import { MenubarModule } from 'primeng/menubar';
 @Component({
   selector: 'app-side-menu',
   imports: [
-    MenubarModule 
+    MenubarModule
   ],
   templateUrl: './side-menu.component.html',
   styleUrl: './side-menu.component.css'
 })
-export class SideMenuComponent  implements OnInit {
+export class SideMenuComponent implements OnInit {
   items: MenuItem[];
 
   constructor() {
     this.items = [
       {
         label: 'Locations',
-        routerLink: 'locations',
         items: [
+          {
+            label: 'Locations',
+            routerLink: 'locations',
+          },
           {
             label: 'Fares',
             routerLink: 'locations/fares'

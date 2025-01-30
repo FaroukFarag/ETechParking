@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SideMenuComponent } from "./views/shared/side-menu/side-menu.component";
+import { SideMenuComponent } from "./views/shared/components/side-menu/side-menu.component";
 
 @Component({
   selector: 'app-root',
