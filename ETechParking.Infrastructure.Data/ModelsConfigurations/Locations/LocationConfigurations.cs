@@ -12,8 +12,18 @@ public class LocationConfigurations : IEntityTypeConfiguration<Location>
             .HasMaxLength(50)
             .IsRequired();
 
+        builder.Property(l => l.Country)
+            .HasMaxLength(50)
+            .IsRequired();
+
         builder.Property(l => l.City)
             .HasMaxLength(50)
+            .IsRequired();
+
+        builder.Property(l => l.Longitude)
+            .IsRequired();
+
+        builder.Property(l => l.Latitude)
             .IsRequired();
     }
 }

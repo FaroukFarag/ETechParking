@@ -1,5 +1,6 @@
 ﻿using ETechParking.Domain.Interfaces.Repositories.Abstraction;
 using ETechParking.Domain.Models.Abstraction;
+using ETechParking.Domain.Models.Shared;
 using ETechParking.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +29,16 @@ public class BaseRepository<TEntity, TPrimaryKey>(ETechParkingDbContext context)
         return await _context.Set<TEntity>().ToListAsync();
     }
 
+    public virtual async Task<IEnumerable<TEntity>> GetAllPaginatedAsync(PaginatedModel paginatedModel)
+    {
+        paginatedModel.PageNumber = paginatedModel.PageNumber <= 0 ? 1 : paginatedModel.PageNumber;
+
+        return await _context.Set<TEntity>()
+            .Skip((paginatedModel.PageNumber - 1) * paginatedModel.PageSize)
+            .Take(paginatedModel.PageSize)
+            .ToListAsync();
+    }
+
     public virtual TEntity Update(TEntity newEntity)
     {
         _context.Set<TEntity>().Update(newEntity);
@@ -45,5 +56,10 @@ public class BaseRepository<TEntity, TPrimaryKey>(ETechParkingDbContext context)
         _context.Remove(entity);
 
         return entity;
+    }
+
+    public virtual void DeleteRange(IEnumerable<TEntity> entities)
+    {
+        _context.RemoveRange(entities);
     }
 }

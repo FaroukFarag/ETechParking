@@ -2,6 +2,7 @@
 using ETechParking.Application.AutoMapper.Locations;
 using ETechParking.Application.AutoMapper.Locations.Fares;
 using ETechParking.Application.AutoMapper.Locations.Users;
+using ETechParking.Application.AutoMapper.Shared;
 using ETechParking.Application.Interfaces.Abstraction;
 using ETechParking.Application.Interfaces.Locations;
 using ETechParking.Application.Interfaces.Locations.Fares;
@@ -77,6 +78,7 @@ public static class DependencyContainer
     public static void RegisterAutoMapper(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(BaseModelProfile).Assembly);
+        services.AddAutoMapper(typeof(PaginatedModelProfile).Assembly);
         services.AddAutoMapper(typeof(LocationProfile).Assembly);
         services.AddAutoMapper(typeof(FareProfile).Assembly);
         services.AddAutoMapper(typeof(UserProfile).Assembly);

@@ -12,8 +12,8 @@ public class UnitOfWork : IUnitOfWork
         _context = context;
     }
 
-    public async Task Complete()
+    public async Task<bool> Complete()
     {
-        await _context.SaveChangesAsync();
+        return await _context.SaveChangesAsync() > 0;
     }
 }

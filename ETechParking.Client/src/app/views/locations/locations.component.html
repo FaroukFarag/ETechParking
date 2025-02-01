@@ -2,7 +2,7 @@
     <p-toast />
     <p-toolbar styleClass="mb-6">
         <ng-template #start>
-            <p-button label="New" icon="pi pi-plus" class="mr-2" (onClick)="openNew()" />
+            <p-button label="New" icon="pi pi-plus" class="mr-2" (onClick)="openNew({})" />
             <p-button severity="danger" label="Delete" icon="pi pi-trash" outlined (onClick)="deleteSelectedLocations()"
                 [disabled]="!selectedLocations || !selectedLocations.length" />
         </ng-template>
@@ -14,18 +14,17 @@
         </ng-template>
     </p-toolbar>
 
-    <p-table #locationsDataTable [value]="locations" [rows]="10" [columns]="cols" [paginator]="true"
-        [globalFilterFields]="['country', 'city']"
-        [tableStyle]="{ 'min-width': '75rem' }" [(selection)]="selectedLocations" [rowHover]="true" dataKey="id"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+    <p-table #locationsDataTable [value]="locations" [rows]="pageSize" [paginator]="true"
+        [rowsPerPageOptions]="rowsPerPageOptions" [totalRecords]="locations ? locations.length : 0" [loading]="loading"
+        [(selection)]="selectedLocations" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
+        (onPageChange)="loadData($event)">
         <ng-template #caption>
             <div class="flex items-center justify-between">
                 <h5 class="m-0">Manage Locations</h5>
                 <p-iconfield>
                     <p-inputicon styleClass="pi pi-search" />
-                    <input pInputText type="text"
-                        (input)="filterTable($event)"
-                        placeholder="Search..." />
+                    <input pInputText type="text" (input)="filterTable($event)" placeholder="Search..." />
                 </p-iconfield>
             </div>
         </ng-template>
@@ -34,7 +33,7 @@
                 <th style="width: 3rem">
                     <p-tableHeaderCheckbox />
                 </th>
-                <th pSortableColumn="country" pSortableColumn="country">
+                <th pSortableColumn="country">
                     Country
                     <p-sortIcon field="country" />
                 </th>
@@ -54,9 +53,9 @@
                 <td>{{ location.city }}</td>
                 <td>
                     <p-button icon="pi pi-pencil" class="mr-5" [rounded]="true" [outlined]="true"
-                        (click)="editLocation(location)" />
+                        (click)="editLocations(location.id)" />
                     <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
-                        (click)="deleteLocation(location)" />
+                        (click)="deleteLocation(location.id)" />
                 </td>
             </tr>
         </ng-template>
@@ -66,29 +65,8 @@
         </ng-template>
     </p-table>
 
-    <p-dialog [(visible)]="locationDialog" [style]="{ width: '450px' }" header="Location Details" [modal]="true">
-        <ng-template #content>
-            <div class="flex flex-col gap-6">
-                <div>
-                    <label for="country" class="block font-bold mb-3">Country</label>
-                    <input type="text" pInputText id="country" [(ngModel)]="location.country" required autofocus
-                        fluid />
-                    <small class="text-red-500" *ngIf="submitted && !location.country">Country is required.</small>
-                </div>
-                <div>
-                    <label for="city" class="block font-bold mb-3">City</label>
-                    <input type="text" pInputText id="city" [(ngModel)]="location.city" required autofocus
-                        fluid />
-                    <small class="text-red-500" *ngIf="submitted && !location.city">City is required.</small>
-                </div>
-            </div>
-        </ng-template>
-
-        <ng-template #footer>
-            <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
-            <p-button label="Save" icon="pi pi-check" (click)="saveLocation()" />
-        </ng-template>
-    </p-dialog>
-
+    <app-edit-location [locationDialog]="locationDialog" [fields]="fieldConfigs" [locations]="locations"
+        [location]="location" (locationsChanged)="refreshLocations($event)"
+        (locationDialogChanged)="hideDialog($event)" />
     <p-confirmDialog [style]="{ width: '450px' }" />
 </div>

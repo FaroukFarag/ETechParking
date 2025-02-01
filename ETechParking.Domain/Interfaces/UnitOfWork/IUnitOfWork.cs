@@ -2,5 +2,5 @@
 
 public interface IUnitOfWork
 {
-    Task Complete();
+    Task<bool> Complete();
 }

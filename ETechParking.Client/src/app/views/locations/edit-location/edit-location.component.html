@@ -1,11 +1,30 @@
-<form [formGroup]="locationsForm" (ngSubmit)="onSubmit()">
-    <div class="mb-3">
-        <label for="country" class="form-label">Country</label>
-        <input type="text" class="form-control" id="country" formControlName="country">
-    </div>
-    <div class="mb-3">
-        <label for="city" class="form-label">City</label>
-        <input type="text" class="form-control" id="city" formControlName="city">
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+<p-dialog [(visible)]="locationDialog" [style]="{ width: '450px' }" header="Location Details" [modal]="true"
+    (onHide)="hideDialog()">
+    <ng-template #content>
+        <div class="flex flex-col gap-6">
+            <div *ngFor="let field of fields">
+                <label [for]="field.key" class="block font-bold mb-3">{{ field.label }}</label>
+
+                <input *ngIf="field.type === 'text'" type="text" pInputText [id]="field.key"
+                    [(ngModel)]="location[field.key]" [required]="field.required!" [placeholder]="field.placeholder"
+                    fluid />
+
+                <input *ngIf="field.type === 'number'" type="number" pInputText [id]="field.key"
+                    [(ngModel)]="location[field.key]" [required]="field.required!" [placeholder]="field.placeholder"
+                    fluid />
+
+                <p-select *ngIf="field.type === 'dropdown'" [(ngModel)]="location[field.key]" [inputId]="field.key"
+                    [options]="field.options" optionLabel="label" [placeholder]="field.placeholder" fluid />
+
+                <small class="text-red-500" *ngIf="submitted && field.required && !location[field.key]">
+                    {{ field.label }} is required.
+                </small>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #footer>
+        <p-button label="Cancel" icon="pi pi-times" text (click)="hideDialog()" />
+        <p-button label="Save" icon="pi pi-check" (click)="saveLocation(location.id)" />
+    </ng-template>
+</p-dialog>

@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using ETechParking.Application.Dtos.Abstraction;
+using ETechParking.Application.Dtos.Shared;
 using ETechParking.Application.Interfaces.Abstraction;
 using ETechParking.Domain.Interfaces.Repositories.Abstraction;
 using ETechParking.Domain.Interfaces.UnitOfWork;
 using ETechParking.Domain.Models.Abstraction;
+using ETechParking.Domain.Models.Shared;
 
 namespace ETechParking.Application.Services.Abstraction;
 
@@ -45,6 +47,13 @@ public class BaseService<TEntity, TEntityDto, TPrimaryKey>(
         return entitiesDtos;
     }
 
+    public virtual async Task<IEnumerable<TEntityDto>> GetAllPaginatedAsync(PaginatedModelDto paginatedModelDto)
+    {
+        var entities = await _repository.GetAllPaginatedAsync(_mapper.Map<PaginatedModel>(paginatedModelDto));
+        var entitiesDtos = _mapper.Map<IReadOnlyList<TEntityDto>>(entities);
+
+        return entitiesDtos;
+    }
     public virtual async Task<TEntityDto> Update(TEntityDto newEntityDto)
     {
         var entity = _mapper.Map<TEntity>(newEntityDto);
@@ -64,5 +73,14 @@ public class BaseService<TEntity, TEntityDto, TPrimaryKey>(
         await _unitOfWork.Complete();
 
         return entityDto;
+    }
+
+    public virtual Task<bool> DeleteRange(IEnumerable<TEntityDto> entitiesDtos)
+    {
+        var entities = _mapper.Map<IReadOnlyList<TEntity>>(entitiesDtos);
+
+        _repository.DeleteRange(entities);
+
+        return _unitOfWork.Complete();
     }
 }

@@ -23,6 +23,10 @@ export class SideMenuComponent implements OnInit {
             routerLink: 'locations',
           },
           {
+            label: 'Users',
+            routerLink: 'locations/users',
+          },
+          {
             label: 'Fares',
             routerLink: 'locations/fares'
           }

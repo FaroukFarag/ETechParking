@@ -1,4 +1,5 @@
 ﻿using ETechParking.Application.Dtos.Locations;
+using ETechParking.Application.Dtos.Shared;
 using ETechParking.Application.Interfaces.Locations;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,6 +34,12 @@ public class LocationsController(ILocationService locationService) : ControllerB
         return Ok(await _locationService.GetAllAsync());
     }
 
+    [HttpPost("GetAllPaginated")]
+    public async Task<IActionResult> GetAllPaginated(PaginatedModelDto paginatedModelDto)
+    {
+        return Ok(await _locationService.GetAllPaginatedAsync(paginatedModelDto));
+    }
+
     [HttpPut("Update")]
     public async Task<IActionResult> Update(LocationDto newLocationDto)
     {
@@ -48,5 +55,11 @@ public class LocationsController(ILocationService locationService) : ControllerB
             return NotFound();
 
         return Ok(locationDto);
+    }
+
+    [HttpDelete("DeleteRange")]
+    public async Task<IActionResult> DeleteRange(IEnumerable<LocationDto> locationDtos)
+    {
+        return Ok(await _locationService.DeleteRange(locationDtos));
     }
 }

@@ -18,6 +18,10 @@ export class BaseService<T> {
     return this.http.get<T[]>(`${this.baseUrl}/${endpoint}`);
   }
 
+  getAllPaginated(endpoint: string, paginatedModel: any): Observable<T[]> {
+    return this.http.post<T[]>(`${this.baseUrl}/${endpoint}`, paginatedModel);
+  }
+
   getById(endpoint: string, id: number | string): Observable<T> {
     return this.http.get<T>(`${this.baseUrl}/${endpoint}/${id}`);
   }
@@ -26,11 +30,15 @@ export class BaseService<T> {
     return this.http.post<T>(`${this.baseUrl}/${endpoint}`, entity);
   }
 
-  update(endpoint: string, id: number | string, entity: Partial<T>): Observable<T> {
-    return this.http.put<T>(`${this.baseUrl}/${endpoint}/${id}`, entity);
+  update(endpoint: string, entity: T): Observable<T> {
+    return this.http.put<T>(`${this.baseUrl}/${endpoint}`, entity);
   }
 
-  delete(endpoint: string, id: number | string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${endpoint}/${id}`);
+  delete(endpoint: string): Observable<T> {
+    return this.http.delete<T>(`${this.baseUrl}/${endpoint}`);
+  }
+
+  deleteRange(endpoint: string, entities: T[] | null): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/${endpoint}`, { body: entities });
   }
 }
