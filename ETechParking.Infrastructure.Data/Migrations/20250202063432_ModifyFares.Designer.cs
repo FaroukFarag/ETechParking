@@ -4,6 +4,7 @@ using ETechParking.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ETechParking.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ETechParkingDbContext))]
-    partial class ETechParkingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250202063432_ModifyFares")]
+    partial class ModifyFares
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,9 +46,6 @@ namespace ETechParking.Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("LocationId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MaxLimit")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

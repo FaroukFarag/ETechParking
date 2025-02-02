@@ -1,8 +1,8 @@
 <p-dialog [(visible)]="locationDialog" [style]="{ width: '450px' }" header="Location Details" [modal]="true"
     (onHide)="hideDialog()">
     <ng-template #content>
-        <div class="flex flex-col gap-6">
-            <div *ngFor="let field of fields">
+        <div *ngFor="let field of fields">
+            <div *ngIf="field.visible !== false" class="flex flex-col gap-6">
                 <label [for]="field.key" class="block font-bold mb-3">{{ field.label }}</label>
 
                 <input *ngIf="field.type === 'text'" type="text" pInputText [id]="field.key"
@@ -13,8 +13,9 @@
                     [(ngModel)]="location[field.key]" [required]="field.required!" [placeholder]="field.placeholder"
                     fluid />
 
-                <p-select *ngIf="field.type === 'dropdown'" [(ngModel)]="location[field.key]" [inputId]="field.key"
-                    [options]="field.options" optionLabel="label" [placeholder]="field.placeholder" fluid />
+                <p-select *ngIf="field.type === 'select'" [(ngModel)]="location[field.key]" [inputId]="field.key"
+                    [options]="field.options" [optionLabel]="field.labelField || 'label'"
+                    [optionValue]="field.valueField || 'value'" [placeholder]="field.placeholder" fluid />
 
                 <small class="text-red-500" *ngIf="submitted && field.required && !location[field.key]">
                     {{ field.label }} is required.

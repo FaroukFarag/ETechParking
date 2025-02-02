@@ -2,6 +2,6 @@
 
 public enum FareType
 {
-    Hourly,
+    Hourly = 1,
     Daily
 }

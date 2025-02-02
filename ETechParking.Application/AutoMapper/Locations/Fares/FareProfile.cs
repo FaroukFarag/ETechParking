@@ -8,6 +8,12 @@ public class FareProfile : Profile
 {
     public FareProfile()
     {
-        CreateMap<Fare, FareDto>().ReverseMap();
+        CreateMap<FareDto, Fare>();
+
+        CreateMap<Fare, FareDto>()
+            .ForMember(des => des.LocationName, opt => opt
+                .MapFrom(src => src.Location.Name))
+            .ForMember(des => des.FareTypeName, opt => opt
+                .MapFrom(src => src.FareType.ToString()));
     }
 }

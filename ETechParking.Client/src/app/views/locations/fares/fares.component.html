@@ -1,1 +1,71 @@
-<p>fares works!</p>
+<div class="card">
+    <p-toast />
+    <p-toolbar styleClass="mb-6">
+        <ng-template #start>
+            <p-button label="New" icon="pi pi-plus" class="mr-2" (onClick)="openNew()" />
+            <p-button severity="danger" label="Delete" icon="pi pi-trash" outlined (onClick)="deleteSelectedFares()"
+                [disabled]="!selectedFares || !selectedFares.length" />
+        </ng-template>
+
+        <ng-template #end>
+            <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" auto
+                customUpload class="mr-2 inline-block" [chooseButtonProps]="{ severity: 'secondary' }" />
+            <p-button label="Export" icon="pi pi-upload" severity="secondary" (onClick)="exportCSV()" />
+        </ng-template>
+    </p-toolbar>
+
+    <p-table #faresDataTable [value]="fares" [rows]="pageSize" [paginator]="true"
+        [rowsPerPageOptions]="rowsPerPageOptions" [totalRecords]="fares ? fares.length : 0" [loading]="loading"
+        [(selection)]="selectedFares" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
+        (onPageChange)="loadData($event)">
+        <ng-template #caption>
+            <div class="flex items-center justify-between">
+                <h5 class="m-0">Manage Fares</h5>
+                <p-iconfield>
+                    <p-inputicon styleClass="pi pi-search" />
+                    <input pInputText type="text" (input)="filterTable($event)" placeholder="Search..." />
+                </p-iconfield>
+            </div>
+        </ng-template>
+        <ng-template #header>
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox />
+                </th>
+                <th pSortableColumn="amount">
+                    Amount
+                    <p-sortIcon field="amount" />
+                </th>
+                <th pSortableColumn="fareType">
+                    Type
+                    <p-sortIcon field="fareType" />
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-fare>
+            <tr>
+                <td style="width: 3rem">
+                    <p-tableCheckbox [value]="fare" />
+                <td>{{ fare.amount }}</td>
+                <td>{{ fare.fareTypeName }}</td>
+                <td>
+                    <p-button icon="pi pi-pencil" class="mr-5" [rounded]="true" [outlined]="true"
+                        (click)="editFare(fare)" />
+                    <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                        (click)="deleteFare(fare.id)" />
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #summary>
+            <div class="flex items-center justify-between">In total there are {{ fares ? fares.length : 0 }}
+                fares.</div>
+        </ng-template>
+    </p-table>
+
+    <app-edit-fare [fareDialog]="fareDialog" [fields]="fieldConfigs" [fares]="fares" [fare]="fare"
+        [selectedLocation]="selectedLocation" (faresChanged)="refreshFares($event)"
+        (fareDialogChanged)="hideDialog($event)" />
+    <p-confirmDialog [style]="{ width: '450px' }" />
+</div>

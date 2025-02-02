@@ -41,11 +41,7 @@ import { Location } from '../../models/locations/location.model';
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './locations.component.html',
-  styles: `:host ::ng-deep .p-dialog {
-    width: 150px;
-    margin: 0 auto 2rem auto;
-    display: block;
-}`
+  styleUrl: './locations.component.css'
 })
 export class LocationsComponent implements OnInit {
   locationService = inject(LocationService);
@@ -54,7 +50,7 @@ export class LocationsComponent implements OnInit {
 
   confirmationService = inject(ConfirmationService);
 
-  locationDialog = false;
+  locationDialog!: boolean;
 
   locations!: Location[];
 
@@ -62,7 +58,7 @@ export class LocationsComponent implements OnInit {
 
   selectedLocations!: Location[] | null;
 
-  loading: boolean = false;
+  loading!: boolean;
 
   @ViewChild('locationsDataTable') locationsDataTable!: Table;
 
@@ -131,6 +127,7 @@ export class LocationsComponent implements OnInit {
 
   loadColumns() {
     this.cols = [
+      { field: 'name', header: 'Name' },
       { field: 'country', header: 'Country', customExportHeader: 'Location Country' },
       { field: 'city', header: 'City' }
     ];
@@ -138,8 +135,8 @@ export class LocationsComponent implements OnInit {
     this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
   }
 
-  openNew(location: any) {
-    this.location = location;
+  openNew() {
+    this.location = new Location();
     this.locationDialog = true;
   }
 

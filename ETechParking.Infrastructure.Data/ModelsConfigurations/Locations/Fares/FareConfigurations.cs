@@ -14,6 +14,12 @@ public class FareConfigurations : IEntityTypeConfiguration<Fare>
         builder.Property(f => f.FareType)
             .IsRequired();
 
+        builder.Property(f => f.EnterGracePeriod)
+            .IsRequired();
+
+        builder.Property(f => f.ExitGracePeriod)
+            .IsRequired();
+
         builder.HasOne(f => f.Location)
             .WithMany(l => l.Fares)
             .HasForeignKey(f => f.LocationId)

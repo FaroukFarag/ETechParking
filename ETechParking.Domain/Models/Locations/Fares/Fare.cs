@@ -7,7 +7,10 @@ public class Fare : BaseModel<int>
 {
     public decimal Amount { get; set; }
     public FareType FareType { get; set; }
+    public int EnterGracePeriod { get; set; }
+    public int ExitGracePeriod { get; set; }
+    public int? MaxLimit { get; set; }
     public int LocationId { get; set; }
 
-    public Location Location { get; set; } = default!;
+    public virtual Location Location { get; set; } = default!;
 }

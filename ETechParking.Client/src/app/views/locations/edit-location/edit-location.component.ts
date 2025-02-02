@@ -14,6 +14,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { TextareaModule } from 'primeng/textarea';
 import { SelectModule } from 'primeng/select';
 import { FieldConfig } from '../../../models/shared/field-config.model';
+import { Location } from '../../../models/locations/location.model';
 
 @Component({
   selector: 'app-edit-location',
@@ -40,19 +41,19 @@ export class EditLocationComponent {
 
   messageService = inject(MessageService);
 
-  @Input() fields: FieldConfig[] = [];
+  @Input() fields!: FieldConfig[];
   
-  @Input() locationDialog = false;
+  @Input() locationDialog!: boolean;
 
-  @Input() locations: any[] = [];
+  @Input() locations!: Location[];
 
   locationsChanged = output<any[]>();
 
   locationDialogChanged = output<boolean>();
 
-  @Input() location: any;
+  @Input() location!: Location;
 
-  submitted = false;
+  submitted!: boolean;
 
   constructor() {
   }
@@ -87,7 +88,7 @@ export class EditLocationComponent {
   }
 
   updateLocation(id: number) {
-    this.locationService.update('Locations/Update', this.location).subscribe(data => {
+    this.locationService.update('Locations/Update', this.location).subscribe(() => {
       const index = this.locations.findIndex(l => l.id === id);
       if (index !== -1) {
         this.locations[index] = this.location;

@@ -2,7 +2,7 @@
     <p-toast />
     <p-toolbar styleClass="mb-6">
         <ng-template #start>
-            <p-button label="New" icon="pi pi-plus" class="mr-2" (onClick)="openNew({})" />
+            <p-button label="New" icon="pi pi-plus" class="mr-2" (onClick)="openNew()" />
             <p-button severity="danger" label="Delete" icon="pi pi-trash" outlined (onClick)="deleteSelectedLocations()"
                 [disabled]="!selectedLocations || !selectedLocations.length" />
         </ng-template>
@@ -33,6 +33,10 @@
                 <th style="width: 3rem">
                     <p-tableHeaderCheckbox />
                 </th>
+                <th pSortableColumn="name">
+                    Name
+                    <p-sortIcon field="name" />
+                </th>
                 <th pSortableColumn="country">
                     Country
                     <p-sortIcon field="country" />
@@ -49,6 +53,7 @@
                 <td style="width: 3rem">
                     <p-tableCheckbox [value]="location" />
                 </td>
+                <td>{{ location.name }}</td>
                 <td>{{ location.country }}</td>
                 <td>{{ location.city }}</td>
                 <td>

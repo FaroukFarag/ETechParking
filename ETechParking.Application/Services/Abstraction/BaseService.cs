@@ -6,6 +6,7 @@ using ETechParking.Domain.Interfaces.Repositories.Abstraction;
 using ETechParking.Domain.Interfaces.UnitOfWork;
 using ETechParking.Domain.Models.Abstraction;
 using ETechParking.Domain.Models.Shared;
+using System.Linq.Expressions;
 
 namespace ETechParking.Application.Services.Abstraction;
 
@@ -39,17 +40,26 @@ public class BaseService<TEntity, TEntityDto, TPrimaryKey>(
         return entityDto;
     }
 
-    public virtual async Task<IEnumerable<TEntityDto>> GetAllAsync()
+    public virtual async Task<IEnumerable<TEntityDto>> GetAllAsync(
+        Expression<Func<TEntity, bool>> filter = default!,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = default!,
+        params Expression<Func<TEntity, object>>[] includeProperties)
     {
-        var entities = await _repository.GetAllAsync();
+        var entities = await _repository.GetAllAsync(filter, orderBy, includeProperties);
         var entitiesDtos = _mapper.Map<IReadOnlyList<TEntityDto>>(entities);
 
         return entitiesDtos;
     }
 
-    public virtual async Task<IEnumerable<TEntityDto>> GetAllPaginatedAsync(PaginatedModelDto paginatedModelDto)
+    public virtual async Task<IEnumerable<TEntityDto>> GetAllPaginatedAsync(
+        PaginatedModelDto paginatedModelDto,
+        Expression<Func<TEntity, bool>> filter = default!,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = default!,
+        params Expression<Func<TEntity, object>>[] includeProperties)
     {
-        var entities = await _repository.GetAllPaginatedAsync(_mapper.Map<PaginatedModel>(paginatedModelDto));
+        var entities = await _repository.GetAllPaginatedAsync(
+            paginatedModel: _mapper.Map<PaginatedModel>(paginatedModelDto),
+            includeProperties: includeProperties);
         var entitiesDtos = _mapper.Map<IReadOnlyList<TEntityDto>>(entities);
 
         return entitiesDtos;

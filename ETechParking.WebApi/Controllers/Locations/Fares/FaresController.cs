@@ -1,4 +1,5 @@
 ﻿using ETechParking.Application.Dtos.Locations.Fares;
+using ETechParking.Application.Dtos.Shared;
 using ETechParking.Application.Interfaces.Locations.Fares;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,6 +34,14 @@ public class FaresController(IFareService fareService) : ControllerBase
         return Ok(await _fareService.GetAllAsync());
     }
 
+    [HttpPost("GetAllPaginated")]
+    public async Task<IActionResult> GetAllPaginated(PaginatedModelDto paginatedModelDto)
+    {
+        return Ok(await _fareService.GetAllPaginatedAsync(
+            paginatedModel: paginatedModelDto,
+            includeProperties: f => f.Location));
+    }
+
     [HttpPut("Update")]
     public async Task<IActionResult> Update(FareDto newFareDto)
     {
@@ -48,5 +57,11 @@ public class FaresController(IFareService fareService) : ControllerBase
             return NotFound();
 
         return Ok(fareDto);
+    }
+
+    [HttpDelete("DeleteRange")]
+    public async Task<IActionResult> DeleteRange(IEnumerable<FareDto> fareDtos)
+    {
+        return Ok(await _fareService.DeleteRange(fareDtos));
     }
 }

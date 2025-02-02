@@ -3,6 +3,7 @@ using ETechParking.Domain.Models.Abstraction;
 using ETechParking.Domain.Models.Shared;
 using ETechParking.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace ETechParking.Infrastructure.Data.Repositories.Abstraction;
 
@@ -24,16 +25,27 @@ public class BaseRepository<TEntity, TPrimaryKey>(ETechParkingDbContext context)
         return entity!;
     }
 
-    public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
+    public virtual async Task<IEnumerable<TEntity>> GetAllAsync(
+        Expression<Func<TEntity, bool>> filter = default!,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = default!,
+        params Expression<Func<TEntity, object>>[] includeProperties)
     {
-        return await _context.Set<TEntity>().ToListAsync();
+        var query = BuildQuery(filter, orderBy, includeProperties);
+
+        return await query.ToListAsync();
     }
 
-    public virtual async Task<IEnumerable<TEntity>> GetAllPaginatedAsync(PaginatedModel paginatedModel)
+    public virtual async Task<IEnumerable<TEntity>> GetAllPaginatedAsync(
+        PaginatedModel paginatedModel,
+        Expression<Func<TEntity, bool>> filter = default!,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = default!,
+        params Expression<Func<TEntity, object>>[] includeProperties)
     {
         paginatedModel.PageNumber = paginatedModel.PageNumber <= 0 ? 1 : paginatedModel.PageNumber;
 
-        return await _context.Set<TEntity>()
+        var query = BuildQuery(filter, orderBy, includeProperties);
+
+        return await query
             .Skip((paginatedModel.PageNumber - 1) * paginatedModel.PageSize)
             .Take(paginatedModel.PageSize)
             .ToListAsync();
@@ -61,5 +73,25 @@ public class BaseRepository<TEntity, TPrimaryKey>(ETechParkingDbContext context)
     public virtual void DeleteRange(IEnumerable<TEntity> entities)
     {
         _context.RemoveRange(entities);
+    }
+
+    private IQueryable<TEntity> BuildQuery(
+    Expression<Func<TEntity, bool>> filter = default!,
+    Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = default!,
+    params Expression<Func<TEntity, object>>[] includeProperties)
+    {
+        IQueryable<TEntity> query = _context.Set<TEntity>();
+
+        if (filter != null)
+            query = query.Where(filter);
+
+        if (includeProperties != null)
+            foreach (var includeProperty in includeProperties)
+                query = query.Include(includeProperty);
+
+        if (orderBy != null)
+            query = orderBy(query);
+
+        return query;
     }
 }

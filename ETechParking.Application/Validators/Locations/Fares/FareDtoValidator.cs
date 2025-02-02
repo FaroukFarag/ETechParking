@@ -13,6 +13,12 @@ public class FareDtoValidator : AbstractValidator<FareDto>
         RuleFor(c => c.FareType)
             .NotNull();
 
+        RuleFor(c => c.EnterGracePeriod)
+            .NotNull();
+
+        RuleFor(c => c.ExitGracePeriod)
+            .NotNull();
+
         RuleFor(c => c.LocationId)
             .NotNull();
     }
