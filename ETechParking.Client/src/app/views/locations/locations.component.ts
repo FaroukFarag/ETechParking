@@ -76,9 +76,9 @@ export class LocationsComponent implements OnInit {
 
   pageNumber: number = 0;
 
-  pageSize: number = 1;
+  pageSize: number = 10;
 
-  rowsPerPageOptions = [1, 50, 100, 1000];
+  rowsPerPageOptions = [10, 50, 100, 1000];
 
   constructor() { }
 

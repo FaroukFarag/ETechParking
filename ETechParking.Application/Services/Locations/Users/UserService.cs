@@ -50,7 +50,8 @@ public class UserService(
         var claims = new List<TokenClaim>
         {
             new("UserName", user?.UserName!),
-            new("Email", user?.Email!)
+            new("Email", user?.Email!),
+            new("LocationId", user?.LocationId.ToString()!)
         };
 
         return await _tokensService.GenerateToken(claims);

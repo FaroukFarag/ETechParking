@@ -1,18 +1,22 @@
 ﻿using ETechParking.Application.AutoMapper.Abstraction;
 using ETechParking.Application.AutoMapper.Locations;
 using ETechParking.Application.AutoMapper.Locations.Fares;
+using ETechParking.Application.AutoMapper.Locations.Tickets;
 using ETechParking.Application.AutoMapper.Locations.Users;
 using ETechParking.Application.AutoMapper.Shared;
 using ETechParking.Application.Interfaces.Abstraction;
 using ETechParking.Application.Interfaces.Locations;
 using ETechParking.Application.Interfaces.Locations.Fares;
+using ETechParking.Application.Interfaces.Locations.Tickets;
 using ETechParking.Application.Interfaces.Users;
 using ETechParking.Application.Services.Abstraction;
 using ETechParking.Application.Services.Locations;
 using ETechParking.Application.Services.Locations.Fares;
+using ETechParking.Application.Services.Locations.Tickets;
 using ETechParking.Application.Services.Locations.Users;
 using ETechParking.Application.Validators.Locations;
 using ETechParking.Application.Validators.Locations.Fares;
+using ETechParking.Application.Validators.Locations.Tickets;
 using ETechParking.Application.Validators.Locations.Users;
 using ETechParking.Common.Tokens.Configurations;
 using ETechParking.Common.Tokens.Interfaces;
@@ -21,12 +25,14 @@ using ETechParking.Domain.Constants;
 using ETechParking.Domain.Interfaces.Repositories.Abstraction;
 using ETechParking.Domain.Interfaces.Repositories.Locations;
 using ETechParking.Domain.Interfaces.Repositories.Locations.Fares;
+using ETechParking.Domain.Interfaces.Repositories.Locations.Tickets;
 using ETechParking.Domain.Interfaces.UnitOfWork;
 using ETechParking.Domain.Models.Locations.Users;
 using ETechParking.Infrastructure.Data.Context;
 using ETechParking.Infrastructure.Data.Repositories.Abstraction;
 using ETechParking.Infrastructure.Data.Repositories.Locations;
 using ETechParking.Infrastructure.Data.Repositories.Locations.Fares;
+using ETechParking.Infrastructure.Data.Repositories.Locations.Tickets;
 using ETechParking.Infrastructure.Data.UnitOfWork;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -52,7 +58,8 @@ public static class DependencyContainer
             .AddScoped<ITokensService, TokensService>()
             .AddScoped<ILocationService, LocationService>()
             .AddScoped<IUserService, UserService>()
-            .AddScoped<IFareService, FareService>();
+            .AddScoped<IFareService, FareService>()
+            .AddScoped<ITicketService, TicketService>();
     }
 
     public static void RegisterDbContext(this IServiceCollection services, IConfiguration configuration)
@@ -67,7 +74,8 @@ public static class DependencyContainer
     {
         services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>))
             .AddScoped<ILocationRepository, LocationRepository>()
-            .AddScoped<IFareRepository, FareRepository>();
+            .AddScoped<IFareRepository, FareRepository>()
+            .AddScoped<ITicketRepository, TicketRepository>();
     }
 
     public static void RegisterUnitOfWork(this IServiceCollection services)
@@ -81,6 +89,7 @@ public static class DependencyContainer
         services.AddAutoMapper(typeof(PaginatedModelProfile).Assembly);
         services.AddAutoMapper(typeof(LocationProfile).Assembly);
         services.AddAutoMapper(typeof(FareProfile).Assembly);
+        services.AddAutoMapper(typeof(TicketProfile).Assembly);
         services.AddAutoMapper(typeof(UserProfile).Assembly);
     }
 
@@ -88,6 +97,7 @@ public static class DependencyContainer
     {
         services.AddValidatorsFromAssemblyContaining<LocationDtoValidator>();
         services.AddValidatorsFromAssemblyContaining<FareDtoValidator>();
+        services.AddValidatorsFromAssemblyContaining<TicketDtoValidator>();
         services.AddValidatorsFromAssemblyContaining<RegisterDtoValidator>();
         services.AddValidatorsFromAssemblyContaining<LoginDtoValidator>();
     }

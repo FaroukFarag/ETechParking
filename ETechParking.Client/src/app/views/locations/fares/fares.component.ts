@@ -77,9 +77,9 @@ export class FaresComponent implements OnInit {
 
   pageNumber: number = 0;
 
-  pageSize: number = 1;
+  pageSize: number = 10;
 
-  rowsPerPageOptions = [1, 50, 100, 1000];
+  rowsPerPageOptions = [10, 50, 100, 1000];
 
   constructor() { }
 
@@ -98,7 +98,7 @@ export class FaresComponent implements OnInit {
         label: 'Type',
         key: 'fareType',
         required: true,
-        placeholder: 'Select a location',
+        placeholder: 'Select a type',
         options: [
           { label: 'Hourly', value: 1 },
           { label: 'Daily', value: 2 }
@@ -204,12 +204,20 @@ export class FaresComponent implements OnInit {
   }
 
   onLocationSelect(event: any, field: FieldConfig) {
-    this.fare[field.key] = event.value;
+    this.fare[field.key] = event.value.id;
   }
 
   openNew() {
     this.fare = new Fare();
     this.selectedLocation = undefined!;
+    
+    const maxLimitField = this.fieldConfigs.find(fc => fc.key === 'maxLimit');
+
+    if (maxLimitField) {
+      maxLimitField.visible = this.fare.fareType === 1;
+      maxLimitField.required = this.fare.fareType === 1;
+    }
+
     this.fareDialog = true;
   }
 
@@ -271,6 +279,14 @@ export class FaresComponent implements OnInit {
   editFare(fare: Fare) {
     this.fare = fare;
     this.selectedLocation = this.locations.find(l => l.id === fare?.locationId)!;
+    
+    const maxLimitField = this.fieldConfigs.find(fc => fc.key === 'maxLimit');
+    
+    if (maxLimitField) {
+      maxLimitField.visible = fare.fareType === 1;
+      maxLimitField.required = fare.fareType === 1;
+    }
+
     this.fareDialog = true;
   }
 

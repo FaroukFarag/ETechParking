@@ -13,4 +13,5 @@ public class Fare : BaseModel<int>
     public int LocationId { get; set; }
 
     public virtual Location Location { get; set; } = default!;
+
 }
