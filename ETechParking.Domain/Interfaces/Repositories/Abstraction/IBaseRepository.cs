@@ -7,7 +7,9 @@ namespace ETechParking.Domain.Interfaces.Repositories.Abstraction;
 public interface IBaseRepository<TEntity, TPrimaryKey> where TEntity : BaseModel<TPrimaryKey>
 {
     Task<TEntity> CreateAsync(TEntity entity);
-    Task<TEntity> GetAsync(TPrimaryKey id);
+    Task<TEntity> GetAsync(
+        TPrimaryKey id,
+        Func<IQueryable<TEntity>, IQueryable<TEntity>> include = default!);
     Task<IEnumerable<TEntity>> GetAllAsync(
         Expression<Func<TEntity, bool>> filter = default!,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = default!,

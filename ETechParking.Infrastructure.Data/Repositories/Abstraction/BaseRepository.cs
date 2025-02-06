@@ -18,11 +18,16 @@ public class BaseRepository<TEntity, TPrimaryKey>(ETechParkingDbContext context)
         return entity;
     }
 
-    public virtual async Task<TEntity> GetAsync(TPrimaryKey id)
+    public virtual async Task<TEntity> GetAsync(
+        TPrimaryKey id,
+        Func<IQueryable<TEntity>, IQueryable<TEntity>> include = default!)
     {
-        var entity = await _context.Set<TEntity>().FindAsync(id);
+        IQueryable<TEntity> query = _context.Set<TEntity>();
 
-        return entity!;
+        if (include != null)
+            query = include(query);
+
+        return (await query.FirstOrDefaultAsync(e => EF.Property<TPrimaryKey>(e, "Id")!.Equals(id)))!;
     }
 
     public virtual async Task<IEnumerable<TEntity>> GetAllAsync(

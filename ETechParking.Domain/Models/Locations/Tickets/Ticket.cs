@@ -9,7 +9,7 @@ public class Ticket : BaseModel<int>
     public string PlateNumber { get; set; } = default!;
     public string PhoneNumber { get; set; } = default!;
     public DateTime EntryDateTime { get; set; } = default!;
-    public DateTime ExitDateTime { get; set; } = default!;
+    public DateTime? ExitDateTime { get; set; }
     public ClientType ClientType { get; set; }
     public TransactionType TransactionType { get; set; }
     public bool IsPaid { get; set; }

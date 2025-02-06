@@ -11,39 +11,38 @@ public class VisitorTicketCalculationStrategy : ITicketCalculationStrategy
     {
         Fare fare = ticket.Location.Fares.FirstOrDefault(f => f.FareType == FareType.Hourly)!
             ?? throw new InvalidOperationException("No hourly fare found for the visitor.");
-        TimeSpan duration = ticket.ExitDateTime - ticket.EntryDateTime;
+        TimeSpan duration = ticket.ExitDateTime!.Value - ticket.EntryDateTime;
 
         if (duration.TotalMinutes <= fare.EnterGracePeriod)
         {
             return 0m;
         }
 
-        return CalculateVisitorFareWithMaxLimit(ticket.EntryDateTime, ticket.ExitDateTime, fare);
+        return CalculateVisitorFareWithMaxLimit(ticket.EntryDateTime, ticket.ExitDateTime!.Value, fare);
     }
 
     private decimal CalculateVisitorFareWithMaxLimit(DateTime entryDateTime, DateTime exitDateTime, Fare fare)
     {
         decimal totalFare = 0m;
-        DateTime currentDayStart = entryDateTime.Date;
+        DateTime currentPeriodStart = entryDateTime;
 
-        while (currentDayStart < exitDateTime)
+        while (currentPeriodStart < exitDateTime)
         {
-            DateTime currentDayEnd = currentDayStart.AddDays(1);
-            DateTime dayEntry = entryDateTime > currentDayStart ? entryDateTime : currentDayStart;
-            DateTime dayExit = exitDateTime < currentDayEnd ? exitDateTime : currentDayEnd;
+            DateTime currentPeriodEnd = currentPeriodStart.AddHours(24);
 
-            TimeSpan dayDuration = dayExit - dayEntry;
+            if (exitDateTime < currentPeriodEnd)
+                currentPeriodEnd = exitDateTime;
 
-            int hours = CalculateHoursWithGracePeriod(dayDuration, fare.ExitGracePeriod);
+            TimeSpan periodDuration = currentPeriodEnd - currentPeriodStart;
+
+            int hours = CalculateHoursWithGracePeriod(periodDuration, fare.ExitGracePeriod);
 
             if (fare.MaxLimit.HasValue && hours > fare.MaxLimit)
-            {
                 hours = fare.MaxLimit.Value;
-            }
 
             totalFare += hours * fare.Amount;
 
-            currentDayStart = currentDayEnd;
+            currentPeriodStart = currentPeriodEnd;
         }
 
         return totalFare;

@@ -11,7 +11,7 @@ public class GuestTicketCalculationStrategy : ITicketCalculationStrategy
     {
         Fare fare = ticket?.Location?.Fares.FirstOrDefault(f => f.FareType == FareType.Daily)!
             ?? throw new InvalidOperationException("No daily fare found for the guest.");
-        TimeSpan duration = ticket!.ExitDateTime - ticket.EntryDateTime;
+        TimeSpan duration = ticket!.ExitDateTime!.Value - ticket.EntryDateTime;
 
         if (duration.TotalDays < 1)
         {
@@ -19,7 +19,7 @@ public class GuestTicketCalculationStrategy : ITicketCalculationStrategy
         }
 
         DateTime nextDayStart = ticket.EntryDateTime.Date.AddDays(1);
-        TimeSpan remainingDuration = ticket.ExitDateTime - nextDayStart;
+        TimeSpan remainingDuration = ticket.ExitDateTime!.Value - nextDayStart;
 
         int days = CalculateDaysWithGracePeriod(remainingDuration, fare.ExitGracePeriod);
 
