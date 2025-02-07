@@ -1,0 +1,29 @@
+<p-dialog #formContent [(visible)]="visible" [style]="{ width: '450px' }" [header]="dialogTitle" [modal]="true"
+    (onHide)="onCancel()">
+    <div *ngFor="let field of fields">
+        <div *ngIf="field.visible !== false" class="flex flex-col gap-2 mb-3">
+            <label [for]="field.key" class="font-bold">{{ field.label }}</label>
+
+            <input *ngIf="field.type === 'text'" type="text" pInputText [(ngModel)]="currentItem[field.key]"
+                [required]="field.required!" [placeholder]="field.placeholder" fluid />
+
+            <input *ngIf="field.type === 'number'" type="number" pInputText [(ngModel)]="currentItem[field.key]"
+                [required]="field.required!" [placeholder]="field.placeholder" fluid />
+
+            <p-dropdown *ngIf="field.type === 'select'" [(ngModel)]="currentItem[field.key]" [options]="field.options"
+                [optionLabel]="field.labelField || 'label'" [optionValue]="field.valueField || 'value'"
+                (onChange)="onFieldChange(field, $event)" [placeholder]="field.placeholder" appendTo="body" fluid />
+
+            <p-autocomplete *ngIf="field.type === 'autocomplete'" [dropdown]="true"
+                [(ngModel)]="currentItem[field.key + 'Object']" [suggestions]="field.options!"
+                [field]="field.labelField || 'name'" (completeMethod)="field.completeMethod?.($event, field)"
+                (onSelect)="onAutocompleteSelect(field, $event)" [placeholder]="field.placeholder" appendTo="body"
+                fluid />
+        </div>
+    </div>
+
+    <div class="flex gap-2 mt-4">
+        <p-button label="Cancel" icon="pi pi-times" text (click)="onCancel()" />
+        <p-button label="Save" icon="pi pi-check" (click)="onSave()" />
+    </div>
+</p-dialog>

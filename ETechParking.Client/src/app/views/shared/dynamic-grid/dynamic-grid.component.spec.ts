@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditUserComponent } from './edit-user.component';
+import { GenericGridComponent } from './generic-grid.component';
 
-describe('EditUserComponent', () => {
-  let component: EditUserComponent;
-  let fixture: ComponentFixture<EditUserComponent>;
+describe('GenericGridComponent', () => {
+  let component: GenericGridComponent;
+  let fixture: ComponentFixture<GenericGridComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EditUserComponent]
+      imports: [GenericGridComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EditUserComponent);
+    fixture = TestBed.createComponent(GenericGridComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
