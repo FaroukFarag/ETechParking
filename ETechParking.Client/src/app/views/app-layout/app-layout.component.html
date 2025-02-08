@@ -1,0 +1,40 @@
+
+<div class="flex-container">
+  <dx-toolbar [items]="toolbarContent" id="toolbar"></dx-toolbar>
+  <dx-drawer [openedStateMode]="selectedOpenMode"
+             [position]="selectedPosition"
+             [revealMode]="selectedRevealMode"
+             template="template"
+             [(opened)]="isDrawerOpen"
+             [height]="'100%'"
+             [width]="'100%'"
+             [closeOnOutsideClick]="true">
+    <div *dxTemplate="let data of 'template'" style="width: 200px">
+      <dx-list class="panel-list"
+               [dataSource]="navigation"
+               [hoverStateEnabled]="true"
+               [activeStateEnabled]="true"
+               [focusStateEnabled]="true"
+               (onItemClick)="navigateTo($event.itemData.text.toLowerCase())">
+        <div *dxTemplate="let item of navigation">
+          <div class="item-content">
+            <i class="dx-icon dx-icon-{{item.icon}}"></i>
+            {{ item.text }}
+          </div>
+        </div>
+      </dx-list>
+    </div>
+    <div class=" start-container">
+      <!--<app-header></app-header>-->
+      <section>
+        <article class="app-layout--main-article">
+          <app-content class="m-5">
+
+          </app-content>
+        </article>
+      </section>
+    </div>
+  </dx-drawer>
+  <app-footer></app-footer>
+
+</div>

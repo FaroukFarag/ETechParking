@@ -1,0 +1,33 @@
+header {
+  background-color: black; /* Green background */
+  color: white; /* White text */
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Space between logo and nav */
+  align-items: center; /* Center items vertically */
+  padding: 10px 20px; /* Padding around the header */
+}
+
+.logo h1 {
+  margin: 0; /* Remove default margin */
+}
+
+nav ul {
+  list-style-type: none; /* Remove bullet points */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  display: flex; /* Use flexbox for horizontal layout */
+}
+
+  nav ul li {
+    margin-left: 20px; /* Space between nav items */
+  }
+
+    nav ul li a {
+      color: white; /* White text for links */
+      text-decoration: none; /* Remove underline from links */
+      font-weight: bold; /* Bold text */
+    }
+
+      nav ul li a:hover {
+        text-decoration: underline; /* Underline on hover */
+      }
