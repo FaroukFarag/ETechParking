@@ -16,6 +16,10 @@ public class TicketConfigurations : IEntityTypeConfiguration<Ticket>
             .HasMaxLength(50)
             .IsRequired();
 
+        builder.Property(t => t.PhoneNumber)
+            .HasMaxLength(50)
+            .IsRequired();
+
         builder.Property(t => t.EntryDateTime)
             .IsRequired();
 

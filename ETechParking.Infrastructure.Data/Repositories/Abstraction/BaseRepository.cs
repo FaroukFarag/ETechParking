@@ -1,5 +1,4 @@
 ﻿using ETechParking.Domain.Interfaces.Repositories.Abstraction;
-using ETechParking.Domain.Models.Abstraction;
 using ETechParking.Domain.Models.Shared;
 using ETechParking.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace ETechParking.Infrastructure.Data.Repositories.Abstraction;
 
-public class BaseRepository<TEntity, TPrimaryKey>(ETechParkingDbContext context) : IBaseRepository<TEntity, TPrimaryKey> where TEntity : BaseModel<TPrimaryKey>
+public class BaseRepository<TEntity, TPrimaryKey>(ETechParkingDbContext context) : IBaseRepository<TEntity, TPrimaryKey> where TEntity : class
 {
     private readonly ETechParkingDbContext _context = context;
 

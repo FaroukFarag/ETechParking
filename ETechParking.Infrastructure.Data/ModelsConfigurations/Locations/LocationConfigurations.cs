@@ -21,9 +21,26 @@ public class LocationConfigurations : IEntityTypeConfiguration<Location>
             .IsRequired();
 
         builder.Property(l => l.Longitude)
+            .HasPrecision(18, 6)
             .IsRequired();
 
         builder.Property(l => l.Latitude)
+            .HasPrecision(18, 6)
+            .IsRequired();
+
+        builder.HasMany(l => l.Users)
+            .WithOne(u => u.Location)
+            .HasForeignKey(u => u.LocationId)
+            .IsRequired();
+
+        builder.HasMany(l => l.Fares)
+            .WithOne(f => f.Location)
+            .HasForeignKey(f => f.LocationId)
+            .IsRequired();
+
+        builder.HasMany(l => l.Tickets)
+            .WithOne(t => t.Location)
+            .HasForeignKey(t => t.LocationId)
             .IsRequired();
     }
 }

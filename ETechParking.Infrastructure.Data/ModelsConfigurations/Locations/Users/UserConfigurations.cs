@@ -8,9 +8,15 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.HasOne(f => f.Location)
+        builder.HasOne(u => u.Role)
+            .WithMany(r => r.Users)
+            .HasForeignKey(u => u.RoleId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(u => u.Location)
             .WithMany(l => l.Users)
-            .HasForeignKey(f => f.LocationId)
+            .HasForeignKey(u => u.LocationId)
             .IsRequired();
     }
 }

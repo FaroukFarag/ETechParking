@@ -1,10 +1,9 @@
-﻿using ETechParking.Domain.Models.Abstraction;
-using ETechParking.Domain.Models.Shared;
+﻿using ETechParking.Domain.Models.Shared;
 using System.Linq.Expressions;
 
 namespace ETechParking.Domain.Interfaces.Repositories.Abstraction;
 
-public interface IBaseRepository<TEntity, TPrimaryKey> where TEntity : BaseModel<TPrimaryKey>
+public interface IBaseRepository<TEntity, TPrimaryKey> where TEntity : class
 {
     Task<TEntity> CreateAsync(TEntity entity);
     Task<TEntity> GetAsync(

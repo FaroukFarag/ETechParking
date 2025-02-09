@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace ETechParking.Application.Validators.Locations.Users;
 
-public class RegisterDtoValidator : AbstractValidator<RegisterDto>
+public class UserDtoValidator : AbstractValidator<UserDto>
 {
-    public RegisterDtoValidator()
+    public UserDtoValidator()
     {
         RuleFor(c => c.UserName)
             .NotEmpty()
