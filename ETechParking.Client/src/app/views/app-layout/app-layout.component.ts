@@ -6,7 +6,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { Router } from '@angular/router';
 import { DxDrawerModule, DxDrawerComponent, DxDrawerTypes } from 'devextreme-angular/ui/drawer';
 import { DxListModule, DxToolbarModule } from 'devextreme-angular';
-
+import { LoginComponent } from '../login/login.component';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-app-layout',
   imports: [
@@ -17,11 +18,14 @@ import { DxListModule, DxToolbarModule } from 'devextreme-angular';
     SidebarComponent,
     DxToolbarModule,
     DxListModule,
+    LoginComponent,
+    CommonModule
   ],
   templateUrl: './app-layout.component.html',
   styleUrl: './app-layout.component.css'
 })
 export class AppLayoutComponent {
+  canAccessMainLayout: boolean = true;
   isClosed = false;
   toggleSidebar() {
     this.isClosed = !this.isClosed;
@@ -35,7 +39,8 @@ export class AppLayoutComponent {
   navigation: any = [
     { id: 1, text: 'Locations', icon: 'map' },
     { id: 2, text: 'Fares', icon: 'money', path: 'locations' },
-    { id: 3, text: 'Users', icon: 'group' },
+    { id: 3, text: 'Tickets', icon: 'card', path: 'tickets' },
+    { id: 4, text: 'Users', icon: 'group' },
 
   ];
   toolbarContent = [{
@@ -47,24 +52,26 @@ export class AppLayoutComponent {
       onClick: () => this.isDrawerOpen = !this.isDrawerOpen,
     },
   },
-  {
-    widget: 'dxButton',
-    location: 'after',
-    options: {
-      text: 'Sign Out',
-      onClick: () => {
-        console.log('Signout clicked');
-      },
-    },
-    },
+  //{
+  //  widget: 'dxButton',
+  //  location: 'after',
+  //  class:'signOutBtn',
+  //  options: {
+  //    text: 'Sign Out',
+  //    onClick: () => {
+  //      this.canAccessMainLayout = false;
+  //      this.router.navigate(['/login']);
+  //    },
+  //  },
+  //  },
     {
       location: 'center',
       template: () => {
         const logo = document.createElement('img');
         logo.src = '/assets/images/EP-Logo.svg'; 
         logo.alt = 'Logo';
-        logo.style.height = '50px'; 
-        logo.style.marginRight = '100px'; 
+        logo.style.height = '72px'; 
+        //logo.style.marginRight = '100px'; 
         return logo;
       },
     },

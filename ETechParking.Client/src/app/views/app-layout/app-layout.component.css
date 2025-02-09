@@ -1,4 +1,6 @@
-
+.start-container{
+    width:100vw !important;
+}
 ::ng-deep .demo-container {
   overflow: visible;
 }
@@ -17,13 +19,14 @@
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.08);
   padding: 5px 10px;
   z-index: 10000;
-  height:60px;
+  height:80px;
 }
 
 ::ng-deep .dx-list.panel-list {
-  height: 400px;
+  /*height: 400px;*/
   padding-top: 12px;
   background-color: var(--dx-color-main-bg);
+  /*width:400px;*/
 }
 
 .options {
@@ -79,4 +82,35 @@
 ::ng-deep .dx-drawer-content {
   background-color: #f0f0f0 !important;
  
+}
+/*::ng-deep .dx-drawer-panel-content {
+  width: 300px !important;
+}*/
+ ::ng-deep #toolbar .dx-toolbar-items-container {
+    height:100%!important;
+}
+::ng-deep .dx-item-content.dx-list-item-content {
+  font-size: 18px;
+  font-weight: 500;
+}
+::ng-deep .dx-icon-menu{
+    font-size:22px!important;
+}
+
+
+::ng-deep .dx-list-item-icon {
+  color: #f15b27 !important;
+}
+::ng-deep .dx-item.dx-list-item.dx-state-active {
+  background: #fff !important;
+  color: #f15b27 !important;
+}
+::ng-deep .dx-item.dx-list-item.dx-state-focused {
+  background: #fff !important;
+  color: #f15b27 !important;
+}
+.signOutBtn .dx-item.dx-toolbar-item.dx-toolbar-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }

@@ -12,5 +12,4 @@ export class FieldConfig {
   onChange?: any;
   completeMethod?: any;
   onSelect?: any;
-  onReset?: any;
 }

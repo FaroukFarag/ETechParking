@@ -1,0 +1,52 @@
+<div id="data-grid-demo">
+  <dx-data-grid id="gridContainer"
+                [dataSource]="usersList"
+                keyExpr="id"
+                [showBorders]="false"
+                [showColumnLines]="false"
+                [showRowLines]="true"
+                (onRowInserting)="onRowInserting($event)"
+                (onRowUpdating)="onRowUpdating($event)"
+                (onRowRemoving)="onRowRemoving($event)"
+                [rowAlternationEnabled]="true"
+                [remoteOperations]="true"
+                [repaintChangesOnly]="true"
+                [errorRowEnabled]="false"
+                searchMode="contains">
+    <dxo-paging [enabled]="true" [pageSize]="5"></dxo-paging>
+    <dxo-pager [visible]="true"
+               [allowedPageSizes]="allowedPageSizes"
+               [showPageSizeSelector]="true"
+               [showInfo]="true"
+               [showNavigationButtons]="true">
+    </dxo-pager>
+    <dxo-editing mode="popup"
+                 [allowUpdating]="true"
+                 [allowAdding]="true"
+                 [allowDeleting]="true">
+      <dxo-popup title="Location Info"
+                 [showTitle]="true"
+                 [width]="700"
+                 [height]="400">
+      </dxo-popup>
+      <dxo-form>
+        <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
+          <dxi-item dataField="name"></dxi-item>
+          <dxi-item dataField="country"></dxi-item>
+          <dxi-item dataField="city"></dxi-item>
+          <dxi-item dataField="longitude"></dxi-item>
+          <dxi-item dataField="latitude"></dxi-item>
+        </dxi-item>
+      </dxo-form>
+    </dxo-editing>
+    <dxo-search-panel [visible]="true"
+                      [highlightCaseSensitive]="true"></dxo-search-panel>
+    <dxi-column dataField="userName" caption="User Name" alignment="left"></dxi-column>
+    <dxi-column dataField="email" Caption="Email" alignment="left" width="200"></dxi-column>
+    <dxi-column dataField="phoneNumber" caption="phoneNumber" alignment="left"></dxi-column>
+    <dxi-column dataField="locationId" caption="locationId" alignment="left"> </dxi-column>
+    <dxi-column dataField="locationName" caption="locationName" alignment="left"> </dxi-column>
+    <dxi-column dataField="roleId" caption="Role Id" alignment="left" width="70"> </dxi-column>
+    <dxi-column dataField="roleName" caption="Role Name" alignment="left"> </dxi-column>
+  </dx-data-grid>
+</div>

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GenericGridComponent } from './generic-grid.component';
+import { TicketsComponent } from './tickets.component';
 
-describe('GenericGridComponent', () => {
-  let component: GenericGridComponent;
-  let fixture: ComponentFixture<GenericGridComponent>;
+describe('TicketsComponent', () => {
+  let component: TicketsComponent;
+  let fixture: ComponentFixture<TicketsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GenericGridComponent]
+      imports: [TicketsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(GenericGridComponent);
+    fixture = TestBed.createComponent(TicketsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,50 @@
+<div id="data-grid-demo">
+  <dx-data-grid id="gridContainer"
+                [dataSource]="locationsList"
+                keyExpr="id"
+                [showBorders]="false"
+                [showColumnLines]="false"
+                [showRowLines]="true"
+                (onRowInserting)="onRowInserting($event)"
+                (onRowUpdating)="onRowUpdating($event)"
+                (onRowRemoving)="onRowRemoving($event)"
+                [rowAlternationEnabled]="true"
+                [remoteOperations]="true"
+                [repaintChangesOnly]="true"
+                [errorRowEnabled]="false"
+                searchMode="contains">
+    <dxo-paging [enabled]="true" [pageSize]="5"></dxo-paging>
+    <dxo-pager [visible]="true"
+               [allowedPageSizes]="allowedPageSizes"
+               [showPageSizeSelector]="true"
+               [showInfo]="true"
+               [showNavigationButtons]="true">
+    </dxo-pager>
+    <dxo-editing mode="popup"
+                                 [allowUpdating]="true"
+                                 [allowAdding]="true"
+                                 [allowDeleting]="true">
+      <dxo-popup title="Location Info"
+                 [showTitle]="true"
+                 [width]="700"
+                 [height]="400">
+      </dxo-popup>
+      <dxo-form>
+        <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
+          <dxi-item dataField="name"></dxi-item>
+          <dxi-item dataField="country"></dxi-item>
+          <dxi-item dataField="city"></dxi-item>
+          <dxi-item dataField="longitude"></dxi-item>
+          <dxi-item dataField="latitude"></dxi-item>
+        </dxi-item>
+      </dxo-form>
+    </dxo-editing>
+    <dxo-search-panel [visible]="true"
+                      [highlightCaseSensitive]="true"></dxo-search-panel>
+    <dxi-column dataField="name" caption="Name" alignment="left"></dxi-column>
+    <dxi-column dataField="country" Caption="Country" alignment="left"></dxi-column>
+    <dxi-column dataField="city" caption="City" alignment="left"></dxi-column>
+    <dxi-column dataField="longitude" caption="Longitude" alignment="left"> </dxi-column>
+    <dxi-column dataField="latitude" caption="latitude" alignment="left"> </dxi-column>
+  </dx-data-grid>
+</div>
