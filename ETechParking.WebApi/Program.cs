@@ -1,5 +1,7 @@
 using ETechParking.Domain.Constants;
+using ETechParking.Infrastructure.Data.Context;
 using ETechParking.Infrastructure.IoC.DependencyContainer;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,13 +26,15 @@ builder.Services.RegisterCORS(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+
+app.Services.ApplyMigrations();
 
 app.UseCors(AppSettings.AllowedOrigins);
 

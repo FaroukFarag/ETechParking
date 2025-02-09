@@ -13,7 +13,7 @@ public class Location : BaseModel<int>
     public decimal Longitude { get; set; }
     public decimal Latitude { get; set; }
 
-    public IEnumerable<User> Users { get; set; } = default!;
-    public IEnumerable<Fare> Fares { get; set; } = default!;
-    public IEnumerable<Ticket> Tickets { get; set; } = default!;
+    public virtual IEnumerable<User> Users { get; set; } = default!;
+    public virtual IEnumerable<Fare> Fares { get; set; } = default!;
+    public virtual IEnumerable<Ticket> Tickets { get; set; } = default!;
 }

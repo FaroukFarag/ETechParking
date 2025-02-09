@@ -9,6 +9,7 @@ public class FareConfigurations : IEntityTypeConfiguration<Fare>
     public void Configure(EntityTypeBuilder<Fare> builder)
     {
         builder.Property(f => f.Amount)
+            .HasPrecision(18, 6)
             .IsRequired();
 
         builder.Property(f => f.FareType)

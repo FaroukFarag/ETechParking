@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using ETechParking.Application.Dtos.Abstraction;
 using ETechParking.Application.Dtos.Shared;
 using ETechParking.Application.Interfaces.Abstraction;
 using ETechParking.Domain.Interfaces.Repositories.Abstraction;
 using ETechParking.Domain.Interfaces.UnitOfWork;
-using ETechParking.Domain.Models.Abstraction;
 using ETechParking.Domain.Models.Shared;
 using System.Linq.Expressions;
 
@@ -14,8 +12,8 @@ public class BaseService<TEntity, TEntityDto, TPrimaryKey>(
     IBaseRepository<TEntity, TPrimaryKey> repository,
     IUnitOfWork unitOfWork,
     IMapper mapper) : IBaseService<TEntity, TEntityDto, TPrimaryKey>
-    where TEntity : BaseModel<TPrimaryKey>
-    where TEntityDto : BaseModelDto<TPrimaryKey>
+    where TEntity : class
+    where TEntityDto : class
 {
     private readonly IBaseRepository<TEntity, TPrimaryKey> _repository = repository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
@@ -85,12 +83,12 @@ public class BaseService<TEntity, TEntityDto, TPrimaryKey>(
         return entityDto;
     }
 
-    public virtual Task<bool> DeleteRange(IEnumerable<TEntityDto> entitiesDtos)
+    public async virtual Task<bool> DeleteRange(IEnumerable<TEntityDto> entitiesDtos)
     {
         var entities = _mapper.Map<IReadOnlyList<TEntity>>(entitiesDtos);
 
         _repository.DeleteRange(entities);
 
-        return _unitOfWork.Complete();
+        return await _unitOfWork.Complete();
     }
 }
