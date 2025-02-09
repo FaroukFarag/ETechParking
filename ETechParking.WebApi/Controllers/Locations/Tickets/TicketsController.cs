@@ -1,6 +1,7 @@
 ﻿using ETechParking.Application.Dtos.Locations.Tickets;
 using ETechParking.Application.Dtos.Shared;
 using ETechParking.Application.Interfaces.Locations.Tickets;
+using ETechParking.Application.Validators.Locations.Tickets;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ETechParking.WebApi.Controllers.Locations.Tickets
@@ -14,7 +15,12 @@ namespace ETechParking.WebApi.Controllers.Locations.Tickets
         [HttpPost("Create")]
         public async Task<IActionResult> Create(TicketDto ticketDto)
         {
-            return Ok(await _ticketService.CreateAsync(ticketDto));
+            var result = await _ticketService.CreateAsync(ticketDto);
+
+            if (result is null)
+                return BadRequest("Plate number has opened ticket!");
+
+            return Ok(result);
         }
 
         [HttpGet("Get")]
@@ -61,6 +67,23 @@ namespace ETechParking.WebApi.Controllers.Locations.Tickets
         public async Task<IActionResult> DeleteRange(IEnumerable<TicketDto> ticketDtos)
         {
             return Ok(await _ticketService.DeleteRange(ticketDtos));
+        }
+
+        [HttpPost("CalculateTicketTotal")]
+        public async Task<IActionResult> CalculateTicketTotal(CalculateTicketTotalDto ticketTotalDto)
+        {
+            var result = await _ticketService.CalculateTicketTotal(ticketTotalDto);
+
+            if (result is null)
+                return BadRequest("Invalid Date!");
+
+            return Ok(result);
+        }
+
+        [HttpPost("PayTicket")]
+        public async Task<IActionResult> PayTicket(PayTicketDto payTicketDto)
+        {
+            return Ok(await _ticketService.PayTicket(payTicketDto));
         }
     }
 }

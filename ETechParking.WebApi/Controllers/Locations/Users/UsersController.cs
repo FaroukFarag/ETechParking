@@ -72,13 +72,13 @@ public class UsersController(IUserService userService) : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginDto loginDto)
     {
-        var token = await _userService.LoginAsync(loginDto);
+        var loggedInDto = await _userService.LoginAsync(loginDto);
 
-        if (token == default!)
+        if (loggedInDto == default!)
         {
             return Unauthorized(new { Message = "Invalid login attempt" });
         }
 
-        return Ok(token);
+        return Ok(loggedInDto);
     }
 }

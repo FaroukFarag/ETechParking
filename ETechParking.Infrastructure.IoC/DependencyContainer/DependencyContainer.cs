@@ -110,10 +110,12 @@ public static class DependencyContainer
     {
         services.AddValidatorsFromAssemblyContaining<LocationDtoValidator>();
         services.AddValidatorsFromAssemblyContaining<UserDtoValidator>();
+        services.AddValidatorsFromAssemblyContaining<LoginDtoValidator>();
         services.AddValidatorsFromAssemblyContaining<RoleDtoValidator>();
         services.AddValidatorsFromAssemblyContaining<FareDtoValidator>();
         services.AddValidatorsFromAssemblyContaining<TicketDtoValidator>();
-        services.AddValidatorsFromAssemblyContaining<LoginDtoValidator>();
+        services.AddValidatorsFromAssemblyContaining<CalculateTicketTotalDtoValidator>();
+        services.AddValidatorsFromAssemblyContaining<PayTicketDtoValidator>();
     }
 
     public static void RegisterIdentity(this IServiceCollection services)

@@ -52,7 +52,7 @@ public class UserService(
         return newUserDto;
     }
 
-    public async Task<string> LoginAsync(LoginDto model)
+    public async Task<LoggedInDto> LoginAsync(LoginDto model)
     {
         var result = await _signInManager.PasswordSignInAsync(
             model.UserName,
@@ -64,8 +64,13 @@ public class UserService(
             return default!;
 
         var user = await _userManager.FindByNameAsync(model.UserName);
+        var loggedInDto = new LoggedInDto
+        {
+            LocationId = user!.LocationId,
+            Token = await GetToken(user)
+        };
 
-        return await GetToken(user);
+        return loggedInDto;
     }
 
     private async Task<string> GetToken(User? user)
