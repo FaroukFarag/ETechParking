@@ -7,10 +7,6 @@ public class TicketDtoValidator : AbstractValidator<TicketDto>
 {
     public TicketDtoValidator()
     {
-        RuleFor(c => c.TicketNumber)
-           .NotEmpty()
-           .MaximumLength(50);
-
         RuleFor(c => c.PlateNumber)
            .NotEmpty()
            .MaximumLength(50);
