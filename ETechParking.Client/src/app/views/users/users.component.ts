@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
-import { } from 'devextreme-angular';
 import { UsersService } from '../../services/users/users.service';
 
 @Component({
@@ -12,6 +11,7 @@ import { UsersService } from '../../services/users/users.service';
 })
 export class UsersComponent {
   usersList: any;
+  rolesList: any;
   allowedPageSizes: boolean = true;
   constructor(private usersService: UsersService) {
 
@@ -20,34 +20,47 @@ export class UsersComponent {
 
 
   ngOnInit() {
-    this.getAllLocations();
+    this.getAllUsers();
+    this.getRoles();
+
   }
 
 
-  getAllLocations() {
+  getAllUsers() {
     this.usersService.getAll('Users/GetAll').subscribe((data: any) => {
       this.usersList = data;
-      console.log("locations", this.usersList);
     })
   }
+
+  getRoles() {
+    this.usersService.getAll('Roles/GetAll').subscribe((data: any) => {
+      this.rolesList = data;
+    })
+  }
+
   onRowInserting(e: any) {
     this.usersService.create('Users/Create', e.data).subscribe(() => {
-      this.getAllLocations(); // Refresh the list after adding
+      this.getAllUsers();
     });
   }
 
 
   onRowUpdating(e: any) {
-    this.usersService.update('Users/Update', e.data).subscribe(() => {
-      this.getAllLocations(); // Refresh the list after adding
-    });
+    const updatedData = { ...e.oldData, ...e.newData };
+    this.usersService.update('Users/Update', updatedData).subscribe(
+      () => {
+        this.getAllUsers();
+      },
+      (error) => {
+        alert("Failed to update user: " + (error.error.message || "Unknown error"));
+      }
+    );
   }
 
   onRowRemoving(e: any) {
     const userId = e.data.id;
-    console.log("ID", userId);
     this.usersService.delete(`Users/Delete?id=${userId}`).subscribe(() => {
-      this.getAllLocations(); // Refresh the list after deleting
+      this.getAllUsers(); // Refresh the list after deleting
     });
   }
 }

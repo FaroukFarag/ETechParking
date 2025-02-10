@@ -37,7 +37,15 @@
           <dxi-item dataField="enterGracePeriod" caption="Enter grace period"></dxi-item>
           <dxi-item dataField="exitGracePeriod" caption="Exit grace period"></dxi-item>
           <dxi-item dataField="maxLimit" caption="Max Limit"></dxi-item>
-          <dxi-item dataField="locationId" caption="Location Id"></dxi-item>
+          <dxi-item dataField="locationId" caption="Location Id" editorType="dxSelectBox"
+                    [editorOptions]="{
+                        dataSource: locations,
+                        valueExpr: 'id',
+                        displayExpr: 'id'
+                      }">
+          </dxi-item>
+          <dxi-item dataField="locationName" caption="Location Name">
+          </dxi-item>
 
         </dxi-item>
       </dxo-form>

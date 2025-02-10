@@ -28,27 +28,34 @@ export class Locationsv2Component {
   getAllLocations() {
     this.locationService.getAll('Locations/GetAll').subscribe((data: any) => {
       this.locationsList = data;
-      console.log("locations", this.locationsList);
+      console.log(this.locationsList);
     })
   }
   onRowInserting(e: any) {
     this.locationService.create('Locations/Create',e.data).subscribe(() => {
-      this.getAllLocations(); // Refresh the list after adding
+      this.getAllLocations(); 
     });
   }
 
 
+ 
+
   onRowUpdating(e: any) {
-    this.locationService.update('Locations/Update', e.data).subscribe(() => {
-      this.getAllLocations(); // Refresh the list after adding
-    });
+    const updatedData = { ...e.oldData, ...e.newData };
+    this.locationService.update('Locations/Update', updatedData).subscribe(
+      () => {
+        this.getAllLocations(); 
+      },
+      (error) => {
+        alert("Failed to update location: " + (error.error.message || "Unknown error"));
+      }
+    );
   }
 
   onRowRemoving(e: any) {
     const LocationId = e.data.id;
-    console.log("ID", LocationId);
     this.locationService.delete(`Locations/Delete?id=${LocationId}`).subscribe(() => {
-      this.getAllLocations(); // Refresh the list after deleting
+      this.getAllLocations(); 
     });
   }
 }
