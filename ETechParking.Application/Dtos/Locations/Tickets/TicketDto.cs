@@ -16,6 +16,7 @@ namespace ETechParking.Application.Dtos.Locations.Tickets
         public bool IsPaid { get; set; }
         public int LocationId { get; set; }
         public string? LocationName { get; set; }
+        public int? NumberOfDays { get; set; }
         public decimal? TotalWithoutVat { get; set; }
         public decimal? TotalWithVat { get; set; }
         public decimal? Vat { get; set; }

@@ -2,7 +2,6 @@
 using ETechParking.Application.Dtos.Locations.Tickets;
 using ETechParking.Application.Interfaces.Locations.Tickets;
 using ETechParking.Application.Services.Abstraction;
-using ETechParking.Application.Validators.Locations.Tickets;
 using ETechParking.Domain.Enums.Locations.Tickets;
 using ETechParking.Domain.Interfaces.Repositories.Locations;
 using ETechParking.Domain.Interfaces.Repositories.Locations.Tickets;
@@ -22,6 +21,7 @@ public class TicketService(
     : BaseService<Ticket, TicketDto, int>(ticketRepository, unitOfWork, mapper), ITicketService
 {
     private readonly ITicketRepository _ticketRepository = ticketRepository;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
     private readonly ILocationRepository _locationRepository = locationRepository;
 
@@ -57,6 +57,8 @@ public class TicketService(
 
         _ticketRepository.Update(ticket);
 
+        await _unitOfWork.Complete();
+
         return await CalculateAndMapTicketTotalAsync(ticket);
     }
 
@@ -65,6 +67,8 @@ public class TicketService(
         var ticket = await GetLatestUnpaidTicketAsync(payTicketDto.PlateNumber);
 
         ticket.IsPaid = true;
+        ticket.TransactionType = payTicketDto.TransactionType;
+
         _ticketRepository.Update(ticket);
 
         return await CalculateAndMapTicketTotalAsync(ticket);

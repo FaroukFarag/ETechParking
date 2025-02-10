@@ -14,6 +14,7 @@ public class Ticket : BaseModel<int>
     public TransactionType TransactionType { get; set; }
     public bool IsPaid { get; set; }
     public int LocationId { get; set; }
+    public int? NumberOfDays { get; set; }
 
     public virtual Location Location { get; set; } = default!;
 }
