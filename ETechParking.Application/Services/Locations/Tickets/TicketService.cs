@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ETechParking.Application.Dtos.Locations.Tickets;
+using ETechParking.Application.Dtos.Shared;
 using ETechParking.Application.Interfaces.Locations.Tickets;
 using ETechParking.Application.Services.Abstraction;
 using ETechParking.Domain.Enums.Locations.Tickets;
@@ -8,6 +9,7 @@ using ETechParking.Domain.Interfaces.Repositories.Locations.Tickets;
 using ETechParking.Domain.Interfaces.Services.Locations.Tickets;
 using ETechParking.Domain.Interfaces.UnitOfWork;
 using ETechParking.Domain.Models.Locations.Tickets;
+using ETechParking.Domain.Models.Shared;
 using ETechParking.Domain.Services.Locations.Tickets;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,6 +44,25 @@ public class TicketService(
         ticketDto.LocationName = location.Name;
 
         return ticketDto;
+    }
+
+    public async override Task<IEnumerable<TicketDto>> GetAllAsync()
+    {
+        var tickets = await _ticketRepository.GetAllAsync(includeProperties: t => t.Location);
+        var ticketsDtos = _mapper.Map<IReadOnlyList<TicketDto>>(tickets);
+
+        return ticketsDtos;
+    }
+
+    public async override Task<IEnumerable<TicketDto>> GetAllPaginatedAsync(PaginatedModelDto paginatedModelDto)
+    {
+        var paginatedModel = _mapper.Map<PaginatedModel>(paginatedModelDto);
+        var tickets = await _ticketRepository.GetAllPaginatedAsync(
+            paginatedModel: paginatedModel,
+            includeProperties: t => t.Location);
+        var ticketsDtos = _mapper.Map<IReadOnlyList<TicketDto>>(tickets);
+
+        return ticketsDtos;
     }
 
     public async Task<TicketDto> CalculateTicketTotal(CalculateTicketTotalDto ticketTotalDto)

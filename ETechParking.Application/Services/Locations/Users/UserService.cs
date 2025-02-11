@@ -1,26 +1,29 @@
 ﻿using AutoMapper;
 using ETechParking.Application.Dtos.Locations.Users;
+using ETechParking.Application.Dtos.Shared;
 using ETechParking.Application.Interfaces.Locations.Users;
 using ETechParking.Application.Services.Abstraction;
 using ETechParking.Common.Tokens.Interfaces;
-using ETechParking.Domain.Interfaces.Repositories.Abstraction;
 using ETechParking.Domain.Interfaces.Repositories.Locations.Roles;
+using ETechParking.Domain.Interfaces.Repositories.Locations.Users;
 using ETechParking.Domain.Interfaces.UnitOfWork;
 using ETechParking.Domain.Models.Locations.Users;
+using ETechParking.Domain.Models.Shared;
 using Microsoft.AspNetCore.Identity;
 
 namespace ETechParking.Application.Services.Locations.Users;
 
 public class UserService(
-    IBaseRepository<User, int> repository,
+    IUserRepository userRepository,
     IUnitOfWork unitOfWork,
     IMapper mapper,
     SignInManager<User> signInManager,
     UserManager<User> userManager,
     IRoleRepository roleRepository,
     ITokensService tokensService) :
-    BaseService<User, UserDto, int>(repository, unitOfWork, mapper), IUserService
+    BaseService<User, UserDto, int>(userRepository, unitOfWork, mapper), IUserService
 {
+    private readonly IUserRepository _userRepository = userRepository;
     private readonly IMapper _mapper = mapper;
     private readonly SignInManager<User> _signInManager = signInManager;
     private readonly UserManager<User> _userManager = userManager;
@@ -39,6 +42,32 @@ public class UserService(
         await _userManager.AddToRoleAsync(user, role.Name!);
 
         return userDto;
+    }
+
+    public async override Task<IEnumerable<UserDto>> GetAllAsync()
+    {
+        var users = await _userRepository.GetAllAsync(
+            filter: default!,
+            orderBy: default!,
+            u => u.Role,
+            u => u.Location);
+        var usersDtos = _mapper.Map<IReadOnlyList<UserDto>>(users);
+
+        return usersDtos;
+    }
+
+    public async override Task<IEnumerable<UserDto>> GetAllPaginatedAsync(PaginatedModelDto paginatedModelDto)
+    {
+        var paginatedModel = _mapper.Map<PaginatedModel>(paginatedModelDto);
+        var users = await _userRepository.GetAllPaginatedAsync(
+            paginatedModel: paginatedModel,
+            filter: default!,
+            orderBy: default!,
+            u => u.Role,
+            u => u.Location);
+        var usersDtos = _mapper.Map<IReadOnlyList<UserDto>>(users);
+
+        return usersDtos;
     }
 
     public async override Task<UserDto> Update(UserDto newUserDto)
