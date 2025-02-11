@@ -20,6 +20,8 @@
     "@angular/router": "^19.1.0",
     "@primeng/themes": "^19.0.5",
     "bootstrap": "^5.3.3",
+    "devextreme": "24.2.3",
+    "devextreme-angular": "24.2.3",
     "jquery": "^3.7.1",
     "popper.js": "^1.16.1",
     "primeng": "^19.0.5",
