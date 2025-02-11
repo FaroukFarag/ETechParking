@@ -31,11 +31,26 @@
       </dxo-popup>
       <dxo-form>
         <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
-          <dxi-item dataField="name"></dxi-item>
-          <dxi-item dataField="country"></dxi-item>
-          <dxi-item dataField="city"></dxi-item>
-          <dxi-item dataField="longitude"></dxi-item>
-          <dxi-item dataField="latitude"></dxi-item>
+          <dxi-item dataField="name"  caption="Name" >
+            <dxi-validation-rule type="required" message="Name is required">
+            </dxi-validation-rule>
+          </dxi-item>
+          <dxi-item dataField="country"  caption="Country" >
+            <dxi-validation-rule type="required" message="country is required">
+            </dxi-validation-rule>
+          </dxi-item>
+          <dxi-item dataField="city"  caption="City" >
+            <dxi-validation-rule type="required" message="City is required">
+            </dxi-validation-rule>
+          </dxi-item>
+          <dxi-item dataField="longitude"  caption="Longitude" >
+            <dxi-validation-rule type="required" message="Longitude is required">
+            </dxi-validation-rule>
+          </dxi-item>
+          <dxi-item dataField="latitude" caption="Latitude">
+            <dxi-validation-rule type="required" message="Latitude is required">
+            </dxi-validation-rule>
+          </dxi-item>
         </dxi-item>
       </dxo-form>
     </dxo-editing>

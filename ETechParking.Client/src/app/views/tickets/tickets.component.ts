@@ -18,11 +18,11 @@ export class TicketsComponent {
   }
 
   ngOnInit() {
-    this.getAllLocations();
+    this.getAllTickets();
   }
 
 
-  getAllLocations() {
+  getAllTickets() {
     this.ticketsService.getAll('Tickets/GetAll').subscribe((data: any) => {
       this.ticketsList = data;
     })

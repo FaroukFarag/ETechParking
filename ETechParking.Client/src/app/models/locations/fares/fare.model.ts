@@ -6,9 +6,11 @@ import { BaseModel } from '../../shared/base-model.model';
 })
 export class Fare extends BaseModel<number> {
   amount!: number;
-  fareType!: number;
+  fareType!: string;
   fareTypeName!: string;
   enterGracePeriod!: number;
   exitGracePeriod!: number;
+  maxLimit!: number;
   locationId!: number;
+  locationName!: string;
 }
