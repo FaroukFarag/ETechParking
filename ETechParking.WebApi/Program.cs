@@ -1,7 +1,6 @@
 using ETechParking.Domain.Constants;
-using ETechParking.Infrastructure.Data.Context;
 using ETechParking.Infrastructure.IoC.DependencyContainer;
-using Microsoft.EntityFrameworkCore;
+using ETechParking.WebApi.Middlewares.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,14 +21,15 @@ builder.Services.RegisterValidators();
 builder.Services.RegisterIdentity();
 builder.Services.RegisterJwtSettings(builder.Configuration);
 builder.Services.RegisterCORS(builder.Configuration);
+builder.Services.RegisterMiddlewares();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 //{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
 //}
 
 //app.UseHttpsRedirection();
@@ -41,6 +41,8 @@ app.UseCors(AppSettings.AllowedOrigins);
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapControllers();
 

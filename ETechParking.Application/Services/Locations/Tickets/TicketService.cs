@@ -75,10 +75,6 @@ public class TicketService(
 
         ticket.ExitDateTime = ticketTotalDto.ExitDateTime;
 
-        _ticketRepository.Update(ticket);
-
-        await _unitOfWork.Complete();
-
         var totalWithoutVat = CalculateTotal(ticket);
         var totalWithVat = CalculateTotal(ticket, true);
 
@@ -97,9 +93,12 @@ public class TicketService(
 
         ticket.IsPaid = true;
         ticket.TransactionType = payTicketDto.TransactionType;
+        ticket.ExitDateTime = payTicketDto.ExitDateTime;
         ticket.TotalAmount = CalculateTotal(ticket, true);
 
         _ticketRepository.Update(ticket);
+
+        await _unitOfWork.Complete();
 
         var ticketUpdated = await _unitOfWork.Complete();
 
@@ -125,12 +124,7 @@ public class TicketService(
             includeProperties: t => t.Location.Fares);
         var ticket = tickets.LastOrDefault();
 
-        if (ticket == null)
-        {
-            throw new InvalidOperationException("No unpaid ticket found for the provided plate number.");
-        }
-
-        return ticket;
+        return ticket == null ? throw new InvalidOperationException("No unpaid ticket found for the provided plate number.") : ticket;
     }
 
     private static decimal CalculateTotal(Ticket ticket, bool includeVat = false)

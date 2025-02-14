@@ -49,6 +49,7 @@ using ETechParking.Infrastructure.Data.Repositories.Locations.Shifts;
 using ETechParking.Infrastructure.Data.Repositories.Locations.Tickets;
 using ETechParking.Infrastructure.Data.Repositories.Locations.Users;
 using ETechParking.Infrastructure.Data.UnitOfWork;
+using ETechParking.WebApi.Middlewares.Exceptions;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -179,5 +180,10 @@ public static class DependencyContainer
         var dbContext = scope.ServiceProvider.GetRequiredService<ETechParkingDbContext>();
 
         dbContext.Database.Migrate();
+    }
+
+    public static void RegisterMiddlewares(this IServiceCollection services)
+    {
+        services.AddTransient<ExceptionHandlingMiddleware>();
     }
 }
