@@ -7,11 +7,11 @@ public class CalculateTicketTotalDtoValidator : AbstractValidator<CalculateTicke
 {
     public CalculateTicketTotalDtoValidator()
     {
-        RuleFor(c => c.PlateNumber)
+        RuleFor(ctt => ctt.PlateNumber)
            .NotEmpty()
            .MaximumLength(50);
 
-        RuleFor(c => c.ExitDateTime)
+        RuleFor(ctt => ctt.ExitDateTime)
            .NotNull();
     }
 }

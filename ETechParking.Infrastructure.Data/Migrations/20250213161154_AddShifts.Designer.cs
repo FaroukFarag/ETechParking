@@ -4,6 +4,7 @@ using ETechParking.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ETechParking.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ETechParkingDbContext))]
-    partial class ETechParkingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250213161154_AddShifts")]
+    partial class AddShifts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,14 +144,6 @@ namespace ETechParking.Infrastructure.Data.Migrations
                     b.Property<DateTime>("StartDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal?>("TotalCash")
-                        .HasPrecision(18, 6)
-                        .HasColumnType("decimal(18,6)");
-
-                    b.Property<decimal?>("TotalCredit")
-                        .HasPrecision(18, 6)
-                        .HasColumnType("decimal(18,6)");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -207,11 +202,7 @@ namespace ETechParking.Infrastructure.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<decimal?>("TotalAmount")
-                        .HasPrecision(18, 6)
-                        .HasColumnType("decimal(18,6)");
-
-                    b.Property<int?>("TransactionType")
+                    b.Property<int>("TransactionType")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

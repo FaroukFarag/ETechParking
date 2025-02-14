@@ -7,11 +7,11 @@ public class PayTicketDtoValidator : AbstractValidator<PayTicketDto>
 {
     public PayTicketDtoValidator()
     {
-        RuleFor(c => c.PlateNumber)
+        RuleFor(pt => pt.PlateNumber)
            .NotEmpty()
            .MaximumLength(50);
 
-        RuleFor(c => c.TransactionType)
+        RuleFor(pt => pt.TransactionType)
             .NotNull();
     }
 }

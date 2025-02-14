@@ -42,5 +42,10 @@ public class LocationConfigurations : IEntityTypeConfiguration<Location>
             .WithOne(t => t.Location)
             .HasForeignKey(t => t.LocationId)
             .IsRequired();
+
+        builder.HasMany(l => l.Shifts)
+            .WithOne(s => s.Location)
+            .HasForeignKey(s => s.LocationId)
+            .IsRequired();
     }
 }

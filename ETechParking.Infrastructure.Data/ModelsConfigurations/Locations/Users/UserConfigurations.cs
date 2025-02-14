@@ -18,5 +18,10 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
             .WithMany(l => l.Users)
             .HasForeignKey(u => u.LocationId)
             .IsRequired();
+
+        builder.HasMany(u => u.Shifts)
+            .WithOne(s => s.User)
+            .HasForeignKey(s => s.UserId)
+            .IsRequired();
     }
 }

@@ -5,8 +5,10 @@ using ETechParking.Application.Interfaces.Locations.Users;
 using ETechParking.Application.Services.Abstraction;
 using ETechParking.Common.Tokens.Interfaces;
 using ETechParking.Domain.Interfaces.Repositories.Locations.Roles;
+using ETechParking.Domain.Interfaces.Repositories.Locations.Shifts;
 using ETechParking.Domain.Interfaces.Repositories.Locations.Users;
 using ETechParking.Domain.Interfaces.UnitOfWork;
+using ETechParking.Domain.Models.Locations.Shifts;
 using ETechParking.Domain.Models.Locations.Users;
 using ETechParking.Domain.Models.Shared;
 using Microsoft.AspNetCore.Identity;
@@ -20,15 +22,18 @@ public class UserService(
     SignInManager<User> signInManager,
     UserManager<User> userManager,
     IRoleRepository roleRepository,
-    ITokensService tokensService) :
+    ITokensService tokensService,
+    IShiftRepository shiftRepository) :
     BaseService<User, UserDto, int>(userRepository, unitOfWork, mapper), IUserService
 {
     private readonly IUserRepository _userRepository = userRepository;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
     private readonly SignInManager<User> _signInManager = signInManager;
     private readonly UserManager<User> _userManager = userManager;
     private readonly IRoleRepository _roleRepository = roleRepository;
     private readonly ITokensService _tokensService = tokensService;
+    private readonly IShiftRepository _shiftRepository = shiftRepository;
 
     public async override Task<UserDto> CreateAsync(UserDto userDto)
     {
@@ -92,10 +97,18 @@ public class UserService(
         if (!result.Succeeded)
             return default!;
 
-        var user = await _userManager.FindByNameAsync(model.UserName);
+        var user = (await _userManager.FindByNameAsync(model.UserName))!;
+        var shift = await _shiftRepository.CreateAsync(new Shift { LocationId = user.LocationId, UserId = user.Id });
+
+        var shiftAdded = await _unitOfWork.Complete();
+
+        if (!shiftAdded)
+            return default!;
+
         var loggedInDto = new LoggedInDto
         {
-            LocationId = user!.LocationId,
+            LocationId = user.LocationId,
+            ShiftId = shift.Id,
             Token = await GetToken(user)
         };
 
@@ -107,8 +120,7 @@ public class UserService(
         var claims = new List<TokenClaim>
         {
             new("UserName", user?.UserName!),
-            new("Email", user?.Email!),
-            new("LocationId", user?.LocationId.ToString()!)
+            new("Email", user?.Email!)
         };
 
         return await _tokensService.GenerateToken(claims);

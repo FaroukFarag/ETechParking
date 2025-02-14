@@ -7,19 +7,19 @@ public class FareDtoValidator : AbstractValidator<FareDto>
 {
     public FareDtoValidator()
     {
-        RuleFor(c => c.Amount)
+        RuleFor(f => f.Amount)
             .NotNull();
 
-        RuleFor(c => c.FareType)
+        RuleFor(f => f.FareType)
             .NotNull();
 
-        RuleFor(c => c.EnterGracePeriod)
+        RuleFor(f => f.EnterGracePeriod)
             .NotNull();
 
-        RuleFor(c => c.ExitGracePeriod)
+        RuleFor(f => f.ExitGracePeriod)
             .NotNull();
 
-        RuleFor(c => c.LocationId)
+        RuleFor(f => f.LocationId)
             .NotNull();
     }
 }

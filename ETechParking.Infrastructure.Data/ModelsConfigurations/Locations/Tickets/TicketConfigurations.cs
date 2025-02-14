@@ -26,6 +26,9 @@ public class TicketConfigurations : IEntityTypeConfiguration<Ticket>
         builder.Property(t => t.ClientType)
             .IsRequired();
 
+        builder.Property(f => f.TotalAmount)
+            .HasPrecision(18, 6);
+
         builder.Property(t => t.LocationId)
             .IsRequired();
 

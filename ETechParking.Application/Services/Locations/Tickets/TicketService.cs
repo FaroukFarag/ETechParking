@@ -11,7 +11,6 @@ using ETechParking.Domain.Interfaces.UnitOfWork;
 using ETechParking.Domain.Models.Locations.Tickets;
 using ETechParking.Domain.Models.Shared;
 using ETechParking.Domain.Services.Locations.Tickets;
-using Microsoft.EntityFrameworkCore;
 
 namespace ETechParking.Application.Services.Locations.Tickets;
 
@@ -80,40 +79,6 @@ public class TicketService(
 
         await _unitOfWork.Complete();
 
-        return await CalculateAndMapTicketTotalAsync(ticket);
-    }
-
-    public async Task<TicketDto> PayTicket(PayTicketDto payTicketDto)
-    {
-        var ticket = await GetLatestUnpaidTicketAsync(payTicketDto.PlateNumber);
-
-        ticket.IsPaid = true;
-        ticket.TransactionType = payTicketDto.TransactionType;
-
-        _ticketRepository.Update(ticket);
-
-        return await CalculateAndMapTicketTotalAsync(ticket);
-    }
-
-    private async Task<Ticket> GetLatestUnpaidTicketAsync(string plateNumber)
-    {
-        var tickets = await _ticketRepository.GetAllAsync(t => t.PlateNumber == plateNumber && !t.IsPaid);
-        var ticket = tickets.LastOrDefault();
-
-        if (ticket == null)
-        {
-            throw new InvalidOperationException("No unpaid ticket found for the provided plate number.");
-        }
-
-        return ticket;
-    }
-
-    private async Task<TicketDto> CalculateAndMapTicketTotalAsync(Ticket ticket)
-    {
-        ticket.Location = await _locationRepository.GetAsync(
-            ticket.LocationId,
-            query => query.Include(l => l.Fares));
-
         var totalWithoutVat = CalculateTotal(ticket);
         var totalWithVat = CalculateTotal(ticket, true);
 
@@ -124,6 +89,48 @@ public class TicketService(
         ticketDto.Vat = totalWithVat - totalWithoutVat;
 
         return ticketDto;
+    }
+
+    public async Task<TicketDto> PayTicket(PayTicketDto payTicketDto)
+    {
+        var ticket = await GetLatestUnpaidTicketAsync(payTicketDto.PlateNumber);
+
+        ticket.IsPaid = true;
+        ticket.TransactionType = payTicketDto.TransactionType;
+        ticket.TotalAmount = CalculateTotal(ticket, true);
+
+        _ticketRepository.Update(ticket);
+
+        var ticketUpdated = await _unitOfWork.Complete();
+
+        if (!ticketUpdated)
+            return default!;
+
+        var totalWithoutVat = CalculateTotal(ticket);
+        var totalWithVat = ticket.TotalAmount;
+
+        var ticketDto = _mapper.Map<TicketDto>(ticket);
+
+        ticketDto.TotalWithoutVat = totalWithoutVat;
+        ticketDto.TotalWithVat = totalWithVat;
+        ticketDto.Vat = totalWithVat - totalWithoutVat;
+
+        return ticketDto;
+    }
+
+    private async Task<Ticket> GetLatestUnpaidTicketAsync(string plateNumber)
+    {
+        var tickets = await _ticketRepository
+            .GetAllAsync(filter: t => t.PlateNumber == plateNumber && !t.IsPaid,
+            includeProperties: t => t.Location.Fares);
+        var ticket = tickets.LastOrDefault();
+
+        if (ticket == null)
+        {
+            throw new InvalidOperationException("No unpaid ticket found for the provided plate number.");
+        }
+
+        return ticket;
     }
 
     private static decimal CalculateTotal(Ticket ticket, bool includeVat = false)
