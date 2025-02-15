@@ -11,6 +11,7 @@ public class ShiftProfile : Profile
     {
         CreateMap<Shift, ShiftDto>()
             .ForMember(des => des.LocationName, opt => opt.MapFrom(src => src.Location.Name))
+            .ForMember(des => des.UserName, opt => opt.MapFrom(src => src.User.UserName))
             .ForMember(des => des.TotalCashDifference, opt => opt
                 .MapFrom(src => src.TotalCash - src.Tickets
                     .Where(t => t.TransactionType == TransactionType.Cash).Sum(t => t.TotalAmount)))

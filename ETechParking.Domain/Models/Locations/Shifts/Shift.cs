@@ -1,4 +1,5 @@
-﻿using ETechParking.Domain.Models.Abstraction;
+﻿using ETechParking.Domain.Enums.Locations.Shifts;
+using ETechParking.Domain.Models.Abstraction;
 using ETechParking.Domain.Models.Locations.Tickets;
 using ETechParking.Domain.Models.Locations.Users;
 
@@ -10,6 +11,7 @@ public class Shift : BaseModel<int>
     public DateTime? EndDateTime { get; set; }
     public decimal? TotalCash { get; set; }
     public decimal? TotalCredit { get; set; }
+    public ShiftStatus Status { get; set; }
     public int LocationId { get; set; }
     public int UserId { get; set; }
 

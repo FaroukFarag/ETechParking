@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ETechParking.Application.Dtos.Locations.Shifts;
+using ETechParking.Application.Dtos.Locations.Tickets;
 using ETechParking.Application.Dtos.Shared;
 using ETechParking.Application.Interfaces.Locations.Shifts;
 using ETechParking.Application.Services.Abstraction;
@@ -41,6 +42,13 @@ public class ShiftService(IShiftRepository shiftRepository, IUnitOfWork unitOfWo
         var shiftsDtos = _mapper.Map<IReadOnlyList<ShiftDto>>(shifts);
 
         return shiftsDtos;
+    }
+
+    public async Task<IEnumerable<TicketDto>> GetAllFilteredAsync(ShiftFilterDto shiftFilterDto)
+    {
+        var tickets = await _shiftRepository.GetAllFilteredAsync(filterDto: shiftFilterDto, includeProperties: t => t.Location);
+
+        return _mapper.Map<IReadOnlyList<TicketDto>>(tickets);
     }
 
     public async Task<ShiftDto> CloseShift(CloseShiftDto closeShiftDto)

@@ -17,6 +17,7 @@ public static class QueryableFilterExtensions
         foreach (var filterProperty in GetNonNullProperties(filterDto))
         {
             var entityPropertyName = filterProperty.GetCustomAttribute<FilterPropertyAttribute>()?.EntityPropertyName ?? filterProperty.Name;
+
             if (typeof(TEntity).GetProperty(entityPropertyName) is not { } entityProperty) continue;
 
             var parameter = Expression.Parameter(typeof(TEntity), "t");

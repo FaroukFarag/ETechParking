@@ -1,4 +1,5 @@
 ﻿using ETechParking.Application.Dtos.Abstraction;
+using ETechParking.Domain.Enums.Locations.Shifts;
 
 namespace ETechParking.Application.Dtos.Locations.Shifts;
 
@@ -12,6 +13,7 @@ public class ShiftDto : BaseModelDto<int>
     public decimal? TotalCreditDifference { get; set; }
     public decimal? TotalVisitors { get; set; }
     public decimal? TotalGuests { get; set; }
+    public ShiftStatus Status { get; set; } = ShiftStatus.Opened;
     public int LocationId { get; set; }
     public string LocationName { get; set; } = default!;
     public int UserId { get; set; }
