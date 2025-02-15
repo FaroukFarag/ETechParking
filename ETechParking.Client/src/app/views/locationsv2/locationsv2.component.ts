@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
+import { DxButtonModule, DxDataGridModule, DxPopupModule } from 'devextreme-angular';
 import { } from 'devextreme-angular';
 import { LocationService } from '../../services/locations/location.service';
 
@@ -7,6 +7,7 @@ import { LocationService } from '../../services/locations/location.service';
   selector: 'app-locationsv2',
   imports: [DxButtonModule,
     DxDataGridModule,
+    DxPopupModule 
   ],
   templateUrl: './locationsv2.component.html',
   styleUrl: './locationsv2.component.css'

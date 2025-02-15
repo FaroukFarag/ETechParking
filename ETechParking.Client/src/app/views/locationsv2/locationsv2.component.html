@@ -1,4 +1,5 @@
 <div id="data-grid-demo">
+  <h4 class="screen-title">Locations</h4>
   <dx-data-grid id="gridContainer"
                 [dataSource]="locationsList"
                 keyExpr="id"
@@ -8,7 +9,7 @@
                 (onRowInserting)="onRowInserting($event)"
                 (onRowUpdating)="onRowUpdating($event)"
                 (onRowRemoving)="onRowRemoving($event)"
-                [rowAlternationEnabled]="true"
+                [rowAlternationEnabled]="false"
                 [remoteOperations]="true"
                 [repaintChangesOnly]="true"
                 [errorRowEnabled]="false"
@@ -23,11 +24,16 @@
     <dxo-editing mode="popup"
                                  [allowUpdating]="true"
                                  [allowAdding]="true"
-                                 [allowDeleting]="true">
+                                 [allowDeleting]="true"
+                     [useIcons]="true"
+>
       <dxo-popup title="Location Info"
                  [showTitle]="true"
-                 [width]="700"
-                 [height]="400">
+                 [width]="550"
+                 [height]="500">
+        <dxi-popup-toolbar-item text="Title"
+                                location="center">
+        </dxi-popup-toolbar-item>
       </dxo-popup>
       <dxo-form>
         <dxi-item itemType="group" [colCount]="1" [colSpan]="2">

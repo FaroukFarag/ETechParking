@@ -36,13 +36,14 @@ export class AppLayoutComponent {
   selectedRevealMode: DxDrawerTypes.RevealMode = 'slide';
 
   isDrawerOpen = true;
+ 
   navigation: any = [
-    { id: 1, text: 'Locations', icon: 'map' },
-    { id: 2, text: 'Fares', icon: 'money', path: 'locations' },
-    { id: 3, text: 'Tickets', icon: 'card', path: 'tickets' },
-    { id: 4, text: 'Users', icon: 'group' },
-
-  ];
+    { id: 1, text: 'Locations', icon: '/assets/icons/location.svg'},
+    { id: 2, text: 'Fares', icon: '/assets/icons/fare.svg'},
+    { id: 3, text: 'Tickets', icon: '/assets/icons/tickets.svg'},
+    { id: 3, text: 'Shifts', icon: '/assets/icons/shift.svg'},
+    { id: 4, text: 'Users', icon: '/assets/icons/users.svg' },
+  ]; 
   toolbarContent = [{
     widget: 'dxButton',
     location: 'before',
@@ -64,17 +65,17 @@ export class AppLayoutComponent {
   //    },
   //  },
   //  },
-    {
-      location: 'center',
-      template: () => {
-        const logo = document.createElement('img');
-        logo.src = '/assets/images/EP-Logo.svg'; 
-        logo.alt = 'Logo';
-        logo.style.height = '72px'; 
-        //logo.style.marginRight = '100px'; 
-        return logo;
-      },
-    },
+    //{
+    //  location: 'center',
+    //  template: () => {
+    //    const logo = document.createElement('img');
+    //    logo.src = '/assets/images/EP-Logo.svg'; 
+    //    logo.alt = 'Logo';
+    //    logo.style.height = '72px'; 
+    //    //logo.style.marginRight = '100px'; 
+    //    return logo;
+    //  },
+    //},
   ];
 
   constructor(private router: Router) { }

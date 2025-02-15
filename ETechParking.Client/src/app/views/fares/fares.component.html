@@ -1,4 +1,6 @@
 <div id="data-grid-demo">
+  <h4 class="screen-title">Fares</h4>
+
   <dx-data-grid id="gridContainer"
                 [dataSource]="faresList"
                 keyExpr="id"
@@ -23,11 +25,15 @@
     <dxo-editing mode="popup"
                  [allowUpdating]="true"
                  [allowAdding]="true"
-                 [allowDeleting]="true">
+                 [allowDeleting]="true"
+                 [useIcons]="true"
+                      >
       <dxo-popup title="Fare Info"
                  [showTitle]="true"
-                 [width]="700"
-                 [height]="525">
+                 [width]="600"
+                 [height]="600"
+                  [hideOnOutsideClick]="true"
+>
       </dxo-popup>
       <dxo-form>
         <dxi-item itemType="group" [colCount]="1" [colSpan]="2">

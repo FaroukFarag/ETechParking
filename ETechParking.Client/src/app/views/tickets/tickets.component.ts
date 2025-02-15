@@ -1,20 +1,57 @@
 import { Component, OnInit } from '@angular/core';
-import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
+import { DxButtonModule, DxDataGridModule, DxTemplateModule, DxPopupModule } from 'devextreme-angular';
 import { TicketsService } from '../../services/tickets/tickets.service';
+import notify from 'devextreme/ui/notify';
 
 
 @Component({
   selector: 'app-tickets',
   imports: [DxButtonModule,
     DxDataGridModule,
-  ],  templateUrl: './tickets.component.html',
+    DxTemplateModule,
+    DxPopupModule
+  ], templateUrl: './tickets.component.html',
   styleUrl: './tickets.component.css'
 })
 export class TicketsComponent {
   ticketsList: any;
-  allowedPageSizes: boolean = true;
-  constructor(private ticketsService: TicketsService) {
+  allowedPageSizes: boolean = false;
+  popupVisible = false;
+  filterButtonOptions: Record<string, unknown>;
 
+  closeButtonOptions: Record<string, unknown>;
+  positionOf: string='';
+
+  constructor(private ticketsService: TicketsService) {
+    this.filterButtonOptions = {
+      icon: 'search',
+      stylingMode: 'outlined',
+      text: 'Send',
+      onClick: () => {
+        notify({
+          onmessage,
+          position: {
+            my: 'center top',
+            at: 'center top',
+          },
+        }, 'success', 3000);
+      },
+    };
+    this.closeButtonOptions = {
+      text: 'Close',
+      stylingMode: 'outlined',
+      type: 'normal',
+      onClick: () => {
+        this.popupVisible = false;
+      },
+    };
+  }
+
+
+
+ 
+  showFilterPopup() {
+    this.popupVisible = true;
   }
 
   ngOnInit() {

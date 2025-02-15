@@ -1,4 +1,6 @@
 <div id="data-grid-demo">
+  <h4 class="screen-title">Users</h4>
+
   <dx-data-grid id="gridContainer"
                 [dataSource]="usersList"
                 keyExpr="id"
@@ -8,7 +10,7 @@
                 (onRowInserting)="onRowInserting($event)"
                 (onRowUpdating)="onRowUpdating($event)"
                 (onRowRemoving)="onRowRemoving($event)"
-                [rowAlternationEnabled]="true"
+                [rowAlternationEnabled]="false"
                 [remoteOperations]="true"
                 [repaintChangesOnly]="true"
                 [errorRowEnabled]="false"
@@ -23,7 +25,9 @@
     <dxo-editing mode="popup"
                  [allowUpdating]="true"
                  [allowAdding]="true"
-                 [allowDeleting]="true">
+                 [allowDeleting]="true"
+                 [useIcons]="true"
+                     >
       <dxo-popup title="User Info"
                  [showTitle]="true"
                  [width]="700"
@@ -54,9 +58,9 @@
           <dxi-item dataField="locationName" caption="Location Name">
             <dxi-validation-rule type="required" message="Location Name is required">
             </dxi-validation-rule>
-          </dxi-item> 
-          <dxi-item dataField="roleId" caption="Role Id"  editorType="dxSelectBox"
-                                                          [editorOptions]="{
+          </dxi-item>
+          <dxi-item dataField="roleId" caption="Role Id" editorType="dxSelectBox"
+                    [editorOptions]="{
                                                                dataSource: rolesList,
                                                                valueExpr: 'id',
                                                                displayExpr: 'id'}">
@@ -64,7 +68,7 @@
             </dxi-validation-rule>
           </dxi-item>
           <dxi-item dataField="roleName" caption="Role Name" editorType="dxSelectBox"
-                                                          [editorOptions]="{
+                    [editorOptions]="{
                                                                dataSource: rolesList,
                                                                valueExpr: 'id',
                                                                displayExpr: 'name'}">
