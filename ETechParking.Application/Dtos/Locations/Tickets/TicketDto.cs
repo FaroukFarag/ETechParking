@@ -21,6 +21,10 @@ namespace ETechParking.Application.Dtos.Locations.Tickets
         public decimal? Vat { get; set; }
         public int LocationId { get; set; }
         public string? LocationName { get; set; }
+        public int CreateUserId { get; set; }
+        public string? CreateUserName { get; set; }
+        public int? CloseUserId { get; set; }
+        public string? CloseUserName { get; set; }
         public int ShiftId { get; set; }
 
         public string QrCode => Convert.ToBase64String(Encoding.UTF8.GetBytes($"Id: {Id},TicketNumber: {TicketNumber}, PlateNumber: {PlateNumber}"));

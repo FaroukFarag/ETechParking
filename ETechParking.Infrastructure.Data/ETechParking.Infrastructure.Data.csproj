@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ETechParking.Common\ETechParking.Common.csproj" />
     <ProjectReference Include="..\ETechParking.Domain\ETechParking.Domain.csproj" />
   </ItemGroup>
 

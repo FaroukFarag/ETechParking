@@ -64,6 +64,13 @@ public class TicketService(
         return ticketsDtos;
     }
 
+    public async Task<IEnumerable<TicketDto>> GetAllFilteredAsync(TicketFilterDto ticketFilterDto)
+    {
+        var tickets = await _ticketRepository.GetAllFilteredAsync(filterDto: ticketFilterDto, includeProperties: t => t.Location);
+
+        return _mapper.Map<IReadOnlyList<TicketDto>>(tickets);
+    }
+
     public async Task<TicketDto> CalculateTicketTotal(CalculateTicketTotalDto ticketTotalDto)
     {
         var ticket = await GetLatestUnpaidTicketAsync(ticketTotalDto.PlateNumber);
@@ -94,6 +101,7 @@ public class TicketService(
         ticket.IsPaid = true;
         ticket.TransactionType = payTicketDto.TransactionType;
         ticket.ExitDateTime = payTicketDto.ExitDateTime;
+        ticket.CloseUserId = payTicketDto.CloseUserId;
         ticket.TotalAmount = CalculateTotal(ticket, true);
 
         _ticketRepository.Update(ticket);
@@ -124,7 +132,7 @@ public class TicketService(
             includeProperties: t => t.Location.Fares);
         var ticket = tickets.LastOrDefault();
 
-        return ticket == null ? throw new InvalidOperationException("No unpaid ticket found for the provided plate number.") : ticket;
+        return ticket ?? throw new InvalidOperationException("No unpaid ticket found for the provided plate number.");
     }
 
     private static decimal CalculateTotal(Ticket ticket, bool includeVat = false)

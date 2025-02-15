@@ -1,4 +1,5 @@
 ﻿using ETechParking.Application.Dtos.Locations.Tickets;
+using ETechParking.Application.Dtos.Shared;
 using ETechParking.Application.Interfaces.Locations.Tickets;
 using ETechParking.Domain.Models.Locations.Tickets;
 using ETechParking.WebApi.Controllers.Abstraction;
@@ -21,6 +22,22 @@ public class TicketsController(ITicketService ticketService) :
             return BadRequest("Plate number has opened ticket!");
 
         return Ok(result);
+    }
+
+    public override async Task<IActionResult> GetAll()
+    {
+        return Ok(await _ticketService.GetAllAsync());
+    }
+
+    public override async Task<IActionResult> GetAllPaginated(PaginatedModelDto paginatedModelDto)
+    {
+        return Ok(await _ticketService.GetAllPaginatedAsync(paginatedModelDto));
+    }
+
+    [HttpPost("GetAllFiltered")]
+    public async Task<IActionResult> GetAllFiltered(TicketFilterDto ticketFilterDto)
+    {
+        return Ok(await _ticketService.GetAllFilteredAsync(ticketFilterDto));
     }
 
     [HttpPost("CalculateTicketTotal")]

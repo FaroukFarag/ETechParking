@@ -1,6 +1,7 @@
 ﻿using ETechParking.Domain.Interfaces.Repositories.Abstraction;
 using ETechParking.Domain.Models.Shared;
 using ETechParking.Infrastructure.Data.Context;
+using ETechParking.Infrastructure.Data.Shared.Filters;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -53,6 +54,26 @@ public class BaseRepository<TEntity, TPrimaryKey>(ETechParkingDbContext context)
             .Skip((paginatedModel.PageNumber - 1) * paginatedModel.PageSize)
             .Take(paginatedModel.PageSize)
             .ToListAsync();
+    }
+
+    public virtual async Task<IEnumerable<TEntity>> GetAllFilteredAsync<TFilterDto>(
+        TFilterDto filterDto,
+        Expression<Func<TEntity, bool>> filter = default!,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = default!,
+        params Expression<Func<TEntity, object>>[] includeProperties)
+    {
+        if (filterDto == null)
+            throw new ArgumentNullException(nameof(filterDto));
+
+        var predicate = filterDto.ToPredicate<TEntity, TFilterDto>();
+
+        Expression<Func<TEntity, bool>> combinedFilter = filter != null
+            ? entity => predicate.Compile().Invoke(entity) && filter.Compile().Invoke(entity)
+            : predicate;
+
+        var query = BuildQuery(combinedFilter, orderBy, includeProperties);
+
+        return await query.ToListAsync();
     }
 
     public virtual TEntity Update(TEntity newEntity)

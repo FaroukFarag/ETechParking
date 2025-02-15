@@ -52,6 +52,15 @@ public class BaseService<TEntity, TEntityDto, TPrimaryKey>(
 
         return entitiesDtos;
     }
+
+    public virtual async Task<IEnumerable<TEntityDto>> GetAllFilteredAsync<TFilterDto>(TFilterDto filterDto)
+    {
+        var entities = await _repository.GetAllFilteredAsync<TFilterDto>(filterDto);
+        var entitiesDtos = _mapper.Map<IReadOnlyList<TEntityDto>>(entities);
+
+        return entitiesDtos;
+    }
+
     public virtual async Task<TEntityDto> Update(TEntityDto newEntityDto)
     {
         var entity = _mapper.Map<TEntity>(newEntityDto);

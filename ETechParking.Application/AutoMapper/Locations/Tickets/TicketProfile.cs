@@ -11,6 +11,8 @@ public class TicketProfile : Profile
         CreateMap<TicketDto, Ticket>();
 
         CreateMap<Ticket, TicketDto>()
-            .ForMember(des => des.LocationName, opt => opt.MapFrom(src => src.Location.Name));
+            .ForMember(des => des.LocationName, opt => opt.MapFrom(src => src.Location.Name))
+            .ForMember(des => des.CreateUserName, opt => opt.MapFrom(src => src.CreateUser.UserName))
+            .ForMember(des => des.CloseUserName, opt => opt.MapFrom(src => src.CreateUser.UserName));
     }
 }

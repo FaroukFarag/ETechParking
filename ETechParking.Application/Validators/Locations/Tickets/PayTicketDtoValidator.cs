@@ -13,5 +13,8 @@ public class PayTicketDtoValidator : AbstractValidator<PayTicketDto>
 
         RuleFor(pt => pt.TransactionType)
             .NotNull();
+
+        RuleFor(pt => pt.CloseUserId)
+            .NotNull();
     }
 }

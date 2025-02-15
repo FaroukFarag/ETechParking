@@ -23,5 +23,17 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
             .WithOne(s => s.User)
             .HasForeignKey(s => s.UserId)
             .IsRequired();
+
+        builder.HasMany(u => u.CreatedTickets)
+            .WithOne(t => t.CreateUser)
+            .HasForeignKey(t => t.CreateUserId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasMany(u => u.ClosedTickets)
+            .WithOne(t => t.CloseUser)
+            .HasForeignKey(t => t.CloseUserId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
