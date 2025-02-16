@@ -107,6 +107,8 @@ public class UserService(
 
         var loggedInDto = new LoggedInDto
         {
+            StartDateTime = shift.StartDateTime,
+            UserId = user.Id,
             LocationId = user.LocationId,
             ShiftId = shift.Id,
             Token = await GetToken(user)
