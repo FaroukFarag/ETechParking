@@ -5,6 +5,8 @@
                 [dataSource]="faresList"
                 keyExpr="id"
                 [showBorders]="false"
+                [showColumnLines]="false"
+                [showRowLines]="true"
                 (onRowInserting)="onRowInserting($event)"
                 (onRowUpdating)="onRowUpdating($event)"
                 (onRowRemoving)="onRowRemoving($event)"
