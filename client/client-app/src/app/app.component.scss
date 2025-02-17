@@ -1,0 +1,22 @@
+.content {
+  margin-left: 220px; /* Space for sidebar */
+  padding: 20px; /* Padding for content */
+  min-height: calc(100vh - 60px); /* Adjust height to account for header and footer */
+  transition: margin-left 0.3s; /* Smooth transition */
+}
+
+.sidebar-closed {
+  margin-left: 70px; /* Adjust margin when sidebar is closed */
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%; /* Full width on smaller screens */
+    height: auto; /* Auto height */
+    position: relative; /* Change position */
+  }
+
+  .content {
+    margin-left: 0; /* No margin for content */
+  }
+}
