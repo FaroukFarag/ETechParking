@@ -1,4 +1,4 @@
-<!--<div id="data-grid-demo">
+<div id="data-grid-demo">
   <h2 class="screen-title">Shifts</h2>
   <dx-data-grid id="gridContainer"
                 [dataSource]="shiftsList"
@@ -13,9 +13,9 @@
                 [remoteOperations]="true"
                 [repaintChangesOnly]="true"
                 [errorRowEnabled]="false"
-                searchMode="contains">-->
-    <!--<dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>-->
-    <!--<dxo-paging [enabled]="true" [pageSize]="5"></dxo-paging>
+                searchMode="contains">
+    <dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>
+    <dxo-paging [enabled]="true" [pageSize]="5"></dxo-paging>
     <dxo-pager [visible]="true"
                [allowedPageSizes]="allowedPageSizes"
                [showPageSizeSelector]="true"
@@ -27,7 +27,7 @@
                  [allowAdding]="true"
                  [allowDeleting]="true"
                  [useIcons]="true">
-      <dxo-popup title="Location Info"
+      <dxo-popup title="Shift Info"
                  [showTitle]="true"
                  [width]="550"
                  [height]="500">
@@ -35,35 +35,29 @@
       </dxo-popup>
       <dxo-form>
         <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
-          <dxi-item dataField="name" caption="Name">
-            <dxi-validation-rule type="required" message="Name is required">
-            </dxi-validation-rule>
+          <dxi-item dataField="userName" caption="Name">
           </dxi-item>
-          <dxi-item dataField="country" caption="Country">
-            <dxi-validation-rule type="required" message="country is required">
-            </dxi-validation-rule>
+          <dxi-item dataField="locationName" caption="location name">
           </dxi-item>
-          <dxi-item dataField="city" caption="City">
-            <dxi-validation-rule type="required" message="City is required">
-            </dxi-validation-rule>
+          <dxi-item dataField="totalGuests" caption="Guests">
           </dxi-item>
-          <dxi-item dataField="longitude" caption="Longitude">
-            <dxi-validation-rule type="required" message="Longitude is required">
-            </dxi-validation-rule>
+          <dxi-item  dataField="totalVisitors" caption="Vistors">
           </dxi-item>
-          <dxi-item dataField="latitude" caption="Latitude">
-            <dxi-validation-rule type="required" message="Latitude is required">
-            </dxi-validation-rule>
+          <dxi-item  dataField="startDateTime" caption="start time">
+          </dxi-item>
+          <dxi-item dataField="endDateTime"  caption="end time">
+           
           </dxi-item>
         </dxi-item>
       </dxo-form>
     </dxo-editing>
     <dxo-search-panel [visible]="true"
                       [highlightCaseSensitive]="true"></dxo-search-panel>
-    <dxi-column dataField="name" caption="Name" alignment="left"></dxi-column>
-    <dxi-column dataField="country" Caption="Country" alignment="left"></dxi-column>
-    <dxi-column dataField="city" caption="City" alignment="left"></dxi-column>
-    <dxi-column dataField="longitude" caption="Longitude" alignment="left"> </dxi-column>
-    <dxi-column dataField="latitude" caption="latitude" alignment="left"> </dxi-column>
+    <dxi-column dataField="userName" caption="Name" alignment="left"></dxi-column>
+    <dxi-column dataField="locationName" Caption="location name" alignment="left"></dxi-column>
+    <dxi-column dataField="totalGuests" caption="Guests" alignment="left"></dxi-column>
+    <dxi-column dataField="startDateTime" caption="start time" alignment="left"> </dxi-column>
+    <dxi-column dataField="endDateTime" caption="end time" alignment="left"> </dxi-column>
+    <dxi-column dataField="totalVisitors" caption="Vestors" alignment="left"> </dxi-column>
   </dx-data-grid>
-</div>-->
+</div>

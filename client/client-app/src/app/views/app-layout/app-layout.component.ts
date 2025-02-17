@@ -37,11 +37,11 @@ export class AppLayoutComponent {
   isDrawerOpen = true;
  
   navigation: any = [
-    { id: 1, text: 'Locations', icon: '../assets/icons/location.svg'},
+    { id: 1, text: 'Locations', icon: '.assets/icons/location.svg'},
     { id: 2, text: 'Fares', icon: '/assets/icons/fare.svg'},
     { id: 3, text: 'Tickets', icon: '/assets/icons/tickets.svg'},
     { id: 3, text: 'Shifts', icon: '/assets/icons/shift.svg'},
-    { id: 4, text: 'Users', icon: '/assets/icons/users.svg' },
+    { id: 4, text: 'Users', icon: '..public/assets/icons/users.svg' },
   ]; 
   toolbarContent = [{
     widget: 'dxButton',

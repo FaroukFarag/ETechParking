@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { DxButtonModule, DxDataGridModule, DxTemplateModule, DxPopupModule } from 'devextreme-angular';
+import {
+  DxButtonModule, DxDataGridModule, DxTemplateModule,
+  DxPopupModule, DxSelectBoxModule, DxDateBoxModule,
+  DxFormModule, DxTextAreaModule, DxTextBoxModule
+} from 'devextreme-angular'; 4
+
 import { TicketsService } from '../../services/tickets/tickets.service';
 import notify from 'devextreme/ui/notify';
 
@@ -11,7 +16,12 @@ import notify from 'devextreme/ui/notify';
   imports: [DxButtonModule,
     DxDataGridModule,
     DxTemplateModule,
-    DxPopupModule
+    DxPopupModule,
+ DxSelectBoxModule,
+  DxTextAreaModule,
+  DxDateBoxModule,
+    DxFormModule,
+    DxTextBoxModule
   ], templateUrl: './tickets.component.html',
   styleUrl: './tickets.component.scss'
 })
@@ -23,7 +33,7 @@ export class TicketsComponent {
 
   closeButtonOptions: Record<string, unknown>;
   positionOf: string='';
-
+  filters: any;
   constructor(private ticketsService: TicketsService) {
     this.filterButtonOptions = {
       icon: 'search',

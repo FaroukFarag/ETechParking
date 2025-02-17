@@ -5,7 +5,8 @@ import { ShiftsService } from '../../services/shifts/shifts.service';
 @Component({
   selector: 'app-shifts',
   standalone: true,
-  imports: [],
+  imports: [   DxDataGridModule,
+    DxPopupModule ],
   templateUrl: './shifts.component.html',
   styleUrl: './shifts.component.scss'
 })
