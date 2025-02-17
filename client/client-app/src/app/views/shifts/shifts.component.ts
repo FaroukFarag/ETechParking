@@ -25,8 +25,8 @@ export class ShiftsComponent {
 
   getAllLocations() {
     this.shiftsService.getAll('Shifts/GetAll').subscribe((data: any) => {
-      this.locationsList = data;
-      console.log(this.locationsList);
+      this.shiftsList = data;
+      console.log(this.shiftsList);
     })
   }
   onRowInserting(e: any) {
