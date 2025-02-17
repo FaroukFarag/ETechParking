@@ -9,6 +9,6 @@ public class UnitOfWork(ETechParkingDbContext context) : IUnitOfWork
 
     public async Task<bool> Complete()
     {
-        return await _context.SaveChangesAsync() > 0;
+        return await _context.SaveChangesAsync() >= 0;
     }
 }

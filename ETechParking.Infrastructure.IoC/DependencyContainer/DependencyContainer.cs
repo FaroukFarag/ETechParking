@@ -49,6 +49,8 @@ using ETechParking.Infrastructure.Data.Repositories.Locations.Shifts;
 using ETechParking.Infrastructure.Data.Repositories.Locations.Tickets;
 using ETechParking.Infrastructure.Data.Repositories.Locations.Users;
 using ETechParking.Infrastructure.Data.UnitOfWork;
+using ETechParking.Reporting.Interfaces;
+using ETechParking.Reporting.Services;
 using ETechParking.WebApi.Middlewares.Exceptions;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -77,7 +79,8 @@ public static class DependencyContainer
             .AddScoped<IRoleService, RoleService>()
             .AddScoped<IFareService, FareService>()
             .AddScoped<ITicketService, TicketService>()
-            .AddScoped<IShiftService, ShiftService>();
+            .AddScoped<IShiftService, ShiftService>()
+            .AddScoped<IReportService, ReportService>();
     }
 
     public static void RegisterDbContext(this IServiceCollection services, IConfiguration configuration)

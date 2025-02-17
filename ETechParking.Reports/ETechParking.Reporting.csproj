@@ -10,4 +10,8 @@
     <PackageReference Include="ReportViewerCore.NETCore" Version="15.1.26" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Reports\" />
+  </ItemGroup>
+
 </Project>
