@@ -1,6 +1,5 @@
 
 <div class="flex-container" *ngIf="canAccessMainLayout">
-  <dx-toolbar [items]="toolbarContent" id="toolbar"  class="toolbar-header"></dx-toolbar>
 
   <dx-drawer [openedStateMode]="selectedOpenMode"
              [position]="selectedPosition"
@@ -35,6 +34,8 @@
       </dx-list>
     </div>
     <div class=" start-container">
+      <dx-toolbar [items]="toolbarContent" id="toolbar" class="toolbar-header"></dx-toolbar>
+
       <section>
         <article class="app-layout--main-article">
           <app-content class="">
