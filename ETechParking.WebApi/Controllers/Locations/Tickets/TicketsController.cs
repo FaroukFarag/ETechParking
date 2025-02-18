@@ -23,6 +23,17 @@ public class TicketsController(ITicketService ticketService) :
         return Ok(result);
     }
 
+    [HttpGet("GetByPlateNumber")]
+    public virtual async Task<IActionResult> GetByPlateNumber(string plateNumber)
+    {
+        var dto = await _ticketService.GetByPlateNumberAsync(plateNumber);
+
+        if (dto == null)
+            return NotFound();
+
+        return Ok(dto);
+    }
+
     [HttpPost("GetAllFiltered")]
     public async Task<IActionResult> GetAllFiltered(TicketFilterDto ticketFilterDto)
     {

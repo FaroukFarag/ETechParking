@@ -45,6 +45,19 @@ public class TicketService(
         return ticketDto;
     }
 
+    public async Task<TicketDto> GetByPlateNumberAsync(string plateNumber)
+    {
+        var tickets = await _ticketRepository
+            .GetAllAsync(
+                filter: t => t.PlateNumber == plateNumber,
+                orderBy: q => q.OrderByDescending(t => t.EntryDateTime),
+                includeProperties: t => t.Location
+            );
+        var ticketDto = _mapper.Map<TicketDto>(tickets.FirstOrDefault());
+
+        return ticketDto;
+    }
+
     public async override Task<IEnumerable<TicketDto>> GetAllAsync()
     {
         var tickets = await _ticketRepository.GetAllAsync(includeProperties: t => t.Location);

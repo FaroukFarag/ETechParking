@@ -2,5 +2,6 @@
 
 public interface IReportService
 {
-    byte[] GenerateReport<T>(List<T> data, string reportName, string datasetName, string format);
+    (byte[] ReportData, string ContentType, string FileExtension) GetShiftsReport(string format);
+    (byte[] ReportData, string ContentType, string FileExtension) GetTicketsReport(string format);
 }

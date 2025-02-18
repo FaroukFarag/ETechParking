@@ -1,4 +1,5 @@
-﻿using ETechParking.Reporting.Interfaces;
+﻿using ETechParking.Reporting.ETechParkingDataSetTableAdapters;
+using ETechParking.Reporting.Interfaces;
 using Microsoft.Reporting.NETCore;
 using System.Data;
 using System.Reflection;
@@ -7,7 +8,25 @@ namespace ETechParking.Reporting.Services;
 
 public class ReportService : IReportService
 {
-    public byte[] GenerateReport<T>(List<T> data, string reportName, string datasetName, string format)
+    public (byte[] ReportData, string ContentType, string FileExtension) GetShiftsReport(string format)
+    {
+        string reportName = "Shifts";
+        var adapter = new ShiftsDataTableTableAdapter();
+        DataTable dataTable = adapter.GetData();
+
+        return GenerateReport(reportName, "ShiftDataSet", dataTable, format);
+    }
+
+    public (byte[] ReportData, string ContentType, string FileExtension) GetTicketsReport(string format)
+    {
+        string reportName = "Tickets";
+        var adapter = new TicketsDataTableTableAdapter();
+        DataTable dataTable = adapter.GetData();
+
+        return GenerateReport(reportName, "TicketDataSet", dataTable, format);
+    }
+
+    private static (byte[] ReportData, string ContentType, string FileExtension) GenerateReport(string reportName, string dataSet, DataTable dataTable, string format)
     {
         var localReport = new LocalReport();
         string rdlcPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "Reports", $"{reportName}.rdlc");
@@ -18,10 +37,7 @@ public class ReportService : IReportService
         }
 
         localReport.ReportPath = rdlcPath;
-
-        var dataTable = ConvertToDataTable(data);
-
-        localReport.DataSources.Add(new ReportDataSource(datasetName, dataTable));
+        localReport.DataSources.Add(new ReportDataSource(dataSet, dataTable));
 
         string outputFormat = format.ToUpper() switch
         {
@@ -30,32 +46,27 @@ public class ReportService : IReportService
             _ => "PDF"
         };
 
-        return localReport.Render(outputFormat);
-    }
+        string contentType;
+        string fileExtension;
 
-    private static DataTable ConvertToDataTable<T>(List<T> data)
-    {
-        var dataTable = new DataTable(typeof(T).Name);
-        PropertyInfo[] properties = typeof(T).GetProperties();
-
-        foreach (var prop in properties)
+        switch (format.ToLower())
         {
-            dataTable.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
+            case "excel":
+                contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                fileExtension = "xlsx";
+                break;
+            case "word":
+                contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+                fileExtension = "docx";
+                break;
+            default:
+                contentType = "application/pdf";
+                fileExtension = "pdf";
+                break;
         }
 
-        foreach (var item in data)
-        {
-            var values = new object[properties.Length];
+        var reportBytes = localReport.Render(outputFormat);
 
-            for (int i = 0; i < properties.Length; i++)
-            {
-                values[i] = properties[i].GetValue(item) ?? DBNull.Value;
-            }
-
-            dataTable.Rows.Add(values);
-        }
-
-        return dataTable;
+        return (reportBytes, contentType, fileExtension);
     }
-
 }
