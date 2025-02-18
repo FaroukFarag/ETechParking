@@ -7,7 +7,11 @@ import {
 
 import { TicketsService } from '../../services/tickets/tickets.service';
 import notify from 'devextreme/ui/notify';
+import { LocationService } from '../../services/locations/location.service';
 
+import { Location } from '../../models/locations/location.model';
+import { Users } from '../../models/users/users.model';
+import { UsersService } from '../../services/users/users.service';
 
 @Component({
   selector: 'app-tickets',
@@ -21,7 +25,8 @@ import notify from 'devextreme/ui/notify';
   DxTextAreaModule,
   DxDateBoxModule,
     DxFormModule,
-    DxTextBoxModule
+    DxTextBoxModule,
+    
   ], templateUrl: './tickets.component.html',
   styleUrl: './tickets.component.scss'
 })
@@ -30,23 +35,31 @@ export class TicketsComponent {
   allowedPageSizes: (number | "auto")[] = [10, 20, 50];
   popupVisible = false;
   filterButtonOptions: Record<string, unknown>;
-
+  fromDateTime: any;
+  toDateTime: any;
+  locationId: any;
+  createUserId: any;
+  closeUserId: any;
   closeButtonOptions: Record<string, unknown>;
   positionOf: string='';
   filters: any;
-  constructor(private ticketsService: TicketsService) {
+  filterData = {
+    fromDateTime: null,
+    toDateTime: null,
+    locationId: null,
+    createUserId: null,
+    closeUserId: null,
+  };
+  locationsList: any;
+  usersList: any;
+
+  constructor(private ticketsService: TicketsService, private locationService: LocationService, private usersService: UsersService) {
     this.filterButtonOptions = {
       icon: 'search',
       stylingMode: 'outlined',
       text: 'Send',
       onClick: () => {
-        notify({
-          onmessage,
-          position: {
-            my: 'center top',
-            at: 'center top',
-          },
-        }, 'success', 3000);
+        this.applyFilters();
       },
     };
     this.closeButtonOptions = {
@@ -60,22 +73,38 @@ export class TicketsComponent {
   }
 
 
+    //applyFilters() {
+    //    throw new Error('Method not implemented.');
+    //}
+
+
+
 
  
   showFilterPopup() {
-    this.popupVisible = true;
+    this.popupVisible = !this.popupVisible;
   }
 
   ngOnInit() {
     this.getAllTickets();
+    this.getAllLocations();
+    this.getAllUsers();
+
   }
 
 
   getAllTickets() {
     this.ticketsService.getAll('Tickets/GetAll').subscribe((data: any) => {
       this.ticketsList = data;
-    })
+
+    });
+ 
   }
+
+
+
+
+
   onRowInserting(e: any) {
    
   }
@@ -88,4 +117,36 @@ export class TicketsComponent {
   onRowRemoving(e: any) {
     
   }
+
+  getAllLocations() {
+    this.locationService.getAll('Locations/GetAll').subscribe((data: Location[]) => {
+      this.locationsList = data;
+    });
+  }
+  getAllUsers() {
+    this.usersService.getAll('Users/GetAll').subscribe((data: Users[]) => {
+      this.usersList = data;
+    });
+  }
+
+  applyFilters() {
+    const filters = {
+      fromDateTime: this.filterData.fromDateTime,
+      toDateTime: this.filterData.toDateTime,
+      locationId: this.filterData.locationId,
+      createUserId: this.filterData.createUserId, 
+      closeUserId: this.filterData.closeUserId,    
+    };
+
+    this.ticketsService.getAllFiltered('Tickets/GetAllFiltered', filters).subscribe(
+      (data: any) => {
+        this.ticketsList = data;
+        this.popupVisible = false;
+      },
+      (error) => {
+        console.error('Error applying filters:', error);
+      }
+    );
+  }
+
 }

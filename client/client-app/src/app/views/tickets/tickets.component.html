@@ -8,51 +8,82 @@
     </dx-button>
   </div>
   <div class="dx-viewport">
-    <dx-popup [width]="500"
-              [height]="380"
+    <dx-popup [width]="600"
+              [height]="500"
               [showTitle]="true"
-              title="Search on tickets"
+              title="Tickets Filter"
               [dragEnabled]="false"
               [hideOnOutsideClick]="true"
               [showCloseButton]="true"
               container=".dx-viewport"
               [(visible)]="popupVisible">
-      
-  <!--<dxi-popup-toolbar-item widget="dxButton"
-                          toolbar="bottom"
-                          location="before"
-                          [options]="filterButtonOptions">
-  </dxi-popup-toolbar-item>
-  <dxi-popup-toolbar-item widget="dxButton"
-                          toolbar="bottom"
-                          location="after"
-                          [options]="closeButtonOptions">
-  </dxi-popup-toolbar-item>-->
-  <!--<dxo-position at="center" my="center" [of]="positionOf" collision="fit">
-  </dxo-position>-->
-      <!--<div *dxTemplate="let data of 'content'">
-        <div class="dx-fieldset-header">Simple Field Set</div>
-       
-       
-        <div class="dx-fieldset">
-          <div class="dx-field">
-            <div class="dx-field-label">Address</div>
-            <dx-text-box class="dx-field-value"
-                         value="424 N Main St."
-                         [inputAttr]="{ 'aria-label': 'Address' }">
-            </dx-text-box>
-          </div>
-          <div class="dx-field">
-            <div class="dx-field-label">City</div>
-            <dx-text-box class="dx-field-value"
-                         value="San Diego"
-                         [inputAttr]="{ 'aria-label': 'City' }">
-            </dx-text-box>
-          </div>
-        </div>
-        </div>-->
-</dx-popup>
-</div>
+
+      <dxi-toolbar-item widget="dxButton"
+                        toolbar="bottom"
+                        location="after"
+                        class="col-12">
+        <dx-button stylingMode="contained"
+                   type="default"
+                   (onClick)="applyFilters()"
+                   class="p-3">
+          send
+        </dx-button>
+        <dx-button stylingMode="contained"
+                   type="default"
+                   (onClick)="popupVisible = false"
+                   class="p-3">
+          cancel
+        </dx-button>
+      </dxi-toolbar-item>
+
+      <div *dxTemplate="let data of 'content'">
+
+        <dx-form id="form" [formData]="filterData">
+
+          <dxi-item itemType="group" cssClass="form-group" [colCount]="2">
+            <dxi-item dataField="fromDateTime" caption="Start Date" editorType="dxDateBox"
+                      [editorOptions]="{ width: '100%', value:fromDateTime}"
+                        [label]="{ text: 'Date from' }"></dxi-item>
+            <dxi-item dataField="toDateTime" caption="End Date" editorType="dxDateBox"
+                      [editorOptions]="{ width: '100%',value:toDateTime }"
+                      [label]="{ text: 'Date To' }"></dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group" cssClass="form-group" [colCount]="1">
+
+            <dxi-item dataField="locationId" editorType="dxSelectBox"
+                      [editorOptions]="{
+                                   dataSource: locationsList,
+                                   valueExpr: 'id',
+                                   displayExpr: 'name',
+                                   value:locationId
+                                  }"
+                      [label]="{ text: 'Location name' }">
+            </dxi-item>
+            <dxi-item dataField="createUserId" editorType="dxSelectBox"
+                      [editorOptions]="{
+                        dataSource: usersList,
+                        valueExpr: 'id',
+                        displayExpr: 'userName',
+                        value:createUserId,
+                        placeholder: 'Select Cashier',
+                      }"
+                      [label]="{ text: 'Cashier started the shift' }"></dxi-item>
+
+                    <dxi-item dataField="closeUserId" editorType="dxSelectBox"
+                    [editorOptions]="{
+                        dataSource: usersList,
+                        valueExpr: 'id',
+                        displayExpr: 'userName',
+                        value:closeUserId,
+                        placeholder: 'Select Cashier',
+                      }"
+                    [label]="{ text: 'Cashier closed the shift' }"></dxi-item>
+          </dxi-item>
+
+        </dx-form>
+      </div>
+    </dx-popup>
+  </div>
   <dx-data-grid id="gridContainer"
                 [dataSource]="ticketsList"
                 keyExpr="id"

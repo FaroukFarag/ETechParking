@@ -41,4 +41,8 @@ export class BaseService<T> {
   deleteRange(endpoint: string, entities: T[] | null): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/${endpoint}`, { body: entities });
   }
+
+  getAllFiltered(endpoint:string,filters: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/${endpoint}`, filters);
+  }
 }

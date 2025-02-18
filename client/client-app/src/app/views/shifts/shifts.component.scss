@@ -28,7 +28,7 @@
   height: 48px !important;
 }
 
-::ng-deep .dx-widget.dx-button.dx-button-mode-contained.dx-button-normal.dx-button-has-text.dx-button-has-icon.dx-datagrid-toolbar-button.dx-edit-button.dx-datagrid-addrow-button {
+::ng-deep  .dx-widget.dx-button.dx-button-mode-contained.dx-button-normal.dx-button-has-text.dx-button-has-icon.dx-datagrid-toolbar-button.dx-edit-button.dx-datagrid-addrow-button {
   background: #f15b27 !important;
   border-radius: 8px !important;
   height: 48px !important;
@@ -85,7 +85,7 @@
   justify-content: center;
 }
 
-::ng-deep .dx-button-mode-contained {
+::ng-deep .dx-popup-wrapper .dx-button-mode-contained {
   background: #f15b27 !important;
   border-radius: 8px !important;
   border-color: #f15b27 !important;
@@ -112,3 +112,40 @@
 ::ng-deep .dx-datagrid-header-panel .dx-toolbar-after .dx-state-hover {
   border-color: #f15b27 !important;
 }
+
+
+/*Filter Popup*/
+::ng-deep .dx-first-row.dx-field-item.dx-col-0.dx-field-item-optional.dx-flex-layout.dx-label-h-align {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+::ng-deep .dx-first-row.dx-last-col.dx-last-row.dx-field-item.dx-col-1.dx-field-item-optional.dx-flex-layout.dx-label-h-align {
+  display: flex;
+  flex-direction: column;
+}
+
+::ng-deep .dx-first-col.dx-last-col.dx-field-item.dx-col-0.dx-field-item-optional.dx-flex-layout.dx-label-h-align {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  margin: auto !important;
+}
+
+::ng-deep #form {
+  width: 85% !important;
+  margin: auto !important;
+}
+
+::ng-deep .dx-button-mode-contained.dx-button-default {
+  background-color: #f15b27 !important;
+  border-color: transparent;
+  color: #fff;
+  margin-right: 10px !important;
+}
+
+
+
+::ng-deep .dx-popup-wrapper .dx-state-focused.dx-overlay-content {
+  border: 1px solid #fff !important;
+} 

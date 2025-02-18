@@ -75,7 +75,7 @@ h2.inactive {
 
 h2.active {
   color: #565656;
-  border-bottom: 2px solid #f15b27;
+  //border-bottom: 2px solid #f15b27;
 }
 
 
@@ -287,7 +287,8 @@ input[type=text] {
 }
 
 #logo {
-  width: 20%;
+  width: 30%;
+  margin-top:5%;
 }
 
 * {
@@ -297,4 +298,9 @@ input[type=text] {
 .span{
     font-size:14px;
     color:#565656;
+}
+input[type="submit"] {
+  width: 85% !important;
+  background: #f15b27!important;
+  cursor:pointer;
 }

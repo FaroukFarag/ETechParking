@@ -1,5 +1,91 @@
 <div id="data-grid-demo">
   <h2 class="screen-title">Shifts</h2>
+  <div class="filter-btn">
+    <!--Start Filter Button & Popup-->
+    <dx-button icon="filter"
+               (onClick)="showFilterPopup()">
+    </dx-button>
+  </div>
+  <div class="dx-viewport">
+    <dx-popup [width]="600"
+              [height]="500"
+              [showTitle]="true"
+              title="Shifts Filter"
+              [dragEnabled]="false"
+              [hideOnOutsideClick]="true"
+              [showCloseButton]="true"
+              container=".dx-viewport"
+              [(visible)]="popupVisible">
+
+      <dxi-toolbar-item widget="dxButton"
+                        toolbar="bottom"
+                        location="after"
+                        class="col-12">
+        <dx-button stylingMode="contained"
+                   type="default"
+                   (onClick)="applyFilters()"
+                   class="p-3">
+          send
+        </dx-button>
+        <dx-button stylingMode="contained"
+                   type="default"
+                   (onClick)="popupVisible = false"
+                   class="p-3">
+          cancel
+        </dx-button>
+      </dxi-toolbar-item>
+
+      <div *dxTemplate="let data of 'content'">
+
+        <dx-form id="form" [formData]="filterData">
+
+          <dxi-item itemType="group" cssClass="form-group" [colCount]="2">
+            <dxi-item dataField="fromDateTime" caption="Start Date" editorType="dxDateBox"
+                      [editorOptions]="{ width: '100%', value:fromDateTime}"
+                      [label]="{ text: 'Start date' }"></dxi-item>
+            <dxi-item dataField="toDateTime" caption="End Date" editorType="dxDateBox"
+                      [editorOptions]="{ width: '100%',value:toDateTime }"
+                      [label]="{ text: 'End date' }"></dxi-item>
+          </dxi-item>
+          <dxi-item itemType="group" cssClass="form-group" [colCount]="1">
+
+            <dxi-item dataField="locationId" editorType="dxSelectBox"
+                      [editorOptions]="{
+                                   dataSource: locationsList,
+                                   valueExpr: 'id',
+                                   displayExpr: 'name',
+                                   value:locationId
+                                  }"
+                      [label]="{ text: 'Location name' }">
+            </dxi-item>
+            <dxi-item dataField="createUserId" editorType="dxSelectBox"
+                      [editorOptions]="{
+                        dataSource: usersList,
+                        valueExpr: 'id',
+                        displayExpr: 'userName',
+                        value:createUserId,
+                        placeholder: 'Select',
+                      }"
+                      [label]="{ text: 'Cashier started the shift' }"></dxi-item>
+
+            <dxi-item dataField="closeUserId" editorType="dxSelectBox"
+                      [editorOptions]="{
+                        dataSource: usersList,
+                        valueExpr: 'id',
+                        displayExpr: 'userName',
+                        value:closeUserId,
+                        placeholder: 'Select',
+                      }"
+                      [label]="{ text: 'Cashier closed the shift' }"></dxi-item>
+          </dxi-item>
+
+        </dx-form>
+      </div>
+    </dx-popup>
+  </div>
+  <!--End Filter Button & Popup-->
+
+  <!--Start Data Grid-->
   <dx-data-grid id="gridContainer"
                 [dataSource]="shiftsList"
                 keyExpr="id"
@@ -14,7 +100,7 @@
                 [repaintChangesOnly]="true"
                 [errorRowEnabled]="false"
                 searchMode="contains">
-    <dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>
+    <!--<dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>-->
     <dxo-paging [enabled]="true" [pageSize]="5"></dxo-paging>
     <dxo-pager [visible]="true"
                [allowedPageSizes]="allowedPageSizes"
@@ -37,16 +123,27 @@
         <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
           <dxi-item dataField="userName" caption="Name">
           </dxi-item>
-          <dxi-item dataField="locationName" caption="location name">
+          <dxi-item dataField="locationId" editorType="dxSelectBox"
+                    [editorOptions]="{
+                                   dataSource: locationsList,
+                                   valueExpr: 'id',
+                                   displayExpr: 'name',
+                                   value:locationId
+                                  }"
+                    [label]="{ text: 'Location name' }">
           </dxi-item>
           <dxi-item dataField="totalGuests" caption="Guests">
           </dxi-item>
-          <dxi-item  dataField="totalVisitors" caption="Vistors">
+          <dxi-item dataField="totalVisitors" caption="Vistors">
           </dxi-item>
-          <dxi-item  dataField="startDateTime" caption="start time">
+          <dxi-item dataField="startDateTime" 
+                      [editorOptions]="{ width: '100%'}"
+                      [label]="{ text: 'Start date' }">
           </dxi-item>
-          <dxi-item dataField="endDateTime"  caption="end time">
-           
+          <dxi-item dataField="endDateTime" 
+                      [editorOptions]="{ width: '100%'}"
+                      [label]="{ text: 'End date' }">
+
           </dxi-item>
         </dxi-item>
       </dxo-form>
