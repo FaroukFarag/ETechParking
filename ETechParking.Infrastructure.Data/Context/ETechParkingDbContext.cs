@@ -40,7 +40,6 @@ public class ETechParkingDbContext(DbContextOptions options) : IdentityDbContext
         modelBuilder.ApplyConfiguration(new FareConfigurations());
         modelBuilder.ApplyConfiguration(new TicketConfigurations());
         modelBuilder.ApplyConfiguration(new ShiftConfigurations());
-        modelBuilder.ApplyConfiguration(new UserConfigurations());
         modelBuilder.ApplyConfiguration(new BaseLookupConfiguration<FareTypeLookup, FareType>("FareTypes"));
         modelBuilder.ApplyConfiguration(new BaseLookupConfiguration<TransactionTypeLookup, TransactionType>("TransactionTypes"));
         modelBuilder.ApplyConfiguration(new BaseLookupConfiguration<ClientTypeLookup, ClientType>("ClientTypes"));
