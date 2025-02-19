@@ -3,15 +3,24 @@
 
 
     <!-- LOGO -->
-    <div class="fadeIn first">
+    <div class="fadeIn first logo-container">
       <img src="/assets/img/EP-Logo.svg" id="logo" alt="logo" />
     </div>
-    <h2 class="active"> Sign In </h2>
+    <h2 class="active login-text"> Sign In </h2>
     <!-- Login Form -->
     <form class="form" (ngSubmit)="onLogin()">
-      <input type="text" id="login" class="fadeIn second" name="login" placeholder="user name">
-      <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
-      <input type="submit" class="fadeIn fourth" value="Log In">
+      <div class="form-inputs">
+        <label>User Name</label>
+        <input type="text" id="login" class="fadeIn second" name="login">
+      </div>
+      <div class="form-inputs">
+        <label>Password</label>
+        <input type="text" id="password" class="fadeIn third" name="login">
+      </div>
+      <div class="submit-inputs">
+        <input type="submit" class="fadeIn fourth" value="Log In">
+      </div>
+     
     </form>
 
     <!-- Remind Passowrd -->

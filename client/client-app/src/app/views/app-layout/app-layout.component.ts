@@ -24,7 +24,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app-layout.component.scss'
 })
 export class AppLayoutComponent {
-  canAccessMainLayout: boolean = true;
+  canAccessMainLayout: boolean = false;
   isClosed = false;
   toggleSidebar() {
     this.isClosed = !this.isClosed;
@@ -52,34 +52,19 @@ export class AppLayoutComponent {
       onClick: () => this.isDrawerOpen = !this.isDrawerOpen,
     },
   },
-  //{
-  //  widget: 'dxButton',
-  //  location: 'after',
-  //  class:'signOutBtn',
-  //  options: {
-  //    text: 'Sign Out',
-  //    onClick: () => {
-  //      this.canAccessMainLayout = false;
-  //      this.router.navigate(['/login']);
-  //    },
-  //  },
-  //  },
-    //{
-    //  location: 'center',
-    //  template: () => {
-    //    const logo = document.createElement('img');
-    //    logo.src = '/assets/images/EP-Logo.svg'; 
-    //    logo.alt = 'Logo';
-    //    logo.style.height = '72px'; 
-    //    //logo.style.marginRight = '100px'; 
-    //    return logo;
-    //  },
-    //},
+
   ];
 
   constructor(private router: Router) { }
 
   navigateTo(route: string) {
     this.router.navigate([route]);
+  }
+
+  //onLoginSuccess() {
+  //  this.canAccessMainLayout = true;
+  //}
+  onLoginClicked() {
+    this.canAccessMainLayout = true; 
   }
 }

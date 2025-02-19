@@ -50,4 +50,7 @@
 
   </dx-drawer>
 </div>
-<app-login *ngIf="!canAccessMainLayout" [canAccessMainLayout]="canAccessMainLayout"></app-login>
+<!--<app-login *ngIf="!canAccessMainLayout" [canAccessMainLayout]="canAccessMainLayout"
+           (loginSuccess)="onLoginSuccess()"></app-login>-->
+<app-login *ngIf="!canAccessMainLayout" [canAccessMainLayout]="canAccessMainLayout"
+          (loginClicked)="onLoginClicked()"></app-login>
