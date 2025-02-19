@@ -22,96 +22,6 @@ namespace ETechParking.Infrastructure.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ETechParking.Domain.Lookups.Locations.Fares.FareTypeLookup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FareTypes", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Hourly"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Daily"
-                        });
-                });
-
-            modelBuilder.Entity("ETechParking.Domain.Lookups.Locations.Tickets.ClientTypeLookup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ClientTypes", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Visitor"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Guest"
-                        });
-                });
-
-            modelBuilder.Entity("ETechParking.Domain.Lookups.Locations.Tickets.TransactionTypeLookup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TransactionTypes", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Cash"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Credit"
-                        });
-                });
-
             modelBuilder.Entity("ETechParking.Domain.Models.Locations.Fares.Fare", b =>
                 {
                     b.Property<int>("Id")
@@ -192,7 +102,7 @@ namespace ETechParking.Infrastructure.Data.Migrations
                     b.Property<DateTime>("EntryDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("ExitDateTime")
+                    b.Property<DateTime>("ExitDateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsPaid")
