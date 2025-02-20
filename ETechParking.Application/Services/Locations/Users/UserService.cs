@@ -98,7 +98,12 @@ public class UserService(
             return default!;
 
         var user = (await _userManager.FindByNameAsync(model.UserName))!;
-        var shift = await _shiftRepository.CreateAsync(new Shift { LocationId = user.LocationId, UserId = user.Id });
+        var shift = await _shiftRepository.CreateAsync(new Shift
+        {
+            StartDateTime = model.StartDateTime,
+            LocationId = user.LocationId,
+            UserId = user.Id
+        });
 
         var shiftAdded = await _unitOfWork.Complete();
 

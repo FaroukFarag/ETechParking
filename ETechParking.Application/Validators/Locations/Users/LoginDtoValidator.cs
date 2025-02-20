@@ -12,5 +12,8 @@ public class LoginDtoValidator : AbstractValidator<LoginDto>
 
         RuleFor(l => l.Password)
             .NotEmpty();
+
+        RuleFor(l => l.StartDateTime)
+            .NotEmpty();
     }
 }

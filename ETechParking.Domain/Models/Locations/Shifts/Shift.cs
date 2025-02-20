@@ -7,7 +7,7 @@ namespace ETechParking.Domain.Models.Locations.Shifts;
 
 public class Shift : BaseModel<int>
 {
-    public DateTime StartDateTime { get; } = DateTime.Now;
+    public DateTime StartDateTime { get; set; }
     public DateTime? EndDateTime { get; set; }
     public decimal? TotalCash { get; set; }
     public decimal? TotalCredit { get; set; }

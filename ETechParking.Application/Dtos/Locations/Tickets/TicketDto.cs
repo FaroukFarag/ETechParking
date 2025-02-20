@@ -1,6 +1,5 @@
 ﻿using ETechParking.Application.Dtos.Abstraction;
 using ETechParking.Domain.Enums.Locations.Tickets;
-using System.Text;
 
 namespace ETechParking.Application.Dtos.Locations.Tickets
 {
@@ -27,6 +26,6 @@ namespace ETechParking.Application.Dtos.Locations.Tickets
         public string? CloseUserName { get; set; }
         public int ShiftId { get; set; }
 
-        public string QrCode => Convert.ToBase64String(Encoding.UTF8.GetBytes($"Id: {Id},TicketNumber: {TicketNumber}, PlateNumber: {PlateNumber}"));
+        public string QrCode { get; set; } = default!;
     }
 }
