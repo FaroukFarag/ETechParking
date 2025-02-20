@@ -144,9 +144,11 @@
 }
 
 ::ng-deep .dx-datagrid-header-panel .dx-button-mode-contained {
-  background: #f15b27 !important;
+  //background: #f15b27 !important;
   border-radius: 8px !important;
-  border-color: #f15b27 !important;
+  width:54px!important;
+  height:48px!important;
+ // border-color: #f15b27 !important;
 }
 
 
@@ -158,5 +160,11 @@
 ::ng-deep .dx-checkbox-checked .dx-checkbox-icon {
   color: #f15b27 !important;
 }
+.buttons-header{
+    display:flex;
+    flex-direction:row;
+}
 
-
+.export-btn{
+    margin-right:10px!important;
+}

@@ -12,6 +12,14 @@ import { LocationService } from '../../services/locations/location.service';
 import { Location } from '../../models/locations/location.model';
 import { Users } from '../../models/users/users.model';
 import { UsersService } from '../../services/users/users.service';
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { exportDataGrid } from 'devextreme/excel_exporter';
+import { DxDataGridTypes } from 'devextreme-angular/ui/data-grid';
+import { Workbook } from 'exceljs';
+import { saveAs } from 'file-saver'; 
+import jsPDF from 'jspdf';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-tickets',
@@ -26,7 +34,6 @@ import { UsersService } from '../../services/users/users.service';
   DxDateBoxModule,
     DxFormModule,
     DxTextBoxModule,
-    
   ], templateUrl: './tickets.component.html',
   styleUrl: './tickets.component.scss'
 })
@@ -53,7 +60,10 @@ export class TicketsComponent {
   locationsList: any;
   usersList: any;
 
-  constructor(private ticketsService: TicketsService, private locationService: LocationService, private usersService: UsersService) {
+  constructor(private ticketsService: TicketsService,
+    private locationService: LocationService,
+    private usersService: UsersService,
+    private http: HttpClient) {
     this.filterButtonOptions = {
       icon: 'search',
       stylingMode: 'outlined',
@@ -147,6 +157,61 @@ export class TicketsComponent {
         console.error('Error applying filters:', error);
       }
     );
+  }
+
+
+  /*EXPORT TO EXCEL */
+  onExporting(e: any) {
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('Tickets');
+
+    exportDataGrid({
+      component: e.component,
+      worksheet: worksheet,
+      autoFilterEnabled: true,
+    }).then(() => {
+      workbook.xlsx.writeBuffer().then((buffer) => {
+        saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Tickets.xlsx');
+      });
+    });
+  }
+  //onExporting(e: any) {
+  //  const doc = new jsPDF();
+  //  exportDataGrid({
+  //    component: e.component,
+  //    // Remove jsPDFDocument if it's not recognized
+  //  }).then(() => {
+  //    doc.save('Tickets.pdf');
+  //  });
+  //}
+  exportToExcel() {
+    const payload = {
+      reportName: "Tickets Report",
+      datasetName: "Tickets Dataset",
+      format: "Excel"
+    };
+
+    // Set the headers
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json', // or 'application/x-www-form-urlencoded' if needed
+      'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // Specify the expected response format
+      'format': 'Excel' // Add your custom header here
+    });
+
+    this.http.post(`${environment.apiUrl}/Reports/generate/getTicketsReport`, payload, { headers: headers, responseType: 'blob' })
+      .subscribe((response: Blob) => {
+        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'tickets_report.xlsx';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      }, (error: any) => {
+        console.error('Error exporting to Excel:', error);
+      });
   }
 
 }
