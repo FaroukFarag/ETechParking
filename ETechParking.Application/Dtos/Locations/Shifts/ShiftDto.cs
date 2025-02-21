@@ -8,8 +8,10 @@ public class ShiftDto : BaseModelDto<int>
     public DateTime StartDateTime { get; set; }
     public DateTime? EndDateTime { get; set; }
     public decimal? TotalCash { get; set; }
+    public decimal? TotalCashCaculated { get; set; }
     public decimal? TotalCashDifference { get; set; }
     public decimal? TotalCredit { get; set; }
+    public decimal? TotalCreditCaculated { get; set; }
     public decimal? TotalCreditDifference { get; set; }
     public decimal? TotalVisitors { get; set; }
     public decimal? TotalGuests { get; set; }

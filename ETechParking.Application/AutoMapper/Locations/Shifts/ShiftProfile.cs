@@ -12,9 +12,15 @@ public class ShiftProfile : Profile
         CreateMap<Shift, ShiftDto>()
             .ForMember(des => des.LocationName, opt => opt.MapFrom(src => src.Location.Name))
             .ForMember(des => des.UserName, opt => opt.MapFrom(src => src.User.UserName))
+            .ForMember(des => des.TotalCashCaculated, opt => opt
+                .MapFrom(src => src.Tickets
+                    .Where(t => t.TransactionType == TransactionType.Cash).Sum(t => t.TotalAmount)))
             .ForMember(des => des.TotalCashDifference, opt => opt
                 .MapFrom(src => src.TotalCash - src.Tickets
                     .Where(t => t.TransactionType == TransactionType.Cash).Sum(t => t.TotalAmount)))
+            .ForMember(des => des.TotalCreditCaculated, opt => opt
+                .MapFrom(src => src.Tickets
+                    .Where(t => t.TransactionType == TransactionType.Credit).Sum(t => t.TotalAmount)))
             .ForMember(des => des.TotalCreditDifference, opt => opt
                 .MapFrom(src => src.TotalCredit - src.Tickets
                     .Where(t => t.TransactionType == TransactionType.Credit).Sum(t => t.TotalAmount)))

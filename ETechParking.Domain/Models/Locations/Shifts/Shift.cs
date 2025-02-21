@@ -18,5 +18,4 @@ public class Shift : BaseModel<int>
     public virtual Location Location { get; set; } = default!;
     public virtual User User { get; set; } = default!;
     public virtual IEnumerable<Ticket> Tickets { get; set; } = default!;
-    public virtual IEnumerable<Shift> Shifts { get; set; } = default!;
 }
