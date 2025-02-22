@@ -19,10 +19,15 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
             .HasForeignKey(u => u.LocationId)
             .IsRequired();
 
-        builder.HasMany(u => u.Shifts)
-            .WithOne(s => s.User)
-            .HasForeignKey(s => s.UserId)
+        builder.HasMany(u => u.CashierShifts)
+            .WithOne(s => s.CashierUser)
+            .HasForeignKey(s => s.CashierUserId)
             .IsRequired();
+
+        builder.HasMany(u => u.AccountantShifts)
+            .WithOne(s => s.AccountantUser)
+            .HasForeignKey(s => s.AccountantUserId)
+            .IsRequired(false);
 
         builder.HasMany(u => u.CreatedTickets)
             .WithOne(t => t.CreateUser)

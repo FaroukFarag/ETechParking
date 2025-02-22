@@ -7,17 +7,22 @@ public class ShiftDto : BaseModelDto<int>
 {
     public DateTime StartDateTime { get; set; }
     public DateTime? EndDateTime { get; set; }
-    public decimal? TotalCash { get; set; }
+    public decimal? CashierTotalCash { get; set; }
+    public decimal? AccountantTotalCash { get; set; }
     public decimal? TotalCashCaculated { get; set; }
-    public decimal? TotalCashDifference { get; set; }
-    public decimal? TotalCredit { get; set; }
+    public decimal? CashierTotalCashDifference { get; set; }
+    public decimal? CashierTotalCreditDifference { get; set; }
+    public decimal? CashierTotalCredit { get; set; }
+    public decimal? AccountantTotalCredit { get; set; }
     public decimal? TotalCreditCaculated { get; set; }
-    public decimal? TotalCreditDifference { get; set; }
+    public decimal? AccountantTotalCashDifference { get; set; }
+    public decimal? AccountantTotalCreditDifference { get; set; }
     public decimal? TotalVisitors { get; set; }
     public decimal? TotalGuests { get; set; }
     public ShiftStatus Status { get; set; } = ShiftStatus.Opened;
     public int LocationId { get; set; }
     public string LocationName { get; set; } = default!;
     public int UserId { get; set; }
-    public string UserName { get; set; } = default!;
+    public string CashierUserName { get; set; } = default!;
+    public string AccountantUserName { get; set; } = default!;
 }

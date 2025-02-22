@@ -4,5 +4,5 @@ public enum ShiftStatus
 {
     Opened = 1,
     Closed,
-    Completed
+    Reviewed
 }

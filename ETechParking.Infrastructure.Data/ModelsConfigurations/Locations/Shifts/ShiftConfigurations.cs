@@ -11,10 +11,16 @@ internal class ShiftConfigurations : IEntityTypeConfiguration<Shift>
         builder.Property(t => t.StartDateTime)
             .IsRequired();
 
-        builder.Property(f => f.TotalCash)
+        builder.Property(f => f.CashierTotalCash)
             .HasPrecision(18, 6);
 
-        builder.Property(f => f.TotalCredit)
+        builder.Property(f => f.AccountantTotalCash)
+            .HasPrecision(18, 6);
+
+        builder.Property(f => f.CashierTotalCredit)
+            .HasPrecision(18, 6);
+
+        builder.Property(f => f.AccountantTotalCredit)
             .HasPrecision(18, 6);
 
         builder.HasOne(s => s.Location)
@@ -23,10 +29,16 @@ internal class ShiftConfigurations : IEntityTypeConfiguration<Shift>
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(s => s.User)
-            .WithMany(u => u.Shifts)
-            .HasForeignKey(s => s.UserId)
+        builder.HasOne(s => s.CashierUser)
+            .WithMany(u => u.CashierShifts)
+            .HasForeignKey(s => s.CashierUserId)
             .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(s => s.AccountantUser)
+            .WithMany(u => u.AccountantShifts)
+            .HasForeignKey(s => s.AccountantUserId)
+            .IsRequired(false)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasMany(s => s.Tickets)

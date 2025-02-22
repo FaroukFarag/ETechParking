@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ETechParking.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ETechParkingDbContext))]
-    [Migration("20250210153528_AddNumberOfDaysInTicket")]
-    partial class AddNumberOfDaysInTicket
+    [Migration("20250222112133_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,60 @@ namespace ETechParking.Infrastructure.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ETechParking.Domain.Lookups.Locations.Fares.FareTypeLookup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FareTypes", (string)null);
+                });
+
+            modelBuilder.Entity("ETechParking.Domain.Lookups.Locations.Tickets.ClientTypeLookup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClientTypes", (string)null);
+                });
+
+            modelBuilder.Entity("ETechParking.Domain.Lookups.Locations.Tickets.TransactionTypeLookup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TransactionTypes", (string)null);
+                });
 
             modelBuilder.Entity("ETechParking.Domain.Models.Locations.Fares.Fare", b =>
                 {
@@ -124,6 +178,59 @@ namespace ETechParking.Infrastructure.Data.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
+            modelBuilder.Entity("ETechParking.Domain.Models.Locations.Shifts.Shift", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal?>("AccountantTotalCash")
+                        .HasPrecision(18, 6)
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<decimal?>("AccountantTotalCredit")
+                        .HasPrecision(18, 6)
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<int?>("AccountantUserId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("CashierTotalCash")
+                        .HasPrecision(18, 6)
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<decimal?>("CashierTotalCredit")
+                        .HasPrecision(18, 6)
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<int>("CashierUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("EndDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountantUserId");
+
+                    b.HasIndex("CashierUserId");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("Shifts");
+                });
+
             modelBuilder.Entity("ETechParking.Domain.Models.Locations.Tickets.Ticket", b =>
                 {
                     b.Property<int>("Id")
@@ -133,6 +240,12 @@ namespace ETechParking.Infrastructure.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ClientType")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CloseUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CreateUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("EntryDateTime")
@@ -160,17 +273,30 @@ namespace ETechParking.Infrastructure.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("ShiftId")
+                        .HasColumnType("int");
+
                     b.Property<string>("TicketNumber")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("TransactionType")
+                    b.Property<decimal?>("TotalAmount")
+                        .HasPrecision(18, 6)
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<int?>("TransactionType")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CloseUserId");
+
+                    b.HasIndex("CreateUserId");
+
                     b.HasIndex("LocationId");
+
+                    b.HasIndex("ShiftId");
 
                     b.ToTable("Tickets");
                 });
@@ -367,15 +493,64 @@ namespace ETechParking.Infrastructure.Data.Migrations
                     b.Navigation("Location");
                 });
 
+            modelBuilder.Entity("ETechParking.Domain.Models.Locations.Shifts.Shift", b =>
+                {
+                    b.HasOne("ETechParking.Domain.Models.Locations.Users.User", "AccountantUser")
+                        .WithMany("AccountantShifts")
+                        .HasForeignKey("AccountantUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ETechParking.Domain.Models.Locations.Users.User", "CashierUser")
+                        .WithMany("CashierShifts")
+                        .HasForeignKey("CashierUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ETechParking.Domain.Models.Locations.Location", "Location")
+                        .WithMany("Shifts")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AccountantUser");
+
+                    b.Navigation("CashierUser");
+
+                    b.Navigation("Location");
+                });
+
             modelBuilder.Entity("ETechParking.Domain.Models.Locations.Tickets.Ticket", b =>
                 {
+                    b.HasOne("ETechParking.Domain.Models.Locations.Users.User", "CloseUser")
+                        .WithMany("ClosedTickets")
+                        .HasForeignKey("CloseUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ETechParking.Domain.Models.Locations.Users.User", "CreateUser")
+                        .WithMany("CreatedTickets")
+                        .HasForeignKey("CreateUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ETechParking.Domain.Models.Locations.Location", "Location")
                         .WithMany("Tickets")
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ETechParking.Domain.Models.Locations.Shifts.Shift", "Shift")
+                        .WithMany("Tickets")
+                        .HasForeignKey("ShiftId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CloseUser");
+
+                    b.Navigation("CreateUser");
+
                     b.Navigation("Location");
+
+                    b.Navigation("Shift");
                 });
 
             modelBuilder.Entity("ETechParking.Domain.Models.Locations.Users.User", b =>
@@ -452,6 +627,8 @@ namespace ETechParking.Infrastructure.Data.Migrations
                 {
                     b.Navigation("Fares");
 
+                    b.Navigation("Shifts");
+
                     b.Navigation("Tickets");
 
                     b.Navigation("Users");
@@ -460,6 +637,22 @@ namespace ETechParking.Infrastructure.Data.Migrations
             modelBuilder.Entity("ETechParking.Domain.Models.Locations.Roles.Role", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("ETechParking.Domain.Models.Locations.Shifts.Shift", b =>
+                {
+                    b.Navigation("Tickets");
+                });
+
+            modelBuilder.Entity("ETechParking.Domain.Models.Locations.Users.User", b =>
+                {
+                    b.Navigation("AccountantShifts");
+
+                    b.Navigation("CashierShifts");
+
+                    b.Navigation("ClosedTickets");
+
+                    b.Navigation("CreatedTickets");
                 });
 #pragma warning restore 612, 618
         }

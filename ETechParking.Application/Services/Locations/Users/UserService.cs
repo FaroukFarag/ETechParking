@@ -102,7 +102,7 @@ public class UserService(
         {
             StartDateTime = model.StartDateTime,
             LocationId = user.LocationId,
-            UserId = user.Id
+            CashierUserId = user.Id
         });
 
         var shiftAdded = await _unitOfWork.Complete();
