@@ -5,6 +5,7 @@ import { FaresComponent } from './views/fares/fares.component';
 import { LoginComponent } from './views/login/login.component';
 import { TicketsComponent } from './views/tickets/tickets.component';
 import { ShiftsComponent } from './views/shifts/shifts.component';
+import { ReportsComponent } from './views/reports/reports.component';
 
 export const routes: Routes = [
   //  {
@@ -30,6 +31,10 @@ export const routes: Routes = [
     {
       path: 'shifts',
       component: ShiftsComponent
+  },
+  {
+    path: 'reports',
+    component: ReportsComponent
   },
 
 

@@ -1,0 +1,25 @@
+<div class="mb-5">
+  <dx-tab-panel #tabPanel
+                *ngIf="isTabsReady"
+                [showNavButtons]="true"
+                (onTitleClick)="onTitleClick($event)"
+                [tabIndex]="selectedTabIndex"
+                [selectedIndex]="selectedTabIndex">
+    <dxi-item name="tickets"
+              title="Tickets"
+              icon="fa-solid fa-users">
+      <ng-template>
+        <p>Ticket List:</p>
+        <app-tickets></app-tickets>
+      </ng-template>
+    </dxi-item>
+    <dxi-item name="shifts"
+              title="Shifts"
+              icon="fa-solid fa-sitemap">
+      <ng-template>
+        <p>Shift Schedule:</p>
+        <app-shifts></app-shifts>
+      </ng-template>
+    </dxi-item>
+  </dx-tab-panel>
+</div>

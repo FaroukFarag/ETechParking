@@ -8,11 +8,14 @@ import { exportDataGrid } from 'devextreme/excel_exporter';
 import { DxDataGridTypes } from 'devextreme-angular/ui/data-grid';
 import { Workbook } from 'exceljs';
 import { saveAs } from 'file-saver';
+import { CommonModule } from '@angular/common';
 @Component({
   standalone: true,
   selector: 'app-fares',
-  imports: [DxButtonModule,
-    DxDataGridModule],
+  imports: [
+    DxButtonModule,
+    DxDataGridModule,
+    CommonModule],
   templateUrl: './fares.component.html',
   styleUrl: './fares.component.scss'
 })
@@ -20,11 +23,18 @@ export class FaresComponent {
   faresList: any;
   locations: Location[] = [];
   allowedPageSizes: (number | "auto")[] = [10, 20, 50];
+  locationId: any;
+  fareType: any;
+  fareTypes = [{ id: 1, name: 'Hourly' }, { id: 2, name: 'Daily' }]
+  fareTypeEditorOptions: any;
+  showMaxLimit = false;
+
   constructor(private faresService: FareService, private locationService: LocationService) { }
 
   ngOnInit() {
     this.getAllFares();
     this.getAllLocations();
+    this.loadFareTypeEditorOptions();
   }
 
   getAllFares() {
@@ -32,19 +42,32 @@ export class FaresComponent {
       this.faresList = data;
     })
   }
+
   getAllLocations() {
     this.locationService.getAll('Locations/GetAll').subscribe((data: Location[]) => {
-      this.locations = data; 
+      this.locations = data;
     });
 
   }
+
+  loadFareTypeEditorOptions() {
+    this.fareTypeEditorOptions = {
+      dataSource: this.fareTypes,
+      valueExpr: 'id',
+      displayExpr: 'name',
+      value: this.fareType,
+      onValueChanged: this.onFareTypeChange.bind(this)
+    }
+  }
+
   onRowInserting(e: any) {
     this.faresService.create('Fares/Create', e.data).subscribe(() => {
-      this.getAllFares(); 
+      this.getAllFares();
     });
   }
 
   onRowUpdating(e: any) {
+    debugger
     const updatedData = { ...e.oldData, ...e.newData };
     this.faresService.update('Fares/Update', updatedData).subscribe(
       () => {
@@ -77,5 +100,11 @@ export class FaresComponent {
         saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Fares.xlsx');
       });
     });
+  }
+
+  onFareTypeChange(event: any) {
+    debugger
+    this.showMaxLimit = event.value == 1;
+    this.fareType = {id: event.value, value: 'test'};
   }
 }
