@@ -20,7 +20,8 @@ import { Workbook } from 'exceljs';
 import { saveAs } from 'file-saver'; 
 import jsPDF from 'jspdf';
 import { HttpHeaders } from '@angular/common/http';
-
+import { DxDropDownButtonModule, DxDropDownButtonComponent, DxDropDownButtonTypes } from 'devextreme-angular/ui/drop-down-button';
+import { DxListModule } from 'devextreme-angular';
 @Component({
   selector: 'app-tickets',
   standalone: true,
@@ -33,7 +34,9 @@ import { HttpHeaders } from '@angular/common/http';
   DxTextAreaModule,
   DxDateBoxModule,
     DxFormModule,
+    DxDropDownButtonModule,
     DxTextBoxModule,
+    DxListModule
   ], templateUrl: './tickets.component.html',
   styleUrl: './tickets.component.scss'
 })
@@ -59,7 +62,8 @@ export class TicketsComponent {
   };
   locationsList: any;
   usersList: any;
-
+  selectedFormat: any;
+  exportFormats: string[] = ['PDF', 'Excel', 'Word'];
   constructor(private ticketsService: TicketsService,
     private locationService: LocationService,
     private usersService: UsersService,
@@ -184,34 +188,31 @@ export class TicketsComponent {
   //    doc.save('Tickets.pdf');
   //  });
   //}
-  exportToExcel() {
-    const payload = {
-      reportName: "Tickets Report",
-      datasetName: "Tickets Dataset",
-      format: "Excel"
-    };
+  exportReport(e:any) {
+    if (!this.selectedFormat) {
+      notify('Please select a format to export.', 'error', 3000);
+      return;
+    }
+    const format = this.selectedFormat.toUpperCase();
+    this.ticketsService.generateReport(`Reports/GetTicketsReport?format=${format}`).subscribe(
+      (blob: Blob) => {
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = `TicketsReport.${format.toLowerCase()}`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      },
 
-    // Set the headers
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json', // or 'application/x-www-form-urlencoded' if needed
-      'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // Specify the expected response format
-      'format': 'Excel' // Add your custom header here
-    });
-
-    this.http.post(`${environment.apiUrl}/Reports/generate/getTicketsReport`, payload, { headers: headers, responseType: 'blob' })
-      .subscribe((response: Blob) => {
-        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'tickets_report.xlsx';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-      }, (error: any) => {
-        console.error('Error exporting to Excel:', error);
-      });
+      (error) => {
+        if (error.error) {
+          console.error('Error response body:', error.error);
+        }
+      }
+    );
   }
+
+
+
 
 }

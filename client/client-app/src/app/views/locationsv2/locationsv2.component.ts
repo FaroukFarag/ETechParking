@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { DxButtonModule, DxDataGridModule, DxPopupModule } from 'devextreme-angular';
 import { LocationService } from '../../services/locations/location.service';
-
+import { exportDataGrid } from 'devextreme/excel_exporter';
+import { DxDataGridTypes } from 'devextreme-angular/ui/data-grid';
+import { Workbook } from 'exceljs';
+import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
 @Component({
   selector: 'app-locationsv2',
   standalone: true,
@@ -60,4 +64,22 @@ export class Locationsv2Component {
       this.getAllLocations(); 
     });
   }
+
+
+  /*EXPORT TO EXCEL */
+  onExporting(e: any) {
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('Locations');
+
+    exportDataGrid({
+      component: e.component,
+      worksheet: worksheet,
+      autoFilterEnabled: true,
+    }).then(() => {
+      workbook.xlsx.writeBuffer().then((buffer) => {
+        saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Locations.xlsx');
+      });
+    });
+  }
+
 }

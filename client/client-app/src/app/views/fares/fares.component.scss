@@ -111,3 +111,19 @@
 ::ng-deep .dx-datagrid-header-panel .dx-toolbar-after .dx-state-hover {
   border-color: #f15b27 !important;
 }
+::ng-deep .dx-icon.dx-icon-xlsxfile {
+  color: #fff !important;
+  font-size: 22px !important;
+}
+
+::ng-deep .dx-item-content.dx-toolbar-item-content {
+  margin: auto 3px !important;
+}
+
+::ng-deep .dx-datagrid-header-panel .dx-button-mode-contained:nth-child(1) {
+  background: #f15b27 !important;
+  border-radius: 8px !important;
+  width: 54px !important;
+  height: 48px !important;
+  // border-color: #f15b27 !important;
+}

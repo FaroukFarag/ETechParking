@@ -4,6 +4,10 @@ import { } from 'devextreme-angular';
 import { FareService } from '../../services/locations/fares/fare.service';
 import { LocationService } from '../../services/locations/location.service';
 import { Location } from '../../models/locations/location.model';
+import { exportDataGrid } from 'devextreme/excel_exporter';
+import { DxDataGridTypes } from 'devextreme-angular/ui/data-grid';
+import { Workbook } from 'exceljs';
+import { saveAs } from 'file-saver';
 @Component({
   standalone: true,
   selector: 'app-fares',
@@ -56,6 +60,22 @@ export class FaresComponent {
     const fareId = e.data.id;
     this.faresService.delete(`Fares/Delete?id=${fareId}`).subscribe(() => {
       this.getAllFares(); // Refresh the list after deleting
+    });
+  }
+
+  /*EXPORT TO EXCEL */
+  onExporting(e: any) {
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('Fares');
+
+    exportDataGrid({
+      component: e.component,
+      worksheet: worksheet,
+      autoFilterEnabled: true,
+    }).then(() => {
+      workbook.xlsx.writeBuffer().then((buffer) => {
+        saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Fares.xlsx');
+      });
     });
   }
 }

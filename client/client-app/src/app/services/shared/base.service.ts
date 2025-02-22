@@ -45,4 +45,16 @@ export class BaseService<T> {
   getAllFiltered(endpoint:string,filters: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/${endpoint}`, filters);
   }
+
+  closeShift(url: string, data: any) {
+    return this.http.post(url, data);
+  }
+
+ 
+  generateReport(endpoint: string): Observable<Blob> {
+    return this.http.get(`${environment.apiUrl}/${endpoint}`, {
+      responseType: 'blob' // Ensure the response type is set to blob
+    });
+  }
+
 }

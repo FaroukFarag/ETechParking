@@ -1,13 +1,13 @@
-
-
 <div id="data-grid-demo">
   <h2 class="screen-title">Tickets</h2>
   <div class="buttons-header">
     <div class="export-reoprt-btn">
-      <dx-button class="export-btn" icon="export" (onClick)="exportToExcel()">
-        
-      </dx-button>
-    </div>
+          <dx-select-box [(value)]="selectedFormat"
+                         [dataSource]="exportFormats"
+                         [placeholder]="'Export Report'"
+                         (onValueChanged)="exportReport($event)">
+          </dx-select-box>
+      </div>
     <div class="filter-btn">
       <dx-button icon="filter"
                  (onClick)="showFilterPopup()">
@@ -33,13 +33,13 @@
                    type="default"
                    (onClick)="applyFilters()"
                    class="p-3">
-          send
+          Search
         </dx-button>
         <dx-button stylingMode="contained"
                    type="default"
                    (onClick)="popupVisible = false"
                    class="p-3">
-          cancel
+          Cancel
         </dx-button>
       </dxi-toolbar-item>
 
@@ -125,37 +125,34 @@
       </dxo-popup>
       <dxo-form>
         <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
-          <dxi-item dataField="ticketNumber"></dxi-item>
           <dxi-item dataField="plateNumber"></dxi-item>
           <dxi-item dataField="phoneNumber"></dxi-item>
-          <dxi-item dataField="entryDateTime"></dxi-item>
+          <dxi-item dataField="entryDateTime"  ></dxi-item>
           <dxi-item dataField="exitDateTime"></dxi-item>
           <dxi-item dataField="clientType"></dxi-item>
           <dxi-item dataField="transactionType"></dxi-item>
           <dxi-item dataField="isPaid"></dxi-item>
-          <dxi-item dataField="locationId"></dxi-item>
           <dxi-item dataField="locationName"></dxi-item>
-          <dxi-item dataField="totalWithoutVat"></dxi-item>
-          <dxi-item dataField="totalWithVat"></dxi-item>
-          <dxi-item dataField="vat"></dxi-item>
+          <dxi-item dataField="totalAmount"></dxi-item>
         </dxi-item>
       </dxo-form>
     </dxo-editing>
     <dxo-search-panel [visible]="true"
                       [highlightCaseSensitive]="true"></dxo-search-panel>
-    <dxi-column dataField="ticketNumber" caption="Ticket Number" alignment="left" width="150"></dxi-column>
-    <dxi-column dataField="plateNumber" Caption="Plate Number" alignment="left"></dxi-column>
-    <dxi-column dataField="phoneNumber" caption="Phone Number" alignment="left"></dxi-column>
-    <dxi-column dataField="entryDateTime" caption="Entry date time" alignment="left"> </dxi-column>
-    <dxi-column dataField="exitDateTime" caption="Exit date time" alignment="left"> </dxi-column>
-    <dxi-column dataField="clientType" caption="Client type" alignment="left" width="80"> </dxi-column>
-    <dxi-column dataField="transactionType" caption="Transaction type" alignment="left"> </dxi-column>
-    <dxi-column dataField="isPaid" caption="is paid" alignment="left" width="50"> </dxi-column>
-    <dxi-column dataField="locationId" caption="Location Id" alignment="left"> </dxi-column>
-    <dxi-column dataField="locationName" caption="Location Name" alignment="left"> </dxi-column>
-    <dxi-column dataField="totalWithoutVat" caption="Total witout Vat" alignment="left"> </dxi-column>
-    <dxi-column dataField="totalWithVat" caption="Total with Vat" alignment="left"> </dxi-column>
-    <dxi-column dataField="vat" caption="Vat" alignment="left" width="50"> </dxi-column>
+
+
+    <!-- Add an index column -->
+
+ 
+    <dxi-column dataField="plateNumber" Caption="Plate Number" alignment="left" width="120"></dxi-column>
+    <dxi-column dataField="phoneNumber" caption="Phone Number" alignment="left" width="150"></dxi-column>
+    <dxi-column dataField="entryDateTime" caption="Entry date" dataType="date" alignment="left" width="140"> </dxi-column>
+    <dxi-column dataField="exitDateTime" caption="Exit date" dataType="date"  alignment="left" width="140"> </dxi-column>
+    <dxi-column dataField="clientName" caption="Client type" alignment="left" width="120" > </dxi-column>
+    <dxi-column dataField="transactionName" caption="Transaction type" alignment="left" width="140"> </dxi-column>
+    <dxi-column dataField="isPaid" caption="is paid" alignment="left" width="70"> </dxi-column>
+    <dxi-column dataField="locationName" caption="Location Name" alignment="left" width="'auto'"> </dxi-column>
+    <dxi-column dataField="totalAmount" caption="Total Amount" alignment="left" width="'auto'"> </dxi-column>
     <dxo-export [enabled]="true" [allowExportSelectedData]="false"></dxo-export>
 
   </dx-data-grid>

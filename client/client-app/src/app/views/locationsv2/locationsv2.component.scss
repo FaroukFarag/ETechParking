@@ -29,11 +29,11 @@
 }
 
 ::ng-deep .dx-widget.dx-button.dx-button-mode-contained.dx-button-normal.dx-button-has-text.dx-button-has-icon.dx-datagrid-toolbar-button.dx-edit-button.dx-datagrid-addrow-button {
-  background: #f15b27 !important;
+ background: #f15b27 !important;
   border-radius: 8px !important;
   height: 48px !important;
   width: 48px !important;
-  border-color: #f15b27 !important;
+ border-color: #f15b27 !important;
 }
 
 ::ng-deep .dx-icon.dx-icon-edit-button-addrow {
@@ -85,12 +85,14 @@
   justify-content: center;
 }
 
-::ng-deep .dx-button-mode-contained {
+
+::ng-deep .dx-datagrid-header-panel .dx-button-mode-contained:nth-child(1) {
   background: #f15b27 !important;
   border-radius: 8px !important;
-  border-color: #f15b27 !important;
+  width: 54px !important;
+  height: 48px !important;
+  // border-color: #f15b27 !important;
 }
-
 
 /*GRID ICONS*/
 ::ng-deep .dx-link.dx-link-edit.dx-icon-edit.dx-link-icon::before {
@@ -115,3 +117,10 @@
 
 
 
+::ng-deep .dx-icon.dx-icon-xlsxfile {
+    color:#fff!important;
+    font-size:22px!important;
+}
+::ng-deep .dx-item-content.dx-toolbar-item-content{
+    margin :auto 3px!important;
+}

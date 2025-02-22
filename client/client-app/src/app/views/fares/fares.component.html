@@ -14,7 +14,8 @@
                 [remoteOperations]="true"
                 [repaintChangesOnly]="true"
                 [errorRowEnabled]="false"
-                searchMode="contains">
+                searchMode="contains"
+                (onExporting)="onExporting($event)">
     <dxo-paging [enabled]="true" [pageSize]="5"></dxo-paging>
     <dxo-pager [visible]="true"
                [allowedPageSizes]="allowedPageSizes"
@@ -28,14 +29,12 @@
                  [allowUpdating]="true"
                  [allowAdding]="true"
                  [allowDeleting]="true"
-                 [useIcons]="true"
-                      >
+                 [useIcons]="true">
       <dxo-popup title="Fare Info"
                  [showTitle]="true"
                  [width]="600"
                  [height]="600"
-                  [hideOnOutsideClick]="true"
->
+                 [hideOnOutsideClick]="true">
       </dxo-popup>
       <dxo-form>
         <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
@@ -45,16 +44,8 @@
           <dxi-item dataField="enterGracePeriod" caption="Enter grace period"></dxi-item>
           <dxi-item dataField="exitGracePeriod" caption="Exit grace period"></dxi-item>
           <dxi-item dataField="maxLimit" caption="Max Limit"></dxi-item>
-          <dxi-item dataField="locationId" caption="Location Id" editorType="dxSelectBox"
-                    [editorOptions]="{
-                        dataSource: locations,
-                        valueExpr: 'id',
-                        displayExpr: 'id'
-                      }">
+          <dxi-item dataField="locationId">
           </dxi-item>
-          <dxi-item dataField="locationName" caption="Location Name">
-          </dxi-item>
-
         </dxi-item>
       </dxo-form>
     </dxo-editing>
@@ -67,5 +58,9 @@
     <dxi-column dataField="maxLimit" caption="Max Limit" alignment="left"> </dxi-column>
     <dxi-column dataField="locationId" caption="Location Id" alignment="left"> </dxi-column>
     <dxi-column dataField="locationName" caption="Location name" alignment="left"> </dxi-column>
+
+
+    <dxo-export [enabled]="true" [allowExportSelectedData]="false"></dxo-export>
+
   </dx-data-grid>
 </div>

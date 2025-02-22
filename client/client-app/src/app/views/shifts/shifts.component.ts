@@ -5,6 +5,12 @@ import { LocationService } from '../../services/locations/location.service';
 import { Location } from '../../models/locations/location.model';
 import { Users } from '../../models/users/users.model';
 import { UsersService } from '../../services/users/users.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import notify from 'devextreme/ui/notify';
+import { exportDataGrid } from 'devextreme/excel_exporter';
+import { DxDataGridTypes } from 'devextreme-angular/ui/data-grid';
+import { Workbook } from 'exceljs';
+import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-shifts',
   standalone: true,
@@ -39,7 +45,9 @@ export class ShiftsComponent {
     createUserId: null,
     closeUserId: null,
   };
-  constructor(private shiftsService: ShiftsService, private locationService: LocationService, private usersService: UsersService) {
+  selectedFormat: any;
+  exportFormats: string[] = ['PDF', 'Excel', 'Word'];
+  constructor(private shiftsService: ShiftsService, private locationService: LocationService, private usersService: UsersService, private http: HttpClient) {
 
   }
 
@@ -67,7 +75,7 @@ export class ShiftsComponent {
   }
   getAllUsers() {
     this.usersService.getAll('Users/GetAll').subscribe((data: Users[]) => {
-      this.usersList = data;
+      this.usersList = data
     });
   }
 
@@ -116,6 +124,65 @@ export class ShiftsComponent {
       },
       (error) => {
         console.error('Error applying filters:', error);
+      }
+    );
+  }
+
+  exportReport(e: any) {
+    if (!this.selectedFormat) {
+      notify('Please select a format to export.', 'error', 3000);
+      return;
+    }
+    const format = this.selectedFormat;
+    this.shiftsService.generateReport(`Reports/GetShiftsReport?format=${format}`).subscribe(
+      (blob: Blob) => {
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = `Shifts Report.${format}`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      },
+
+      (error) => {
+        if (error.error) {
+          console.error('Error response body:', error.error);
+        }
+      }
+    );
+  }
+
+
+
+  /*EXPORT TO EXCEL */
+  onExporting(e: any) {
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('Shifts');
+
+    exportDataGrid({
+      component: e.component,
+      worksheet: worksheet,
+      autoFilterEnabled: true,
+    }).then(() => {
+      workbook.xlsx.writeBuffer().then((buffer) => {
+        saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Shifts.xlsx');
+      });
+    });
+  }
+
+  closeShift(shift: any) {
+    const closeShiftData = {
+      endDateTime: new Date().toISOString(), 
+      totalCash: 0,
+      totalCredit: 0 
+    };
+
+    this.shiftsService.closeShift('api/Shifts/CloseShift', closeShiftData).subscribe(
+      () => {
+        this.getAllShifts();
+      },
+      (error) => {
+        console.error('Error closing shift:', error);
       }
     );
   }

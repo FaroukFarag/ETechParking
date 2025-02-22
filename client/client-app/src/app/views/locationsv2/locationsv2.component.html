@@ -13,7 +13,8 @@
                 [remoteOperations]="true"
                 [repaintChangesOnly]="true"
                 [errorRowEnabled]="false"
-                searchMode="contains">
+                searchMode="contains"
+                (onExporting)="onExporting($event)">
     <!--<dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>-->
     <dxo-paging [enabled]="true" [pageSize]="5"></dxo-paging>
     <dxo-pager [visible]="true"
@@ -65,5 +66,7 @@
     <dxi-column dataField="city" caption="City" alignment="left"></dxi-column>
     <dxi-column dataField="longitude" caption="Longitude" alignment="left"> </dxi-column>
     <dxi-column dataField="latitude" caption="latitude" alignment="left"> </dxi-column>
+    <dxo-export [enabled]="true" [allowExportSelectedData]="false"></dxo-export>
+
   </dx-data-grid>
 </div>
