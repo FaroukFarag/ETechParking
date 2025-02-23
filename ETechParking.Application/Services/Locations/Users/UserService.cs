@@ -86,48 +86,64 @@ public class UserService(
         return newUserDto;
     }
 
-    public async Task<LoggedInDto> LoginAsync(LoginDto model)
+    public async Task<LoggedInDto> LoginAsync(LoginDto model, bool isCashier)
+    {
+        var user = await AuthenticateUserAsync(model);
+
+        if (user == null)
+            return default!;
+
+        var shift = isCashier ? await CreateShiftAsync(user, model.StartDateTime) : default!;
+
+        if (shift == null && isCashier)
+            return default!;
+
+        return new LoggedInDto
+        {
+            StartDateTime = shift?.StartDateTime,
+            UserId = user.Id,
+            LocationId = user.LocationId,
+            ShiftId = shift?.Id,
+            Token = await GetToken(user)
+        };
+    }
+
+    private async Task<User> AuthenticateUserAsync(LoginDto model)
     {
         var result = await _signInManager.PasswordSignInAsync(
             model.UserName,
             model.Password,
-            false,
+            isPersistent: false,
             lockoutOnFailure: false);
 
         if (!result.Succeeded)
-            return default!;
+            return null!;
 
-        var user = (await _userManager.FindByNameAsync(model.UserName))!;
-        var shift = await _shiftRepository.CreateAsync(new Shift
+        return (await _userManager.FindByNameAsync(model.UserName))!;
+    }
+
+    private async Task<Shift> CreateShiftAsync(User user, DateTime startDateTime)
+    {
+        var shift = new Shift
         {
-            StartDateTime = model.StartDateTime,
+            StartDateTime = startDateTime,
             LocationId = user.LocationId,
             CashierUserId = user.Id
-        });
-
-        var shiftAdded = await _unitOfWork.Complete();
-
-        if (!shiftAdded)
-            return default!;
-
-        var loggedInDto = new LoggedInDto
-        {
-            StartDateTime = shift.StartDateTime,
-            UserId = user.Id,
-            LocationId = user.LocationId,
-            ShiftId = shift.Id,
-            Token = await GetToken(user)
         };
 
-        return loggedInDto;
+        await _shiftRepository.CreateAsync(shift);
+        var shiftAdded = await _unitOfWork.Complete();
+
+        return shiftAdded ? shift : null!;
     }
 
     private async Task<string> GetToken(User? user)
     {
         var claims = new List<TokenClaim>
         {
-            new("UserName", user?.UserName!),
-            new("Email", user?.Email!)
+            new("userName", user?.UserName!),
+            new("email", user?.Email!),
+            new("role", user?.Role.Name!)
         };
 
         return await _tokensService.GenerateToken(claims);

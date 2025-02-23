@@ -1,12 +1,14 @@
 ﻿using ETechParking.Reporting.Dtos;
 using ETechParking.Reporting.Dtos.Tickets;
 using ETechParking.Reporting.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ETechParking.WebApi.Controllers.Reports;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(Roles = "Admin")]
 public class ReportsController(IReportService reportService) : ControllerBase
 {
     private readonly IReportService _reportService = reportService;

@@ -6,5 +6,5 @@ namespace ETechParking.Application.Interfaces.Locations.Users;
 
 public interface IUserService : IBaseService<User, UserDto, int>
 {
-    Task<LoggedInDto> LoginAsync(LoginDto model);
+    Task<LoggedInDto> LoginAsync(LoginDto model, bool isCashier);
 }

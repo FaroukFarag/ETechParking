@@ -2,12 +2,14 @@
 using ETechParking.Application.Interfaces.Locations.Tickets;
 using ETechParking.Domain.Models.Locations.Tickets;
 using ETechParking.WebApi.Controllers.Abstraction;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ETechParking.WebApi.Controllers.Locations.Tickets;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(Roles = "Admin,Accountant,Cashier")]
 public class TicketsController(ITicketService ticketService) :
     BaseController<ITicketService, Ticket, TicketDto, int>(ticketService)
 {
