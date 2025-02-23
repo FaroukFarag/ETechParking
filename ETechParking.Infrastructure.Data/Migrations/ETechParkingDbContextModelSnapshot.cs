@@ -25,10 +25,7 @@ namespace ETechParking.Infrastructure.Data.Migrations
             modelBuilder.Entity("ETechParking.Domain.Lookups.Locations.Fares.FareTypeLookup", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -38,15 +35,24 @@ namespace ETechParking.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FareTypes", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Hourly"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Daily"
+                        });
                 });
 
             modelBuilder.Entity("ETechParking.Domain.Lookups.Locations.Tickets.ClientTypeLookup", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -56,15 +62,24 @@ namespace ETechParking.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ClientTypes", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Visitor"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Guest"
+                        });
                 });
 
             modelBuilder.Entity("ETechParking.Domain.Lookups.Locations.Tickets.TransactionTypeLookup", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -74,6 +89,18 @@ namespace ETechParking.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TransactionTypes", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Cash"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Credit"
+                        });
                 });
 
             modelBuilder.Entity("ETechParking.Domain.Models.Locations.Fares.Fare", b =>

@@ -422,7 +422,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!UserName.Value</Value>
+                              <Value>=Fields!Cashier.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -443,6 +443,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -454,7 +455,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!TotalCash.Value</Value>
+                              <Value>=Fields!AccountantTotalCash.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -486,7 +487,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!TotalCredit.Value</Value>
+                              <Value>=Fields!AccountantTotalCredit.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -676,16 +677,28 @@
           <DataField>Name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="UserName">
-          <DataField>UserName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="TotalCash">
-          <DataField>TotalCash</DataField>
+        <Field Name="CashierTotalCash">
+          <DataField>CashierTotalCash</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
-        <Field Name="TotalCredit">
-          <DataField>TotalCredit</DataField>
+        <Field Name="CashierTotalCredit">
+          <DataField>CashierTotalCredit</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Cashier">
+          <DataField>Cashier</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Accountant">
+          <DataField>Accountant</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AccountantTotalCash">
+          <DataField>AccountantTotalCash</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="AccountantTotalCredit">
+          <DataField>AccountantTotalCredit</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
       </Fields>

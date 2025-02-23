@@ -26,6 +26,6 @@ namespace ETechParking.Application.Dtos.Locations.Tickets
         public string? CloseUserName { get; set; }
         public int ShiftId { get; set; }
 
-        public string QrCode { get; set; } = default!;
+        public string? QrCode { get; set; }
     }
 }

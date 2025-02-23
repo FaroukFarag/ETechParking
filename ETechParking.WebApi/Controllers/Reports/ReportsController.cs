@@ -1,4 +1,6 @@
-﻿using ETechParking.Reporting.Interfaces;
+﻿using ETechParking.Reporting.Dtos;
+using ETechParking.Reporting.Dtos.Tickets;
+using ETechParking.Reporting.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ETechParking.WebApi.Controllers.Reports;
@@ -9,17 +11,17 @@ public class ReportsController(IReportService reportService) : ControllerBase
 {
     private readonly IReportService _reportService = reportService;
 
-    [HttpGet("GetShiftsReport")]
-    public IActionResult GetShiftsReport(string format = "PDF")
+    [HttpPost("DownloadShiftsReport")]
+    public IActionResult DownloadShiftsReport(ShiftReportFilterDto shiftReportFilterDto)
     {
-        var (reportBytes, contentType, fileExtension) = _reportService.GetShiftsReport(format!);
+        var (reportBytes, contentType, fileExtension) = _reportService.GetShiftsReport(shiftReportFilterDto);
         return File(reportBytes, contentType, $"ShiftsReport.{fileExtension}");
     }
 
-    [HttpGet("GetTicketsReport")]
-    public IActionResult GetTicketsReport(string format = "PDF")
+    [HttpPost("DownloadTicketsReport")]
+    public IActionResult DownloadTicketsReport(TicketReportFilterDto ticketReportFilterDto)
     {
-        var (reportBytes, contentType, fileExtension) = _reportService.GetTicketsReport(format!);
+        var (reportBytes, contentType, fileExtension) = _reportService.GetTicketsReport(ticketReportFilterDto);
         return File(reportBytes, contentType, $"TicketsReport.{fileExtension}");
     }
 }

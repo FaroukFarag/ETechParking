@@ -1,4 +1,6 @@
-﻿using ETechParking.Reporting.ETechParkingDataSetTableAdapters;
+﻿using ETechParking.Reporting.Dtos;
+using ETechParking.Reporting.Dtos.Tickets;
+using ETechParking.Reporting.ETechParkingDataSetTableAdapters;
 using ETechParking.Reporting.Interfaces;
 using Microsoft.Reporting.NETCore;
 using System.Data;
@@ -8,22 +10,32 @@ namespace ETechParking.Reporting.Services;
 
 public class ReportService : IReportService
 {
-    public (byte[] ReportData, string ContentType, string FileExtension) GetShiftsReport(string format)
+    public (byte[] ReportData, string ContentType, string FileExtension) GetShiftsReport(ShiftReportFilterDto shiftReportFilterDto)
     {
         string reportName = "Shifts";
         var adapter = new ShiftsDataTableTableAdapter();
-        DataTable dataTable = adapter.GetData();
+        DataTable dataTable = adapter.GetData(
+            shiftReportFilterDto.FromDateTime,
+            shiftReportFilterDto.ToDateTime,
+            shiftReportFilterDto.LocationId,
+            shiftReportFilterDto.CashierUserId,
+            shiftReportFilterDto.AccountantUserId);
 
-        return GenerateReport(reportName, "ShiftDataSet", dataTable, format);
+        return GenerateReport(reportName, "ShiftDataSet", dataTable, shiftReportFilterDto.Format);
     }
 
-    public (byte[] ReportData, string ContentType, string FileExtension) GetTicketsReport(string format)
+    public (byte[] ReportData, string ContentType, string FileExtension) GetTicketsReport(TicketReportFilterDto ticketReportFilterDto)
     {
         string reportName = "Tickets";
         var adapter = new TicketsDataTableTableAdapter();
-        DataTable dataTable = adapter.GetData();
+        DataTable dataTable = adapter.GetData(
+            ticketReportFilterDto.FromDateTime,
+            ticketReportFilterDto.ToDateTime,
+            ticketReportFilterDto.LocationId,
+            ticketReportFilterDto.CreateUserId,
+            ticketReportFilterDto.CloseUserId);
 
-        return GenerateReport(reportName, "TicketDataSet", dataTable, format);
+        return GenerateReport(reportName, "TicketDataSet", dataTable, ticketReportFilterDto.Format);
     }
 
     private static (byte[] ReportData, string ContentType, string FileExtension) GenerateReport(string reportName, string dataSet, DataTable dataTable, string format)

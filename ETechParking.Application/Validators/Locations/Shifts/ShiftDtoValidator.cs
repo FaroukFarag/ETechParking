@@ -13,7 +13,7 @@ public class ShiftDtoValidator : AbstractValidator<ShiftDto>
         RuleFor(s => s.LocationId)
             .NotNull();
 
-        RuleFor(s => s.UserId)
+        RuleFor(s => s.CashierUserId)
             .NotNull();
     }
 }

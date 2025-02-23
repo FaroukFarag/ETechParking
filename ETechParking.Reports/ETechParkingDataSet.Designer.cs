@@ -320,11 +320,17 @@ namespace ETechParking.Reporting {
             
             private global::System.Data.DataColumn columnName;
             
-            private global::System.Data.DataColumn columnUserName;
+            private global::System.Data.DataColumn columnCashierTotalCash;
             
-            private global::System.Data.DataColumn columnTotalCash;
+            private global::System.Data.DataColumn columnCashierTotalCredit;
             
-            private global::System.Data.DataColumn columnTotalCredit;
+            private global::System.Data.DataColumn columnCashier;
+            
+            private global::System.Data.DataColumn columnAccountant;
+            
+            private global::System.Data.DataColumn columnAccountantTotalCash;
+            
+            private global::System.Data.DataColumn columnAccountantTotalCredit;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
@@ -385,25 +391,49 @@ namespace ETechParking.Reporting {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn UserNameColumn {
+            public global::System.Data.DataColumn CashierTotalCashColumn {
                 get {
-                    return this.columnUserName;
+                    return this.columnCashierTotalCash;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn TotalCashColumn {
+            public global::System.Data.DataColumn CashierTotalCreditColumn {
                 get {
-                    return this.columnTotalCash;
+                    return this.columnCashierTotalCredit;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn TotalCreditColumn {
+            public global::System.Data.DataColumn CashierColumn {
                 get {
-                    return this.columnTotalCredit;
+                    return this.columnCashier;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn AccountantColumn {
+                get {
+                    return this.columnAccountant;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn AccountantTotalCashColumn {
+                get {
+                    return this.columnAccountantTotalCash;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn AccountantTotalCreditColumn {
+                get {
+                    return this.columnAccountantTotalCredit;
                 }
             }
             
@@ -444,15 +474,18 @@ namespace ETechParking.Reporting {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public ShiftsDataTableRow AddShiftsDataTableRow(System.DateTime StartDateTime, System.DateTime EndDateTime, string Name, string UserName, decimal TotalCash, decimal TotalCredit) {
+            public ShiftsDataTableRow AddShiftsDataTableRow(System.DateTime StartDateTime, System.DateTime EndDateTime, string Name, decimal CashierTotalCash, decimal CashierTotalCredit, string Cashier, string Accountant, decimal AccountantTotalCash, decimal AccountantTotalCredit) {
                 ShiftsDataTableRow rowShiftsDataTableRow = ((ShiftsDataTableRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         StartDateTime,
                         EndDateTime,
                         Name,
-                        UserName,
-                        TotalCash,
-                        TotalCredit};
+                        CashierTotalCash,
+                        CashierTotalCredit,
+                        Cashier,
+                        Accountant,
+                        AccountantTotalCash,
+                        AccountantTotalCredit};
                 rowShiftsDataTableRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowShiftsDataTableRow);
                 return rowShiftsDataTableRow;
@@ -478,9 +511,12 @@ namespace ETechParking.Reporting {
                 this.columnStartDateTime = base.Columns["StartDateTime"];
                 this.columnEndDateTime = base.Columns["EndDateTime"];
                 this.columnName = base.Columns["Name"];
-                this.columnUserName = base.Columns["UserName"];
-                this.columnTotalCash = base.Columns["TotalCash"];
-                this.columnTotalCredit = base.Columns["TotalCredit"];
+                this.columnCashierTotalCash = base.Columns["CashierTotalCash"];
+                this.columnCashierTotalCredit = base.Columns["CashierTotalCredit"];
+                this.columnCashier = base.Columns["Cashier"];
+                this.columnAccountant = base.Columns["Accountant"];
+                this.columnAccountantTotalCash = base.Columns["AccountantTotalCash"];
+                this.columnAccountantTotalCredit = base.Columns["AccountantTotalCredit"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -492,16 +528,23 @@ namespace ETechParking.Reporting {
                 base.Columns.Add(this.columnEndDateTime);
                 this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnName);
-                this.columnUserName = new global::System.Data.DataColumn("UserName", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnUserName);
-                this.columnTotalCash = new global::System.Data.DataColumn("TotalCash", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTotalCash);
-                this.columnTotalCredit = new global::System.Data.DataColumn("TotalCredit", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTotalCredit);
+                this.columnCashierTotalCash = new global::System.Data.DataColumn("CashierTotalCash", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCashierTotalCash);
+                this.columnCashierTotalCredit = new global::System.Data.DataColumn("CashierTotalCredit", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCashierTotalCredit);
+                this.columnCashier = new global::System.Data.DataColumn("Cashier", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCashier);
+                this.columnAccountant = new global::System.Data.DataColumn("Accountant", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAccountant);
+                this.columnAccountantTotalCash = new global::System.Data.DataColumn("AccountantTotalCash", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAccountantTotalCash);
+                this.columnAccountantTotalCredit = new global::System.Data.DataColumn("AccountantTotalCredit", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAccountantTotalCredit);
                 this.columnStartDateTime.AllowDBNull = false;
                 this.columnName.AllowDBNull = false;
                 this.columnName.MaxLength = 2147483647;
-                this.columnUserName.MaxLength = 256;
+                this.columnCashier.MaxLength = 256;
+                this.columnAccountant.MaxLength = 256;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1006,49 +1049,98 @@ namespace ETechParking.Reporting {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string UserName {
+            public decimal CashierTotalCash {
                 get {
                     try {
-                        return ((string)(this[this.tableShiftsDataTable.UserNameColumn]));
+                        return ((decimal)(this[this.tableShiftsDataTable.CashierTotalCashColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'UserName\' in table \'ShiftsDataTable\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'CashierTotalCash\' in table \'ShiftsDataTable\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableShiftsDataTable.UserNameColumn] = value;
+                    this[this.tableShiftsDataTable.CashierTotalCashColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public decimal TotalCash {
+            public decimal CashierTotalCredit {
                 get {
                     try {
-                        return ((decimal)(this[this.tableShiftsDataTable.TotalCashColumn]));
+                        return ((decimal)(this[this.tableShiftsDataTable.CashierTotalCreditColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'TotalCash\' in table \'ShiftsDataTable\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'CashierTotalCredit\' in table \'ShiftsDataTable\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableShiftsDataTable.TotalCashColumn] = value;
+                    this[this.tableShiftsDataTable.CashierTotalCreditColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public decimal TotalCredit {
+            public string Cashier {
                 get {
                     try {
-                        return ((decimal)(this[this.tableShiftsDataTable.TotalCreditColumn]));
+                        return ((string)(this[this.tableShiftsDataTable.CashierColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'TotalCredit\' in table \'ShiftsDataTable\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Cashier\' in table \'ShiftsDataTable\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableShiftsDataTable.TotalCreditColumn] = value;
+                    this[this.tableShiftsDataTable.CashierColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Accountant {
+                get {
+                    try {
+                        return ((string)(this[this.tableShiftsDataTable.AccountantColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Accountant\' in table \'ShiftsDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableShiftsDataTable.AccountantColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal AccountantTotalCash {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableShiftsDataTable.AccountantTotalCashColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AccountantTotalCash\' in table \'ShiftsDataTable\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableShiftsDataTable.AccountantTotalCashColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal AccountantTotalCredit {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableShiftsDataTable.AccountantTotalCreditColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AccountantTotalCredit\' in table \'ShiftsDataTable\' is DBNull" +
+                                ".", e);
+                    }
+                }
+                set {
+                    this[this.tableShiftsDataTable.AccountantTotalCreditColumn] = value;
                 }
             }
             
@@ -1066,38 +1158,74 @@ namespace ETechParking.Reporting {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsUserNameNull() {
-                return this.IsNull(this.tableShiftsDataTable.UserNameColumn);
+            public bool IsCashierTotalCashNull() {
+                return this.IsNull(this.tableShiftsDataTable.CashierTotalCashColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetUserNameNull() {
-                this[this.tableShiftsDataTable.UserNameColumn] = global::System.Convert.DBNull;
+            public void SetCashierTotalCashNull() {
+                this[this.tableShiftsDataTable.CashierTotalCashColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsTotalCashNull() {
-                return this.IsNull(this.tableShiftsDataTable.TotalCashColumn);
+            public bool IsCashierTotalCreditNull() {
+                return this.IsNull(this.tableShiftsDataTable.CashierTotalCreditColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetTotalCashNull() {
-                this[this.tableShiftsDataTable.TotalCashColumn] = global::System.Convert.DBNull;
+            public void SetCashierTotalCreditNull() {
+                this[this.tableShiftsDataTable.CashierTotalCreditColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsTotalCreditNull() {
-                return this.IsNull(this.tableShiftsDataTable.TotalCreditColumn);
+            public bool IsCashierNull() {
+                return this.IsNull(this.tableShiftsDataTable.CashierColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetTotalCreditNull() {
-                this[this.tableShiftsDataTable.TotalCreditColumn] = global::System.Convert.DBNull;
+            public void SetCashierNull() {
+                this[this.tableShiftsDataTable.CashierColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAccountantNull() {
+                return this.IsNull(this.tableShiftsDataTable.AccountantColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAccountantNull() {
+                this[this.tableShiftsDataTable.AccountantColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAccountantTotalCashNull() {
+                return this.IsNull(this.tableShiftsDataTable.AccountantTotalCashColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAccountantTotalCashNull() {
+                this[this.tableShiftsDataTable.AccountantTotalCashColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAccountantTotalCreditNull() {
+                return this.IsNull(this.tableShiftsDataTable.AccountantTotalCreditColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAccountantTotalCreditNull() {
+                this[this.tableShiftsDataTable.AccountantTotalCreditColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -1429,9 +1557,12 @@ namespace ETechParking.Reporting.ETechParkingDataSetTableAdapters {
             tableMapping.ColumnMappings.Add("StartDateTime", "StartDateTime");
             tableMapping.ColumnMappings.Add("EndDateTime", "EndDateTime");
             tableMapping.ColumnMappings.Add("Name", "Name");
-            tableMapping.ColumnMappings.Add("UserName", "UserName");
-            tableMapping.ColumnMappings.Add("TotalCash", "TotalCash");
-            tableMapping.ColumnMappings.Add("TotalCredit", "TotalCredit");
+            tableMapping.ColumnMappings.Add("CashierTotalCash", "CashierTotalCash");
+            tableMapping.ColumnMappings.Add("CashierTotalCredit", "CashierTotalCredit");
+            tableMapping.ColumnMappings.Add("Cashier", "Cashier");
+            tableMapping.ColumnMappings.Add("Accountant", "Accountant");
+            tableMapping.ColumnMappings.Add("AccountantTotalCash", "AccountantTotalCash");
+            tableMapping.ColumnMappings.Add("AccountantTotalCredit", "AccountantTotalCredit");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -1449,18 +1580,64 @@ namespace ETechParking.Reporting.ETechParkingDataSetTableAdapters {
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT s.StartDateTime, s.EndDateTime, l.Name, u.UserName, S.TotalCash, S.TotalCr" +
-                "edit\r\nFROM Shifts s\r\nINNER JOIN Locations l\r\nON s.LocationId = l.Id\r\nINNER JOIN " +
-                "AspNetUsers u\r\nON s.UserId = u.Id";
+            this._commandCollection[0].CommandText = @"SELECT 
+    s.StartDateTime, 
+    s.EndDateTime, 
+    l.Name, 
+    cu.UserName AS Cashier, 
+    au.UserName AS Accountant,
+    s.AccountantTotalCash,
+    s.AccountantTotalCredit,
+    s.CashierTotalCash,
+    s.CashierTotalCredit
+FROM Shifts s
+INNER JOIN Locations l
+ON s.LocationId = l.Id
+INNER JOIN AspNetUsers cu
+ON s.CashierUserId = cu.Id
+INNER JOIN AspNetUsers au
+ON s.AccountantUserId = au.Id
+WHERE 
+    (@StartDate IS NULL OR s.StartDateTime >= @StartDate) AND
+    (@EndDate IS NULL OR s.StartDateTime <= @EndDate) AND
+    (@LocationId IS NULL OR @LocationId = 0 OR s.LocationId = @LocationId) AND
+    (@CashierUserId IS NULL OR @CashierUserId = 0 OR  s.CashierUserId = @CashierUserId) AND
+    (@AccountantUserId IS NULL OR @AccountantUserId = 0 OR  s.AccountantUserId = @AccountantUserId)
+";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@StartDate", global::System.Data.SqlDbType.DateTime2, 8, global::System.Data.ParameterDirection.Input, 0, 0, "StartDateTime", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@EndDate", global::System.Data.SqlDbType.DateTime2, 8, global::System.Data.ParameterDirection.Input, 0, 0, "StartDateTime", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LocationId", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "LocationId", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@CashierUserId", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "CashierUserId", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@AccountantUserId", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "AccountantUserId", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        private int Fill(ETechParkingDataSet.ShiftsDataTableDataTable dataTable) {
+        private int Fill(ETechParkingDataSet.ShiftsDataTableDataTable dataTable, System.DateTime StartDate, string EndDate, string LocationId, int CashierUserId, global::System.Nullable<int> AccountantUserId) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((System.DateTime)(StartDate));
+            if ((EndDate == null)) {
+                throw new global::System.ArgumentNullException("EndDate");
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(EndDate));
+            }
+            if ((LocationId == null)) {
+                throw new global::System.ArgumentNullException("LocationId");
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(LocationId));
+            }
+            this.Adapter.SelectCommand.Parameters[3].Value = ((int)(CashierUserId));
+            if ((AccountantUserId.HasValue == true)) {
+                this.Adapter.SelectCommand.Parameters[4].Value = ((int)(AccountantUserId.Value));
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[4].Value = global::System.DBNull.Value;
+            }
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
             }
@@ -1472,8 +1649,55 @@ namespace ETechParking.Reporting.ETechParkingDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual ETechParkingDataSet.ShiftsDataTableDataTable GetData() {
+        public virtual ETechParkingDataSet.ShiftsDataTableDataTable GetData(System.DateTime? StartDate, System.DateTime? EndDate, global::System.Nullable<int> LocationId, global::System.Nullable<int> CashierUserId, global::System.Nullable<int> AccountantUserId) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
+
+            if ((StartDate.HasValue == true))
+            {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((System.DateTime)(StartDate));
+            }
+
+            else
+            {
+                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+
+            if ((EndDate.HasValue == true))
+            {
+                this.Adapter.SelectCommand.Parameters[1].Value = ((System.DateTime)(EndDate));
+            }
+
+            else
+            {
+                this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+
+            if ((LocationId.HasValue == true))
+            {
+                this.Adapter.SelectCommand.Parameters[2].Value = ((int)(LocationId.Value));
+            }
+
+            else
+            {
+                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
+            }
+
+            if ((CashierUserId.HasValue == true))
+            {
+                this.Adapter.SelectCommand.Parameters[3].Value = ((int)(CashierUserId.Value));
+            }
+
+            else
+            {
+                this.Adapter.SelectCommand.Parameters[3].Value = global::System.DBNull.Value;
+            }
+
+            if ((AccountantUserId.HasValue == true)) {
+                this.Adapter.SelectCommand.Parameters[4].Value = ((int)(AccountantUserId.Value));
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[4].Value = global::System.DBNull.Value;
+            }
             ETechParkingDataSet.ShiftsDataTableDataTable dataTable = new ETechParkingDataSet.ShiftsDataTableDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
@@ -1624,31 +1848,59 @@ namespace ETechParking.Reporting.ETechParkingDataSetTableAdapters {
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = @"
-
-SELECT t.PlateNumber,
-	t.EntryDateTime,
-	t.ExitDateTime,
-	l.Name,
-	t.TotalAmount,
-	CASE 
-                    WHEN t.IsPaid = 1 THEN 'Yes'
-                    ELSE 'No' 
-	END AS IsPaid
+            this._commandCollection[0].CommandText = @"SELECT 
+    t.PlateNumber,
+    t.EntryDateTime,
+    t.ExitDateTime,
+    l.Name,
+    t.TotalAmount,
+    CASE 
+        WHEN t.IsPaid = 1 THEN 'Yes'
+        ELSE 'No' 
+    END AS IsPaid
 FROM Tickets t
-INNER JOIN Locations l
-ON t.LocationId = l.Id
-
+INNER JOIN Locations l ON t.LocationId = l.Id
+WHERE 
+    (@StartDate IS NULL OR t.EntryDateTime >= @StartDate) AND
+    (@EndDate IS NULL OR t.EntryDateTime <= @EndDate) AND
+    (@LocationId IS NULL OR @LocationId = 0 OR t.LocationId = @LocationId) AND
+    (@CreateUserId IS NULL OR @CreateUserId = 0 OR  t.CreateUserId = @CreateUserId) AND
+    (@CloseUserId IS NULL OR @CloseUserId = 0 OR  t.CloseUserId = @CloseUserId)
 ";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@StartDate", global::System.Data.SqlDbType.DateTime2, 8, global::System.Data.ParameterDirection.Input, 0, 0, "EntryDateTime", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@EndDate", global::System.Data.SqlDbType.DateTime2, 8, global::System.Data.ParameterDirection.Input, 0, 0, "EntryDateTime", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LocationId", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "LocationId", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@CreateUserId", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "CreateUserId", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@CloseUserId", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "CloseUserId", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(ETechParkingDataSet.TicketsDataTableDataTable dataTable) {
+        public virtual int Fill(ETechParkingDataSet.TicketsDataTableDataTable dataTable, System.DateTime StartDate, string EndDate, string LocationId, int CreateUserId, global::System.Nullable<int> CloseUserId) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((System.DateTime)(StartDate));
+            if ((EndDate == null)) {
+                throw new global::System.ArgumentNullException("EndDate");
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(EndDate));
+            }
+            if ((LocationId == null)) {
+                throw new global::System.ArgumentNullException("LocationId");
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(LocationId));
+            }
+            this.Adapter.SelectCommand.Parameters[3].Value = ((int)(CreateUserId));
+            if ((CloseUserId.HasValue == true)) {
+                this.Adapter.SelectCommand.Parameters[4].Value = ((int)(CloseUserId.Value));
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[4].Value = global::System.DBNull.Value;
+            }
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
             }
@@ -1660,10 +1912,61 @@ ON t.LocationId = l.Id
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual ETechParkingDataSet.TicketsDataTableDataTable GetData() {
+        public virtual ETechParkingDataSet.TicketsDataTableDataTable GetData(System.DateTime? StartDate, System.DateTime? EndDate, global::System.Nullable<int> LocationId, global::System.Nullable<int> CreateUserId, global::System.Nullable<int> CloseUserId) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
+
+            if ((StartDate.HasValue == true))
+            {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((System.DateTime)(StartDate.Value));
+            }
+
+            else
+            {
+                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+
+            if ((EndDate.HasValue == true))
+            {
+                this.Adapter.SelectCommand.Parameters[1].Value = ((System.DateTime)(EndDate.Value));
+            }
+
+            else
+            {
+                this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+
+            if ((LocationId.HasValue == true))
+            {
+                this.Adapter.SelectCommand.Parameters[2].Value = ((int)(LocationId.Value));
+            }
+
+            else
+            {
+                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
+            }
+
+            if ((CreateUserId.HasValue == true))
+            {
+                this.Adapter.SelectCommand.Parameters[3].Value = ((int)(CreateUserId.Value));
+            }
+
+            else
+            {
+                this.Adapter.SelectCommand.Parameters[3].Value = global::System.DBNull.Value;
+            }
+
+            if ((CloseUserId.HasValue == true)) {
+                this.Adapter.SelectCommand.Parameters[4].Value = ((int)(CloseUserId.Value));
+            }
+
+            else {
+                this.Adapter.SelectCommand.Parameters[4].Value = global::System.DBNull.Value;
+            }
+
             ETechParkingDataSet.TicketsDataTableDataTable dataTable = new ETechParkingDataSet.TicketsDataTableDataTable();
+
             this.Adapter.Fill(dataTable);
+
             return dataTable;
         }
     }

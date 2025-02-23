@@ -16,14 +16,17 @@ public class BaseLookupConfiguration<TEntity, TEnum>(string tableName) : IEntity
 
         builder.HasKey(e => e.Id);
 
+        builder.Property(e => e.Id)
+           .ValueGeneratedNever();
+
         builder.Property(e => e.Name)
                .IsRequired()
                .HasMaxLength(50);
 
-        //builder.HasData(
-        //    Enum.GetValues(typeof(TEnum))
-        //        .Cast<TEnum>()
-        //        .Select(e => new TEntity { Id = Convert.ToInt32(e), Name = e.ToString() })
-        //);
+        builder.HasData(
+            Enum.GetValues(typeof(TEnum))
+                .Cast<TEnum>()
+                .Select(e => new TEntity { Id = Convert.ToInt32(e), Name = e.ToString() })
+        );
     }
 }

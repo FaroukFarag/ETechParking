@@ -11,5 +11,6 @@ public class ShiftFilterDto : IFilterDto
     [FilterProperty(nameof(Shift.StartDateTime))]
     public DateTime? ToDateTime { get; set; }
     public int? LocationId { get; set; }
-    public int? UserId { get; set; }
+    public int? CashierUserId { get; set; }
+    public int? AccountantUserId { get; set; }
 }

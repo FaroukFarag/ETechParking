@@ -22,7 +22,8 @@ public class ShiftDto : BaseModelDto<int>
     public ShiftStatus Status { get; set; } = ShiftStatus.Opened;
     public int LocationId { get; set; }
     public string LocationName { get; set; } = default!;
-    public int UserId { get; set; }
+    public int CashierUserId { get; set; }
     public string CashierUserName { get; set; } = default!;
+    public int AccountantUserId { get; set; }
     public string AccountantUserName { get; set; } = default!;
 }

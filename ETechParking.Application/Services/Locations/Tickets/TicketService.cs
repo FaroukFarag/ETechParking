@@ -36,9 +36,11 @@ public class TicketService(
             throw new InvalidOperationException("An unpaid ticket already exists for this plate number.");
         }
 
-        await base.CreateAsync(ticketDto);
+        var ticket = await base.CreateAsync(ticketDto);
 
         var location = await _locationRepository.GetAsync(ticketDto.LocationId);
+
+        ticketDto = _mapper.Map<TicketDto>(ticket);
 
         ticketDto.LocationName = location.Name;
 
