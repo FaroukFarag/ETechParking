@@ -4,12 +4,15 @@ import { TicketsComponent } from '../tickets/tickets.component';
 import { ShiftsComponent } from '../shifts/shifts.component';
 import { DxTabPanelModule, DxCheckBoxModule, DxTemplateModule } from 'devextreme-angular';
 import { CommonModule } from '@angular/common';
+import { ShiftsReportComponent } from './shifts-report/shifts-report.component';
+import { TicketsReportComponent } from './tickets-report/tickets-report.component';
 
 @Component({
   selector: 'app-reports',
   standalone: true,
   imports: [DxTabsModule,
-
+    TicketsReportComponent,
+    ShiftsReportComponent,
     DxSelectBoxModule,
     DxMultiViewModule, TicketsComponent, ShiftsComponent, DxTabPanelModule, CommonModule
   ],
@@ -17,16 +20,17 @@ import { CommonModule } from '@angular/common';
   styleUrl: './reports.component.scss'
 })
 export class ReportsComponent {
-  isTabsReady = true; 
-
-  selectedTabIndex = 0; 
-
-
-  onTitleClick(event: any) {
-
-
-    console.log('Tab clicked:', event);
-
+  selectedTabIndex: number;
+  selectedTabName: any;
+  constructor() {
+    this.selectedTabIndex = 0;
+  }
+  ngOnInit(): void {
+  }
+  onTitleClick(e: any) {
+    this.selectedTabIndex = e.itemIndex;
+    this.selectedTabName = e.itemData.name;
+    // Load data for the selected tab
   }
 
 }

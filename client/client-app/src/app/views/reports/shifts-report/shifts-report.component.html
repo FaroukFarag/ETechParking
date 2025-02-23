@@ -1,6 +1,7 @@
 <div id="data-grid-demo">
-  <h2 class="screen-title">Tickets</h2>
+  <h2 class="screen-title">Shifts</h2>
   <div class="buttons-header">
+
     <div class="export-reoprt-btn">
       <dx-select-box [(value)]="selectedFormat"
                      [dataSource]="exportFormats"
@@ -9,21 +10,24 @@
       </dx-select-box>
     </div>
     <div class="filter-btn">
+      <!--Start Filter Button & Popup-->
       <dx-button icon="filter"
                  (onClick)="showFilterPopup()">
       </dx-button>
     </div>
+
   </div>
   <div class="dx-viewport">
     <dx-popup [width]="600"
               [height]="500"
               [showTitle]="true"
-              title="Tickets Filter"
+              title="Shifts Filter"
               [dragEnabled]="false"
               [hideOnOutsideClick]="true"
               [showCloseButton]="true"
               container=".dx-viewport"
               [(visible)]="popupVisible">
+
       <dxi-toolbar-item widget="dxButton"
                         toolbar="bottom"
                         location="after"
@@ -49,10 +53,10 @@
           <dxi-item itemType="group" cssClass="form-group" [colCount]="2">
             <dxi-item dataField="fromDateTime" caption="Start Date" editorType="dxDateBox"
                       [editorOptions]="{ width: '100%', value:fromDateTime}"
-                      [label]="{ text: 'Date from' }"></dxi-item>
+                      [label]="{ text: 'Start date' }"></dxi-item>
             <dxi-item dataField="toDateTime" caption="End Date" editorType="dxDateBox"
                       [editorOptions]="{ width: '100%',value:toDateTime }"
-                      [label]="{ text: 'Date To' }"></dxi-item>
+                      [label]="{ text: 'End date' }"></dxi-item>
           </dxi-item>
           <dxi-item itemType="group" cssClass="form-group" [colCount]="1">
 
@@ -71,7 +75,7 @@
                         valueExpr: 'id',
                         displayExpr: 'userName',
                         value:createUserId,
-                        placeholder: 'Select Cashier',
+                        placeholder: 'Select',
                       }"
                       [label]="{ text: 'Cashier started the shift' }"></dxi-item>
 
@@ -81,7 +85,7 @@
                         valueExpr: 'id',
                         displayExpr: 'userName',
                         value:closeUserId,
-                        placeholder: 'Select Cashier',
+                        placeholder: 'Select',
                       }"
                       [label]="{ text: 'Cashier closed the shift' }"></dxi-item>
           </dxi-item>
@@ -90,21 +94,20 @@
       </div>
     </dx-popup>
   </div>
+  <!--End Filter Button & Popup-->
+  <!--Start Data Grid-->
   <dx-data-grid id="gridContainer"
-                [dataSource]="ticketsList"
+                [dataSource]="shiftsList"
                 keyExpr="id"
                 [showBorders]="false"
                 [showColumnLines]="false"
                 [showRowLines]="true"
-                (onRowInserting)="onRowInserting($event)"
-                (onRowUpdating)="onRowUpdating($event)"
-                (onRowRemoving)="onRowRemoving($event)"
+               
                 [rowAlternationEnabled]="false"
                 [remoteOperations]="true"
                 [repaintChangesOnly]="true"
                 [errorRowEnabled]="false"
-                searchMode="contains"
-                (onExporting)="onExporting($event)">
+             >
     <dxo-paging [enabled]="true" [pageSize]="5"></dxo-paging>
     <dxo-pager [visible]="true"
                [allowedPageSizes]="allowedPageSizes"
@@ -113,46 +116,12 @@
                [showNavigationButtons]="true">
     </dxo-pager>
 
-    <dxo-editing mode="popup"
-                 [allowUpdating]="false"
-                 [allowAdding]="false"
-                 [allowDeleting]="false">
-      <dxo-popup title="Ticket Info"
-                 [showTitle]="true"
-                 [width]="700"
-                 [height]="400">
-      </dxo-popup>
-      <dxo-form>
-        <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
-          <dxi-item dataField="plateNumber"></dxi-item>
-          <dxi-item dataField="phoneNumber"></dxi-item>
-          <dxi-item dataField="entryDateTime"></dxi-item>
-          <dxi-item dataField="exitDateTime"></dxi-item>
-          <dxi-item dataField="clientType"></dxi-item>
-          <dxi-item dataField="transactionType"></dxi-item>
-          <dxi-item dataField="isPaid"></dxi-item>
-          <dxi-item dataField="locationName"></dxi-item>
-          <dxi-item dataField="totalAmount"></dxi-item>
-        </dxi-item>
-      </dxo-form>
-    </dxo-editing>
-    <dxo-search-panel [visible]="true"
-                      [highlightCaseSensitive]="true"></dxo-search-panel>
 
-
-    <!-- Add an index column -->
-
-
-    <dxi-column dataField="plateNumber" Caption="Plate Number" alignment="left" width="120"></dxi-column>
-    <dxi-column dataField="phoneNumber" caption="Phone Number" alignment="left" width="150"></dxi-column>
-    <dxi-column dataField="entryDateTime" caption="Entry date" dataType="date" alignment="left" width="140"> </dxi-column>
-    <dxi-column dataField="exitDateTime" caption="Exit date" dataType="date" alignment="left" width="140"> </dxi-column>
-    <dxi-column dataField="clientName" caption="Client type" alignment="left" width="120"> </dxi-column>
-    <dxi-column dataField="transactionName" caption="Transaction type" alignment="left" width="140"> </dxi-column>
-    <dxi-column dataField="isPaid" caption="is paid" alignment="left" width="70"> </dxi-column>
-    <dxi-column dataField="locationName" caption="Location Name" alignment="left" width="'auto'"> </dxi-column>
-    <dxi-column dataField="totalAmount" caption="Total Amount" alignment="left" width="'auto'"> </dxi-column>
-    <dxo-export [enabled]="true" [allowExportSelectedData]="false"></dxo-export>
-
+    <dxi-column dataField="userName" caption="User Name" alignment="left"></dxi-column>
+    <dxi-column dataField="locationName" Caption="location name" alignment="left"></dxi-column>
+    <dxi-column dataField="totalGuests" caption="Guests" alignment="left"></dxi-column>
+    <dxi-column dataField="startDateTime" dataType="date" caption="Start Date" alignment="left"> </dxi-column>
+    <dxi-column dataField="endDateTime" dataType="date" caption="End Date" alignment="left"> </dxi-column>
+    <dxi-column dataField="totalVisitors" caption="Vestors" alignment="left"> </dxi-column>
   </dx-data-grid>
 </div>

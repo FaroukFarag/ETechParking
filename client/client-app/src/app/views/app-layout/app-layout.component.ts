@@ -42,7 +42,7 @@ export class AppLayoutComponent {
     { id: 3, text: 'Tickets', icon: '/assets/icons/tickets.svg'},
     { id: 3, text: 'Shifts', icon: '/assets/icons/shift.svg'},
     { id: 4, text: 'Users', icon: '/assets/icons/users.svg' },
-    { id: 4, text: 'Reports', icon: '/assets/icons/users.svg' },
+    { id: 4, text: 'Reports', icon: '/assets/icons/reports.svg' },
   ]; 
   toolbarContent = [{
     widget: 'dxButton',

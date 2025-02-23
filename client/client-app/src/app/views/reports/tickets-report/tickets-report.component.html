@@ -96,15 +96,11 @@
                 [showBorders]="false"
                 [showColumnLines]="false"
                 [showRowLines]="true"
-                (onRowInserting)="onRowInserting($event)"
-                (onRowUpdating)="onRowUpdating($event)"
-                (onRowRemoving)="onRowRemoving($event)"
                 [rowAlternationEnabled]="false"
                 [remoteOperations]="true"
                 [repaintChangesOnly]="true"
                 [errorRowEnabled]="false"
-                searchMode="contains"
-                (onExporting)="onExporting($event)">
+                searchMode="contains">
     <dxo-paging [enabled]="true" [pageSize]="5"></dxo-paging>
     <dxo-pager [visible]="true"
                [allowedPageSizes]="allowedPageSizes"
@@ -122,27 +118,8 @@
                  [width]="700"
                  [height]="400">
       </dxo-popup>
-      <dxo-form>
-        <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
-          <dxi-item dataField="plateNumber"></dxi-item>
-          <dxi-item dataField="phoneNumber"></dxi-item>
-          <dxi-item dataField="entryDateTime"></dxi-item>
-          <dxi-item dataField="exitDateTime"></dxi-item>
-          <dxi-item dataField="clientType"></dxi-item>
-          <dxi-item dataField="transactionType"></dxi-item>
-          <dxi-item dataField="isPaid"></dxi-item>
-          <dxi-item dataField="locationName"></dxi-item>
-          <dxi-item dataField="totalAmount"></dxi-item>
-        </dxi-item>
-      </dxo-form>
+      
     </dxo-editing>
-    <dxo-search-panel [visible]="true"
-                      [highlightCaseSensitive]="true"></dxo-search-panel>
-
-
-    <!-- Add an index column -->
-
-
     <dxi-column dataField="plateNumber" Caption="Plate Number" alignment="left" width="120"></dxi-column>
     <dxi-column dataField="phoneNumber" caption="Phone Number" alignment="left" width="150"></dxi-column>
     <dxi-column dataField="entryDateTime" caption="Entry date" dataType="date" alignment="left" width="140"> </dxi-column>
@@ -152,7 +129,5 @@
     <dxi-column dataField="isPaid" caption="is paid" alignment="left" width="70"> </dxi-column>
     <dxi-column dataField="locationName" caption="Location Name" alignment="left" width="'auto'"> </dxi-column>
     <dxi-column dataField="totalAmount" caption="Total Amount" alignment="left" width="'auto'"> </dxi-column>
-    <dxo-export [enabled]="true" [allowExportSelectedData]="false"></dxo-export>
-
   </dx-data-grid>
 </div>
