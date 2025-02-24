@@ -132,8 +132,8 @@
   margin: auto !important;
 }
 ::ng-deep #form{
-    width:85%!important;
-    margin:auto!important;
+    width:100%!important;
+    //margin:auto!important;
 }
 
 ::ng-deep .dx-popup-wrapper .dx-button-mode-contained.dx-button-default {
@@ -168,4 +168,26 @@
 .export-reoprt-btn {
   width: 170px;
   margin-right: 7px;
+}
+
+::ng-deep .dx-first-row.dx-last-row.dx-field-item.dx-col-2.dx-field-item-optional.dx-flex-layout.dx-label-h-align {
+  display: flex!important;
+  flex-direction: column!important;
+}
+::ng-deep .dx-first-row.dx-last-row.dx-field-item.dx-col-1.dx-field-item-optional.dx-flex-layout.dx-label-h-align {
+  display: flex !important;
+  flex-direction: column !important;
+}
+::ng-deep .dx-first-row.dx-last-row.dx-field-item.dx-col-3.dx-field-item-optional.dx-flex-layout.dx-label-h-align {
+  display: flex !important;
+  flex-direction: column !important;
+}
+::ng-deep .dx-first-row.dx-last-row.dx-field-item.dx-col-4.dx-field-item-optional.dx-flex-layout.dx-label-h-align {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.filter-section{
+    width:100%;
+    margin-bottom:3rem;
 }

@@ -90,6 +90,51 @@
       </div>
     </dx-popup>
   </div>
+  <div class="filter-section">
+    <dx-form id="form" [formData]="filterData">
+
+      <dxi-item itemType="group" cssClass="form-group" [colCount]="6">
+        <dxi-item dataField="fromDateTime" caption="Start Date" editorType="dxDateBox"
+                  [editorOptions]="{ width: '100%', value:fromDateTime}"
+                  [label]="{ text: 'Date from' }"></dxi-item>
+        <dxi-item dataField="toDateTime" caption="End Date" editorType="dxDateBox"
+                  [editorOptions]="{ width: '100%',value:toDateTime }"
+                  [label]="{ text: 'Date To' }"></dxi-item>
+    
+
+        <dxi-item dataField="locationId" editorType="dxSelectBox"
+                  [editorOptions]="{
+                                   dataSource: locationsList,
+                                   valueExpr: 'id',
+                                   displayExpr: 'name',
+                                   value:locationId
+                                  }"
+                  [label]="{ text: 'Location name' }">
+        </dxi-item>
+        <dxi-item dataField="createUserId" editorType="dxSelectBox"
+                  [editorOptions]="{
+                        dataSource: usersList,
+                        valueExpr: 'id',
+                        displayExpr: 'userName',
+                        value:createUserId,
+                        placeholder: 'Select Cashier',
+                      }"
+                  [label]="{ text: 'Cashier started the shift' }"></dxi-item>
+
+        <dxi-item dataField="closeUserId" editorType="dxSelectBox"
+                  [editorOptions]="{
+                        dataSource: usersList,
+                        valueExpr: 'id',
+                        displayExpr: 'userName',
+                        value:closeUserId,
+                        placeholder: 'Select Cashier',
+                      }"
+                  [label]="{ text: 'Cashier closed the shift' }"></dxi-item>
+      </dxi-item>
+
+    </dx-form>
+
+  </div>
   <dx-data-grid id="gridContainer"
                 [dataSource]="ticketsList"
                 keyExpr="id"
@@ -104,7 +149,7 @@
                 [repaintChangesOnly]="true"
                 [errorRowEnabled]="false"
                 searchMode="contains"
-                (onExporting)="onExporting($event)">
+                >
     <dxo-paging [enabled]="true" [pageSize]="5"></dxo-paging>
     <dxo-pager [visible]="true"
                [allowedPageSizes]="allowedPageSizes"
@@ -136,12 +181,11 @@
         </dxi-item>
       </dxo-form>
     </dxo-editing>
-    <dxo-search-panel [visible]="true"
-                      [highlightCaseSensitive]="true"></dxo-search-panel>
+    <!--<dxo-search-panel [visible]="true"
+                      [highlightCaseSensitive]="true"></dxo-search-panel>-->
 
 
-    <!-- Add an index column -->
-
+ 
 
     <dxi-column dataField="plateNumber" Caption="Plate Number" alignment="left" width="120"></dxi-column>
     <dxi-column dataField="phoneNumber" caption="Phone Number" alignment="left" width="150"></dxi-column>
@@ -152,7 +196,6 @@
     <dxi-column dataField="isPaid" caption="is paid" alignment="left" width="70"> </dxi-column>
     <dxi-column dataField="locationName" caption="Location Name" alignment="left" width="'auto'"> </dxi-column>
     <dxi-column dataField="totalAmount" caption="Total Amount" alignment="left" width="'auto'"> </dxi-column>
-    <dxo-export [enabled]="true" [allowExportSelectedData]="false"></dxo-export>
 
   </dx-data-grid>
 </div>
