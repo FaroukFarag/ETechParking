@@ -25,6 +25,24 @@ public class UsersController(IUserService userService)
     public async Task<IActionResult> Login(LoginDto loginDto)
         => await HandleLoginAsync(loginDto, isCashier: false);
 
+    [HttpPost("ResetPassword")]
+    [AllowAnonymous]
+    public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+    {
+        var result = await _userService.ResetPasswordAsync(resetPasswordDto);
+
+        return HandleResult(result, "Password reset successfully.", "Failed to reset password. User not found or invalid request.");
+    }
+
+    [HttpPost("ForgotPassword")]
+    [AllowAnonymous]
+    public async Task<IActionResult> ForgotPassword(ForgotPasswordDto request)
+    {
+        var result = await _userService.ForgotPasswordAsync(request);
+
+        return HandleResult(result, "Password reset successfully.", "Failed to reset password. User not found or invalid request.");
+    }
+
     private async Task<IActionResult> HandleLoginAsync(LoginDto loginDto, bool isCashier)
     {
         var loggedInDto = await _userService.LoginAsync(loginDto, isCashier);
@@ -32,5 +50,12 @@ public class UsersController(IUserService userService)
         return loggedInDto is null
             ? Unauthorized(new { Message = "Invalid login attempt" })
             : Ok(loggedInDto);
+    }
+
+    private IActionResult HandleResult(bool result, string successMessage, string errorMessage)
+    {
+        return result
+            ? Ok(new { Message = successMessage })
+            : BadRequest(new { Message = errorMessage });
     }
 }

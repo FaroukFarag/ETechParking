@@ -108,6 +108,38 @@ public class UserService(
         };
     }
 
+    public async Task<bool> ResetPasswordAsync(ResetPasswordDto resetPasswordDto)
+    {
+        var user = await _userManager.FindByNameAsync(resetPasswordDto.UserName);
+
+        if (user == null)
+            return false;
+
+        var result = await _userManager.ChangePasswordAsync(
+            user,
+            resetPasswordDto.OldPassword,
+            resetPasswordDto.NewPassword);
+
+        return result.Succeeded;
+    }
+
+    public async Task<bool> ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto)
+    {
+        var user = await _userManager.FindByNameAsync(forgotPasswordDto.UserName);
+
+        if (user == null)
+            return false;
+
+        var removePasswordResult = await _userManager.RemovePasswordAsync(user);
+
+        if (!removePasswordResult.Succeeded)
+            return false;
+
+        var addPasswordResult = await _userManager.AddPasswordAsync(user, forgotPasswordDto.NewPassword);
+
+        return addPasswordResult.Succeeded;
+    }
+
     private async Task<User> AuthenticateUserAsync(LoginDto model)
     {
         var result = await _signInManager.PasswordSignInAsync(
@@ -132,18 +164,20 @@ public class UserService(
         };
 
         await _shiftRepository.CreateAsync(shift);
+
         var shiftAdded = await _unitOfWork.Complete();
 
         return shiftAdded ? shift : null!;
     }
 
-    private async Task<string> GetToken(User? user)
+    private async Task<string> GetToken(User user)
     {
         var claims = new List<TokenClaim>
         {
-            new("userName", user?.UserName!),
-            new("email", user?.Email!),
-            new("role", user?.Role.Name!)
+            new("userId", user.Id.ToString()),
+            new("userName", user.UserName!),
+            new("email", user.Email!),
+            new("role", user.Role.Name!)
         };
 
         return await _tokensService.GenerateToken(claims);

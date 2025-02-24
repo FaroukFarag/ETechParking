@@ -38,7 +38,7 @@ public class ShiftService(IShiftRepository shiftRepository, IUnitOfWork unitOfWo
             s => s.Location,
             s => s.Tickets,
             s => s.CashierUser,
-            s => s.AccountantUser);
+            s => s.AccountantUser!);
         var shiftsDtos = _mapper.Map<IReadOnlyList<ShiftDto>>(shifts);
 
         return shiftsDtos;
@@ -54,7 +54,7 @@ public class ShiftService(IShiftRepository shiftRepository, IUnitOfWork unitOfWo
             s => s.Location,
             s => s.Tickets,
             s => s.CashierUser,
-            s => s.AccountantUser);
+            s => s.AccountantUser!);
         var shiftsDtos = _mapper.Map<IReadOnlyList<ShiftDto>>(shifts);
 
         return shiftsDtos;
@@ -69,20 +69,50 @@ public class ShiftService(IShiftRepository shiftRepository, IUnitOfWork unitOfWo
             s => s.Location,
             s => s.Tickets,
             s => s.CashierUser,
-            s => s.AccountantUser);
+            s => s.AccountantUser!);
 
         return _mapper.Map<IReadOnlyList<ShiftDto>>(shifts);
     }
 
-    public async Task<ShiftDto> CloseShift(CloseShiftDto closeShiftDto)
+    public async Task<IEnumerable<ShiftDto>> GetAllByUserIdAsync(int userId)
+    {
+        var shifts = await _shiftRepository.GetAllAsync(
+            filter: s => s.CashierUserId == userId,
+            orderBy: q => q.OrderByDescending(s => s.StartDateTime),
+            s => s.Location,
+            s => s.Tickets,
+            s => s.CashierUser,
+            s => s.AccountantUser!);
+        var shiftsDtos = _mapper.Map<IReadOnlyList<ShiftDto>>(shifts);
+
+        return shiftsDtos;
+    }
+
+    public async Task<IEnumerable<ShiftDto>> GetAllPaginatedByUserIdAsync(PaginatedModelDto paginatedModelDto, int userId)
+    {
+        var paginatedModel = _mapper.Map<PaginatedModel>(paginatedModelDto);
+        var shifts = await _shiftRepository.GetAllPaginatedAsync(
+            paginatedModel: paginatedModel,
+            filter: s => s.CashierUserId == userId,
+            orderBy: q => q.OrderByDescending(s => s.StartDateTime),
+            s => s.Location,
+            s => s.Tickets,
+            s => s.CashierUser,
+            s => s.AccountantUser!);
+        var shiftsDtos = _mapper.Map<IReadOnlyList<ShiftDto>>(shifts);
+
+        return shiftsDtos;
+    }
+
+    public async Task<ShiftDto> CloseShiftAsync(CloseShiftDto closeShiftDto)
     {
         var shift = await _shiftRepository
             .GetAsync(
                 closeShiftDto.Id,
                 query => query.Include(s => s.Tickets)
                     .Include(s => s.Location)
-                    .Include(s => s.CashierUserId)
-                    .Include(s => s.AccountantUserId)
+                    .Include(s => s.CashierUser)
+                    .Include(s => s.AccountantUser)
             );
 
         shift.EndDateTime = closeShiftDto.EndDateTime;
@@ -102,7 +132,7 @@ public class ShiftService(IShiftRepository shiftRepository, IUnitOfWork unitOfWo
         return _mapper.Map<ShiftDto>(shift);
     }
 
-    public async Task<ShiftDto> ReviewShift(ReviewShiftDto reviewShiftDto)
+    public async Task<ShiftDto> ReviewShiftAsync(ReviewShiftDto reviewShiftDto)
     {
         var shift = await _shiftRepository
             .GetAsync(

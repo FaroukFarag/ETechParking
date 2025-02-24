@@ -69,4 +69,16 @@ public abstract class BaseController<TService, TEntity, TEntityDto, TPrimaryKey>
     {
         return Ok(await _service.DeleteRange(dtos));
     }
+
+    protected int GetCurrentUserId()
+    {
+        var userIdClaim = User.FindFirst("userId")?.Value;
+
+        if (string.IsNullOrEmpty(userIdClaim))
+        {
+            throw new UnauthorizedAccessException("User ID not found in claims.");
+        }
+
+        return int.Parse(userIdClaim);
+    }
 }

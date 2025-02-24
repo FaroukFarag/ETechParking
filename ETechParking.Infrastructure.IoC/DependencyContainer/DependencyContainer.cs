@@ -124,6 +124,8 @@ public static class DependencyContainer
         services.AddValidatorsFromAssemblyContaining<LocationDtoValidator>();
         services.AddValidatorsFromAssemblyContaining<UserDtoValidator>();
         services.AddValidatorsFromAssemblyContaining<LoginDtoValidator>();
+        services.AddValidatorsFromAssemblyContaining<ResetPasswordDtoValidator>();
+        services.AddValidatorsFromAssemblyContaining<ForgotPasswordDtoValidator>();
         services.AddValidatorsFromAssemblyContaining<RoleDtoValidator>();
         services.AddValidatorsFromAssemblyContaining<FareDtoValidator>();
         services.AddValidatorsFromAssemblyContaining<TicketDtoValidator>();
