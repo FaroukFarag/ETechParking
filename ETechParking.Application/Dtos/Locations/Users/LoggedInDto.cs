@@ -2,6 +2,7 @@
 
 public class LoggedInDto
 {
+    public bool IsFirstLogin { get; set; }
     public DateTime? StartDateTime { get; set; }
     public int UserId { get; set; }
     public int LocationId { get; set; }

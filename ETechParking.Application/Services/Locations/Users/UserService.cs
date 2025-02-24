@@ -38,6 +38,9 @@ public class UserService(
     public async override Task<UserDto> CreateAsync(UserDto userDto)
     {
         var user = _mapper.Map<User>(userDto);
+
+        user.IsFirstLogin = true;
+
         var userResult = await _userManager.CreateAsync(user, userDto.Password);
 
         if (!userResult.Succeeded)
@@ -100,6 +103,7 @@ public class UserService(
 
         return new LoggedInDto
         {
+            IsFirstLogin = user.IsFirstLogin,
             StartDateTime = shift?.StartDateTime,
             UserId = user.Id,
             LocationId = user.LocationId,
@@ -114,6 +118,13 @@ public class UserService(
 
         if (user == null)
             return false;
+
+        user.IsFirstLogin = false;
+
+        var userUpdated = await _userManager.UpdateAsync(user);
+
+        if (!userUpdated.Succeeded)
+            return false!;
 
         var result = await _userManager.ChangePasswordAsync(
             user,

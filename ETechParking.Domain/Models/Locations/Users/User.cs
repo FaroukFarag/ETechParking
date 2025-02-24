@@ -7,6 +7,7 @@ namespace ETechParking.Domain.Models.Locations.Users;
 
 public class User : IdentityUser<int>
 {
+    public bool IsFirstLogin { get; set; }
     public int RoleId { get; set; }
     public int LocationId { get; set; }
 

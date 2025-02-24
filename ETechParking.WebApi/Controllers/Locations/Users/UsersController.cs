@@ -26,7 +26,6 @@ public class UsersController(IUserService userService)
         => await HandleLoginAsync(loginDto, isCashier: false);
 
     [HttpPost("ResetPassword")]
-    [AllowAnonymous]
     public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
     {
         var result = await _userService.ResetPasswordAsync(resetPasswordDto);
@@ -35,7 +34,6 @@ public class UsersController(IUserService userService)
     }
 
     [HttpPost("ForgotPassword")]
-    [AllowAnonymous]
     public async Task<IActionResult> ForgotPassword(ForgotPasswordDto request)
     {
         var result = await _userService.ForgotPasswordAsync(request);
