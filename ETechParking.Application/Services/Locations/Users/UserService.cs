@@ -4,6 +4,7 @@ using ETechParking.Application.Dtos.Shared;
 using ETechParking.Application.Interfaces.Locations.Users;
 using ETechParking.Application.Services.Abstraction;
 using ETechParking.Common.Tokens.Interfaces;
+using ETechParking.Domain.Enums.Locations.Shifts;
 using ETechParking.Domain.Interfaces.Repositories.Locations.Roles;
 using ETechParking.Domain.Interfaces.Repositories.Locations.Shifts;
 using ETechParking.Domain.Interfaces.Repositories.Locations.Users;
@@ -167,11 +168,17 @@ public class UserService(
 
     private async Task<Shift> CreateShiftAsync(User user, DateTime startDateTime)
     {
-        var shift = new Shift
+        var shift = await _shiftRepository.GetLastUserOpenedShiftAsync(user.Id);
+
+        if (shift is not null)
+            return shift;
+
+        shift = new Shift
         {
             StartDateTime = startDateTime,
             LocationId = user.LocationId,
-            CashierUserId = user.Id
+            CashierUserId = user.Id,
+            Status = ShiftStatus.Opened
         };
 
         await _shiftRepository.CreateAsync(shift);

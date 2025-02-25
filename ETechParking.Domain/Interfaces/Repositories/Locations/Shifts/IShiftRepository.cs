@@ -5,4 +5,5 @@ namespace ETechParking.Domain.Interfaces.Repositories.Locations.Shifts;
 
 public interface IShiftRepository : IBaseRepository<Shift, int>
 {
+    Task<Shift?> GetLastUserOpenedShiftAsync(int userId);
 }

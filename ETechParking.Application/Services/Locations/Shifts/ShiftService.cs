@@ -77,7 +77,7 @@ public class ShiftService(IShiftRepository shiftRepository, IUnitOfWork unitOfWo
     public async Task<IEnumerable<ShiftDto>> GetAllByUserIdAsync(int userId)
     {
         var shifts = await _shiftRepository.GetAllAsync(
-            filter: s => s.CashierUserId == userId,
+            filter: s => s.CashierUserId == userId && s.Status == ShiftStatus.Closed,
             orderBy: q => q.OrderByDescending(s => s.StartDateTime),
             s => s.Location,
             s => s.Tickets,
@@ -93,7 +93,7 @@ public class ShiftService(IShiftRepository shiftRepository, IUnitOfWork unitOfWo
         var paginatedModel = _mapper.Map<PaginatedModel>(paginatedModelDto);
         var shifts = await _shiftRepository.GetAllPaginatedAsync(
             paginatedModel: paginatedModel,
-            filter: s => s.CashierUserId == userId,
+            filter: s => s.CashierUserId == userId && s.Status == ShiftStatus.Closed,
             orderBy: q => q.OrderByDescending(s => s.StartDateTime),
             s => s.Location,
             s => s.Tickets,
@@ -102,6 +102,15 @@ public class ShiftService(IShiftRepository shiftRepository, IUnitOfWork unitOfWo
         var shiftsDtos = _mapper.Map<IReadOnlyList<ShiftDto>>(shifts);
 
         return shiftsDtos;
+    }
+
+    public async Task<ShiftDto> GetLastUserOpenedShiftAsync(int userId)
+    {
+        var shifts = await _shiftRepository.GetAllAsync(
+            filter: s => s.CashierUserId == userId && s.Status == ShiftStatus.Closed,
+            orderBy: q => q.OrderByDescending(s => s.StartDateTime));
+
+        return _mapper.Map<ShiftDto>(shifts.FirstOrDefault());
     }
 
     public async Task<ShiftDto> CloseShiftAsync(CloseShiftDto closeShiftDto)
