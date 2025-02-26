@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
 import { UsersService } from '../../services/users/users.service';
+import { LocationService } from '../../services/locations/location.service';
+import { Location } from '../../models/locations/location.model';
 
 @Component({
   selector: 'app-users',
@@ -8,25 +10,28 @@ import { UsersService } from '../../services/users/users.service';
 
   imports: [DxButtonModule,
     DxDataGridModule,
-  ],  templateUrl: './users.component.html',
+  ], templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit {
   usersList: any;
   rolesList: any;
+  locations: Location[] = [];
+  roleId: any;
+  locationId: any;
   allowedPageSizes: (number | "auto")[] = [10, 20, 50];
-  constructor(private usersService: UsersService) {
+
+  constructor(
+    private usersService: UsersService,
+    private locationService: LocationService) {
 
   }
-
-
 
   ngOnInit() {
     this.getAllUsers();
     this.getRoles();
-
+    this.getAllLocations();
   }
-
 
   getAllUsers() {
     this.usersService.getAll('Users/GetAll').subscribe((data: any) => {
@@ -39,7 +44,16 @@ export class UsersComponent {
       this.rolesList = data;
     })
   }
+
+  getAllLocations() {
+    this.locationService.getAll('Locations/GetAll').subscribe((data: Location[]) => {
+      this.locations = data;
+    });
+
+  }
+
   onRowInserting(e: any) {
+    debugger
     this.usersService.create('Users/Create', e.data).subscribe(() => {
       this.getAllUsers();
     });
