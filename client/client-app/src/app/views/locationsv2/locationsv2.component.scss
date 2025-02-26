@@ -1,0 +1,129 @@
+
+::ng-deep .dx-row {
+  height: 50px !important;
+  padding: 10px !important;
+}
+
+
+::ng-deep .dx-header-row {
+  color: #f15b27 !important;
+  font-weight: bold;
+}
+
+::ng-deep .dx-datagrid-header-panel {
+  border-bottom: none;
+  height: 70px !important;
+}
+
+::ng-deep .dx-datagrid-header-panel .dx-toolbar-after {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+
+::ng-deep .dx-datagrid-search-panel.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-searchbox.dx-show-clear-button.dx-texteditor-empty.dx-widget {
+  width: 350px !important;
+  margin-right: 10px !important;
+  border-radius: 8px !important;
+  height: 48px !important;
+}
+
+::ng-deep .dx-widget.dx-button.dx-button-mode-contained.dx-button-normal.dx-button-has-text.dx-button-has-icon.dx-datagrid-toolbar-button.dx-edit-button.dx-datagrid-addrow-button {
+ background: #f15b27 !important;
+  border-radius: 8px !important;
+  height: 48px !important;
+  width: 48px !important;
+ border-color: #f15b27 !important;
+}
+
+::ng-deep .dx-icon.dx-icon-edit-button-addrow {
+  color: #fff !important;
+}
+
+::ng-deep .dx-page-size.dx-selection {
+  background: #f15b27 !important;
+  color: #fff !important;
+}
+
+::ng-deep .dx-page.dx-selection {
+  background: #f15b27 !important;
+  color: #fff !important;
+}
+
+.screen-title {
+  color: #232323;
+  font-weight: 600;
+}
+/*POPUP STYLES*/
+
+
+::ng-deep .dx-datagrid-edit-form-item.dx-first-col.dx-last-col.dx-field-item.dx-col-0.dx-field-item-optional.dx-flex-layout.dx-label-h-align {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 90% !important;
+  margin: auto !important;
+}
+
+::ng-deep .dx-popup-bottom.dx-toolbar .dx-toolbar-items-container {
+  height: 45px !important;
+}
+
+::ng-deep .dx-button-text {
+  color: #fff !important;
+}
+
+::ng-deep .dx-field-item-content .dx-state-focused {
+  border: 1px solid #f15b27 !important;
+}
+
+::ng-deep .dx-field-item-content .dx-state-hover {
+  border: 1px solid #f15b27 !important;
+}
+
+::ng-deep .dx-popup-bottom.dx-toolbar .dx-toolbar-after {
+  display: flex;
+  justify-content: center;
+}
+
+
+::ng-deep .dx-datagrid-header-panel .dx-button-mode-contained:nth-child(1) {
+  background: #f15b27 !important;
+  border-radius: 8px !important;
+  width: 54px !important;
+  height: 48px !important;
+  // border-color: #f15b27 !important;
+}
+
+/*GRID ICONS*/
+::ng-deep .dx-link.dx-link-edit.dx-icon-edit.dx-link-icon::before {
+  color: #5a5a5a;
+  font-size: 20px;
+}
+
+::ng-deep .dx-link.dx-link-delete.dx-icon-trash.dx-link-icon::before {
+  color: #f15b27 !important;
+  font-size: 20px;
+}
+
+
+
+::ng-deep .dx-datagrid-header-panel .dx-toolbar-after .dx-state-focused {
+  border-color: #f15b27 !important;
+}
+
+::ng-deep .dx-datagrid-header-panel .dx-toolbar-after .dx-state-hover {
+  border-color: #f15b27 !important;
+}
+
+
+
+::ng-deep .dx-icon.dx-icon-xlsxfile {
+    color:#fff!important;
+    font-size:22px!important;
+}
+::ng-deep .dx-item-content.dx-toolbar-item-content{
+    margin :auto 3px!important;
+}
+::ng-deep .dx-popup-bottom.dx-toolbar .dx-toolbar-item .dx-button-content {
+  background: #f15b27 !important;
+}
