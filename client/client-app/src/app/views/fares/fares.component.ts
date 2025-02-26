@@ -24,18 +24,36 @@ export class FaresComponent {
   locations: Location[] = [];
   allowedPageSizes: (number | "auto")[] = [10, 20, 50];
   locationId: any;
-  fareType: any;
   fareTypes = [{ id: 1, name: 'Hourly' }, { id: 2, name: 'Daily' }]
   fareTypeEditorOptions: any;
   showMaxLimit = false;
+  enterGracePeriodEditorOptions: any;
+  exitGracePeriodEditorOptions: any;
+  fareType: number | null = null;
+  constructor(private faresService: FareService, private locationService: LocationService) {
+    this.enterGracePeriodEditorOptions = {
+      editorType: 'dxNumberBox',
+      label: this.getGracePeriodLabel('enter')
+    };
+    this.exitGracePeriodEditorOptions = {
+      editorType: 'dxNumberBox',
+     
+      label: this.getGracePeriodLabel('exit')
+    };
 
-  constructor(private faresService: FareService, private locationService: LocationService) { }
+  }
+
 
   ngOnInit() {
     this.getAllFares();
     this.getAllLocations();
     this.loadFareTypeEditorOptions();
+ 
   }
+ 
+
+
+
 
   getAllFares() {
     this.faresService.getAll('Fares/GetAll').subscribe((data: any) => {
@@ -102,9 +120,26 @@ export class FaresComponent {
     });
   }
 
+  //onFareTypeChange(event: any) {
+  //  debugger
+  //  this.showMaxLimit = event.value == 1;
+  //  this.fareType = {id: event.value, value: 'test'};
+  //}
+
+
   onFareTypeChange(event: any) {
-    debugger
-    this.showMaxLimit = event.value == 1;
-    this.fareType = {id: event.value, value: 'test'};
+    this.fareType = event.value; // Set the fareType
+    this.showMaxLimit = this.fareType === 1; // Show max limit if fareType is Hourly
   }
+
+  getGracePeriodLabel(type: string) {
+    if (this.fareType === 1) {
+      return { text: `${type.charAt(0).toUpperCase() + type.slice(1)} grace period (Hours)` };
+    } else if (this.fareType === 2) {
+      return { text: `${type.charAt(0).toUpperCase() + type.slice(1)} grace period (Minutes)` };
+    } else {
+      return { text: `${type.charAt(0).toUpperCase() + type.slice(1)} grace period` }; 
+    }
+  }
+
 }

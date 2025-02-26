@@ -39,13 +39,11 @@ export class UsersComponent {
       this.rolesList = data;
     })
   }
-
   onRowInserting(e: any) {
     this.usersService.create('Users/Create', e.data).subscribe(() => {
       this.getAllUsers();
     });
   }
-
 
   onRowUpdating(e: any) {
     const updatedData = { ...e.oldData, ...e.newData };

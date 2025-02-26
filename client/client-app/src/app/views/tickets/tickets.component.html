@@ -1,98 +1,8 @@
 <div id="data-grid-demo">
   <h2 class="screen-title">Tickets</h2>
-  <div class="buttons-header">
-    <div class="export-reoprt-btn">
-      <dx-select-box [(value)]="selectedFormat"
-                     [dataSource]="exportFormats"
-                     [placeholder]="'Export Report'"
-                     (onValueChanged)="exportReport($event)">
-      </dx-select-box>
-    </div>
-    <div class="filter-btn">
-      <dx-button icon="filter"
-                 (onClick)="showFilterPopup()">
-      </dx-button>
-    </div>
-  </div>
-  <div class="dx-viewport">
-    <dx-popup [width]="600"
-              [height]="500"
-              [showTitle]="true"
-              title="Tickets Filter"
-              [dragEnabled]="false"
-              [hideOnOutsideClick]="true"
-              [showCloseButton]="true"
-              container=".dx-viewport"
-              [(visible)]="popupVisible">
-      <dxi-toolbar-item widget="dxButton"
-                        toolbar="bottom"
-                        location="after"
-                        class="col-12">
-        <dx-button stylingMode="contained"
-                   type="default"
-                   (onClick)="applyFilters()"
-                   class="p-3">
-          Search
-        </dx-button>
-        <dx-button stylingMode="contained"
-                   type="default"
-                   (onClick)="popupVisible = false"
-                   class="p-3">
-          Cancel
-        </dx-button>
-      </dxi-toolbar-item>
 
-      <div *dxTemplate="let data of 'content'">
-
-        <dx-form id="form" [formData]="filterData">
-
-          <dxi-item itemType="group" cssClass="form-group" [colCount]="2">
-            <dxi-item dataField="fromDateTime" caption="Start Date" editorType="dxDateBox"
-                      [editorOptions]="{ width: '100%', value:fromDateTime}"
-                      [label]="{ text: 'Date from' }"></dxi-item>
-            <dxi-item dataField="toDateTime" caption="End Date" editorType="dxDateBox"
-                      [editorOptions]="{ width: '100%',value:toDateTime }"
-                      [label]="{ text: 'Date To' }"></dxi-item>
-          </dxi-item>
-          <dxi-item itemType="group" cssClass="form-group" [colCount]="1">
-
-            <dxi-item dataField="locationId" editorType="dxSelectBox"
-                      [editorOptions]="{
-                                   dataSource: locationsList,
-                                   valueExpr: 'id',
-                                   displayExpr: 'name',
-                                   value:locationId
-                                  }"
-                      [label]="{ text: 'Location name' }">
-            </dxi-item>
-            <dxi-item dataField="createUserId" editorType="dxSelectBox"
-                      [editorOptions]="{
-                        dataSource: usersList,
-                        valueExpr: 'id',
-                        displayExpr: 'userName',
-                        value:createUserId,
-                        placeholder: 'Select Cashier',
-                      }"
-                      [label]="{ text: 'Cashier started the shift' }"></dxi-item>
-
-            <dxi-item dataField="closeUserId" editorType="dxSelectBox"
-                      [editorOptions]="{
-                        dataSource: usersList,
-                        valueExpr: 'id',
-                        displayExpr: 'userName',
-                        value:closeUserId,
-                        placeholder: 'Select Cashier',
-                      }"
-                      [label]="{ text: 'Cashier closed the shift' }"></dxi-item>
-          </dxi-item>
-
-        </dx-form>
-      </div>
-    </dx-popup>
-  </div>
   <div class="filter-section">
     <dx-form id="form" [formData]="filterData">
-
       <dxi-item itemType="group" cssClass="form-group" [colCount]="6">
         <dxi-item dataField="fromDateTime" caption="Start Date" editorType="dxDateBox"
                   [editorOptions]="{ width: '100%', value:fromDateTime}"
@@ -100,7 +10,7 @@
         <dxi-item dataField="toDateTime" caption="End Date" editorType="dxDateBox"
                   [editorOptions]="{ width: '100%',value:toDateTime }"
                   [label]="{ text: 'Date To' }"></dxi-item>
-    
+
 
         <dxi-item dataField="locationId" editorType="dxSelectBox"
                   [editorOptions]="{
@@ -131,7 +41,10 @@
                       }"
                   [label]="{ text: 'Cashier closed the shift' }"></dxi-item>
       </dxi-item>
-
+      <dxi-item itemType="button"
+                [buttonOptions]="filterButtonOptions">
+      </dxi-item>
+    
     </dx-form>
 
   </div>

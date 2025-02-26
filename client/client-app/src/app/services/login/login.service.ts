@@ -1,17 +1,23 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { BaseService } from '../shared/base.service';
 import { Login } from '../../models/login/login.model';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService extends BaseService<Login>  {
+export class LoginService {
+  protected baseUrl: string;
+  protected http = inject(HttpClient);
   constructor() {
-    super();
+      this.baseUrl = `${environment.apiUrl}`;
+   //   super();
   }
 
-  login(loginData: Login): Observable<any> {
-    return this.create('Users/login', loginData); 
+
+  login(loginModel: Login): Observable<any> {
+    return this.http.post(`${this.baseUrl}/Users/login`, loginModel);
   }
 }

@@ -40,7 +40,8 @@
             <dxi-validation-rule type="required" message="Name is required">
             </dxi-validation-rule>
           </dxi-item>
-          <dxi-item dataField="country" caption="Country">
+          <dxi-item dataField="country" caption="Country"  editorType="dxSelectBox" 
+          [editorOptions]="countryEditorOptions">
             <dxi-validation-rule type="required" message="country is required">
             </dxi-validation-rule>
           </dxi-item>

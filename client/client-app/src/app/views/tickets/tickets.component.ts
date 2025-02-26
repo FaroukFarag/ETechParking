@@ -30,9 +30,9 @@ import { DxListModule } from 'devextreme-angular';
     DxDataGridModule,
     DxTemplateModule,
     DxPopupModule,
- DxSelectBoxModule,
-  DxTextAreaModule,
-  DxDateBoxModule,
+    DxSelectBoxModule,
+    DxTextAreaModule,
+    DxDateBoxModule,
     DxFormModule,
     DxDropDownButtonModule,
     DxTextBoxModule,
@@ -51,7 +51,7 @@ export class TicketsComponent {
   createUserId: any;
   closeUserId: any;
   closeButtonOptions: Record<string, unknown>;
-  positionOf: string='';
+  positionOf: string = '';
   filters: any;
   filterData = {
     fromDateTime: null,
@@ -85,11 +85,11 @@ export class TicketsComponent {
       },
     };
   }
+  submitButtonOptions = {
+    text: "Submit the Form",
+    onClick: "applyFilters()"
+  }
 
-
-    //applyFilters() {
-    //    throw new Error('Method not implemented.');
-    //}
 
 
 
@@ -188,30 +188,35 @@ export class TicketsComponent {
   //    doc.save('Tickets.pdf');
   //  });
   //}
-  exportReport(e:any) {
+  exportReport(e: any) {
     if (!this.selectedFormat) {
       notify('Please select a format to export.', 'error', 3000);
       return;
     }
-    const format = this.selectedFormat.toUpperCase();
-    this.ticketsService.generateReport(`Reports/GetTicketsReport?format=${format}`).subscribe(
-      (blob: Blob) => {
-        const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.download = `TicketsReport.${format.toLowerCase()}`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      },
 
+    const format = this.selectedFormat;
+    this.ticketsService.generateReport(`Reports/GetTicketsReport?format=${format}`).subscribe(
+      (blob: Blob | null) => {
+        if (blob) { // Check if blob is not null
+          const link = document.createElement('a');
+          link.href = window.URL.createObjectURL(blob);
+          link.download = `Tickets Report.${format}`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } else {
+          // Handle the case when blob is null
+          notify('Failed to generate report. Please try again.', 'error', 3000);
+        }
+      },
       (error) => {
         if (error.error) {
           console.error('Error response body:', error.error);
         }
+        notify('An error occurred while generating the report.', 'error', 3000);
       }
     );
   }
-
 
 
 

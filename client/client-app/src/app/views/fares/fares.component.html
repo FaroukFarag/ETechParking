@@ -35,20 +35,26 @@
       </dxo-popup>
       <dxo-form>
         <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
+          <dxi-item dataField="locationId" editorType="dxSelectBox" [editorOptions]="{
+                              dataSource: locations,
+                              valueExpr: 'id',
+                              displayExpr: 'name',
+                              value:locationId
+                             }" [label]="{ text: 'Location name' }">
+          </dxi-item>
           <dxi-item dataField="amount" caption="Amount"></dxi-item>
           <dxi-item dataField="fareType" editorType="dxSelectBox" [editorOptions]="fareTypeEditorOptions"
-            [label]="{ text: 'Fare type' }"></dxi-item>
-          <dxi-item dataField="enterGracePeriod" caption="Enter grace period"></dxi-item>
-          <dxi-item dataField="exitGracePeriod" caption="Exit grace period"></dxi-item>
+                    [label]="{ text: 'Fare type' }"></dxi-item>
           <dxi-item *ngIf="showMaxLimit" dataField="maxLimit" caption="Max Limit"></dxi-item>
-          <dxi-item dataField="locationId" editorType="dxSelectBox" [editorOptions]="{
-                                   dataSource: locations,
-                                   valueExpr: 'id',
-                                   displayExpr: 'name',
-                                   value:locationId
-                                  }" [label]="{ text: 'Location name' }">
+
+          <dxi-item dataField="enterGracePeriod" editorType="dxNumberBox"
+                    [editorOptions]="{ min: 0, showSpinButtons: true }"></dxi-item>
+          <dxi-item dataField="exitGracePeriod" caption="Exit grace period" alignment="left"
+                    editorType="dxNumberBox"
+                    [editorOptions]="{ min: 0, showSpinButtons: true }">
           </dxi-item>
         </dxi-item>
+       
       </dxo-form>
     </dxo-editing>
 

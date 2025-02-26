@@ -6,6 +6,7 @@ import { LoginComponent } from './views/login/login.component';
 import { TicketsComponent } from './views/tickets/tickets.component';
 import { ShiftsComponent } from './views/shifts/shifts.component';
 import { ReportsComponent } from './views/reports/reports.component';
+import { ResetPasswordComponent } from './views/reset-password/reset-password.component';
 
 export const routes: Routes = [
   //  {
@@ -21,7 +22,7 @@ export const routes: Routes = [
     component: UsersComponent
   },
   {
-    path: 'fares',
+    path: 'rates',
     component: FaresComponent
   },
   {
@@ -41,6 +42,10 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent
   },
   {
     path: 'locations',

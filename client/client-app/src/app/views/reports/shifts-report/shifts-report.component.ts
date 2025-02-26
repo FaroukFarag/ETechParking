@@ -101,21 +101,27 @@ export class ShiftsReportComponent {
       notify('Please select a format to export.', 'error', 3000);
       return;
     }
+
     const format = this.selectedFormat;
     this.shiftsService.generateReport(`Reports/GetShiftsReport?format=${format}`).subscribe(
-      (blob: Blob) => {
-        const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.download = `Shifts Report.${format}`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+      (blob: Blob | null) => {
+        if (blob) { // Check if blob is not null
+          const link = document.createElement('a');
+          link.href = window.URL.createObjectURL(blob);
+          link.download = `Shifts Report.${format}`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } else {
+          // Handle the case when blob is null
+          notify('Failed to generate report. Please try again.', 'error', 3000);
+        }
       },
-
       (error) => {
         if (error.error) {
           console.error('Error response body:', error.error);
         }
+        notify('An error occurred while generating the report.', 'error', 3000);
       }
     );
   }
