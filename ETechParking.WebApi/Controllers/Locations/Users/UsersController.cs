@@ -1,84 +1,59 @@
 ﻿using ETechParking.Application.Dtos.Locations.Users;
-using ETechParking.Application.Dtos.Shared;
 using ETechParking.Application.Interfaces.Locations.Users;
+using ETechParking.Domain.Models.Locations.Users;
+using ETechParking.WebApi.Controllers.Abstraction;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ETechParking.WebApi.Controllers.Locations.Users;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UsersController(IUserService userService) : ControllerBase
+[Authorize(Roles = "Admin")]
+public class UsersController(IUserService userService)
+    : BaseController<IUserService, User, UserDto, int>(userService)
 {
     private readonly IUserService _userService = userService;
 
-    [HttpPost("Create")]
-    public async Task<IActionResult> Create(UserDto userDto)
-    {
-        return Ok(await _userService.CreateAsync(userDto));
-    }
+    [HttpPost("CashierLogin")]
+    [AllowAnonymous]
+    public async Task<IActionResult> CashierLogin(LoginDto loginDto)
+        => await HandleLoginAsync(loginDto, isCashier: true);
 
-    [HttpGet("Get")]
-    public async Task<IActionResult> Get(int id)
-    {
-        var userDto = await _userService.GetAsync(id);
-
-        if (userDto == null)
-            return NotFound();
-
-        return Ok(userDto);
-    }
-
-    [HttpGet("GetAll")]
-    public async Task<IActionResult> GetAll()
-    {
-        return Ok(await _userService.GetAllAsync());
-    }
-
-    [HttpPost("GetAllPaginated")]
-    public async Task<IActionResult> GetAllPaginated(PaginatedModelDto paginatedModelDto)
-    {
-        return Ok(await _userService
-            .GetAllPaginatedAsync(
-                paginatedModel: paginatedModelDto,
-                filter: default!,
-                orderBy: default!,
-                u => u.Role,
-                u => u.Location));
-    }
-
-    [HttpPut("Update")]
-    public async Task<IActionResult> Update(UserDto newUserDto)
-    {
-        return Ok(await _userService.Update(newUserDto));
-    }
-
-    [HttpDelete("Delete")]
-    public async Task<IActionResult> Delete(int id)
-    {
-        var userDto = await _userService.Delete(id);
-
-        if (userDto == null)
-            return NotFound();
-
-        return Ok(userDto);
-    }
-
-    [HttpDelete("DeleteRange")]
-    public async Task<IActionResult> DeleteRange(IEnumerable<UserDto> usersDtos)
-    {
-        return Ok(await _userService.DeleteRange(usersDtos));
-    }
-
-    [HttpPost("login")]
+    [HttpPost("Login")]
+    [AllowAnonymous]
     public async Task<IActionResult> Login(LoginDto loginDto)
+        => await HandleLoginAsync(loginDto, isCashier: false);
+
+    [HttpPost("ResetPassword")]
+    public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
     {
-        var token = await _userService.LoginAsync(loginDto);
+        var result = await _userService.ResetPasswordAsync(resetPasswordDto);
 
-        if (token == default!)
-        {
-            return Unauthorized(new { Message = "Invalid login attempt" });
-        }
+        return HandleResult(result, "Password reset successfully.", "Failed to reset password. User not found or invalid request.");
+    }
 
-        return Ok(token);
+    [HttpPost("ForgotPassword")]
+    public async Task<IActionResult> ForgotPassword(ForgotPasswordDto request)
+    {
+        var result = await _userService.ForgotPasswordAsync(request);
+
+        return HandleResult(result, "Password reset successfully.", "Failed to reset password. User not found or invalid request.");
+    }
+
+    private async Task<IActionResult> HandleLoginAsync(LoginDto loginDto, bool isCashier)
+    {
+        var loggedInDto = await _userService.LoginAsync(loginDto, isCashier);
+
+        return loggedInDto is null
+            ? Unauthorized(new { Message = "Invalid login attempt" })
+            : Ok(loggedInDto);
+    }
+
+    private IActionResult HandleResult(bool result, string successMessage, string errorMessage)
+    {
+        return result
+            ? Ok(new { Message = successMessage })
+            : BadRequest(new { Message = errorMessage });
     }
 }

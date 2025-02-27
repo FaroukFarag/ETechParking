@@ -7,22 +7,22 @@ public class LocationDtoValidator : AbstractValidator<LocationDto>
 {
     public LocationDtoValidator()
     {
-        RuleFor(c => c.Name)
+        RuleFor(l => l.Name)
             .NotEmpty()
             .MaximumLength(50);
 
-        RuleFor(c => c.Country)
+        RuleFor(l => l.Country)
             .NotEmpty()
             .MaximumLength(50);
 
-        RuleFor(c => c.City)
+        RuleFor(l => l.City)
             .NotEmpty()
             .MaximumLength(50);
 
-        RuleFor(c => c.Longitude)
+        RuleFor(l => l.Longitude)
             .NotNull();
 
-        RuleFor(c => c.Latitude)
+        RuleFor(l => l.Latitude)
             .NotNull();
     }
 }

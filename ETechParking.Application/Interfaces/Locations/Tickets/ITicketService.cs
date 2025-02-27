@@ -6,5 +6,8 @@ namespace ETechParking.Application.Interfaces.Locations.Tickets;
 
 public interface ITicketService : IBaseService<Ticket, TicketDto, int>
 {
-    decimal CalculateTotal(Ticket ticket, bool includeVat = true);
+    Task<TicketDto> GetByPlateNumberAsync(string plateNumber);
+    Task<IEnumerable<TicketDto>> GetAllFilteredAsync(TicketFilterDto ticketFilterDto);
+    Task<TicketDto> CalculateTicketTotal(CalculateTicketTotalDto ticketTotalDto);
+    Task<TicketDto> PayTicket(PayTicketDto payTicketDto);
 }

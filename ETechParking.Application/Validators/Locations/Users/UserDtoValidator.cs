@@ -7,21 +7,21 @@ public class UserDtoValidator : AbstractValidator<UserDto>
 {
     public UserDtoValidator()
     {
-        RuleFor(c => c.UserName)
+        RuleFor(u => u.UserName)
             .NotEmpty()
             .MaximumLength(50);
 
-        RuleFor(c => c.Email)
+        RuleFor(u => u.Email)
             .NotEmpty()
             .MaximumLength(50);
 
-        RuleFor(c => c.Password)
+        RuleFor(u => u.Password)
             .NotEmpty()
             .MinimumLength(8)
             .MaximumLength(15)
             .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,15}$");
 
-        RuleFor(c => c.PhoneNumber)
+        RuleFor(u => u.PhoneNumber)
             .MaximumLength(15);
     }
 }

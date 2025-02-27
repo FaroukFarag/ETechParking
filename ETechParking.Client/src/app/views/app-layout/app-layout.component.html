@@ -1,15 +1,22 @@
 
-<div class="flex-container">
-  <dx-toolbar [items]="toolbarContent" id="toolbar"></dx-toolbar>
+<div class="flex-container" *ngIf="canAccessMainLayout">
+  <dx-toolbar [items]="toolbarContent" id="toolbar"  class="toolbar-header"></dx-toolbar>
+
   <dx-drawer [openedStateMode]="selectedOpenMode"
              [position]="selectedPosition"
              [revealMode]="selectedRevealMode"
              template="template"
              [(opened)]="isDrawerOpen"
-             [height]="'100%'"
+             [height]="'100vh'"
              [width]="'100%'"
-             [closeOnOutsideClick]="true">
+             [closeOnOutsideClick]="true"
+             [visible]="canAccessMainLayout">
     <div *dxTemplate="let data of 'template'" style="width: 200px">
+      <div class="logo-container" style="text-align: center; margin-bottom: 20px;">
+
+        <img src="/assets/images/EP-Logo.svg" alt="Logo" class="logo">
+
+      </div>
       <dx-list class="panel-list"
                [dataSource]="navigation"
                [hoverStateEnabled]="true"
@@ -18,23 +25,28 @@
                (onItemClick)="navigateTo($event.itemData.text.toLowerCase())">
         <div *dxTemplate="let item of navigation">
           <div class="item-content">
-            <i class="dx-icon dx-icon-{{item.icon}}"></i>
+
+            <img [src]="item.icon" alt="{{ item.text }} icon" style="height: 24px; width: 24px; margin-right: 8px;">
+
             {{ item.text }}
+
           </div>
         </div>
       </dx-list>
     </div>
     <div class=" start-container">
-      <!--<app-header></app-header>-->
       <section>
         <article class="app-layout--main-article">
-          <app-content class="m-5">
+          <app-content class="">
 
           </app-content>
         </article>
       </section>
-    </div>
-  </dx-drawer>
-  <app-footer></app-footer>
+      <app-footer></app-footer>
 
+
+    </div>
+
+  </dx-drawer>
 </div>
+<app-login *ngIf="!canAccessMainLayout" [canAccessMainLayout]="canAccessMainLayout"></app-login>

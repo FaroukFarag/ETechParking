@@ -1,0 +1,35 @@
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+
+
+    <!-- LOGO -->
+    <div class="fadeIn first logo-container">
+      <img src="/assets/img/EP-Logo.svg" id="logo" alt="logo" />
+    </div>
+    <h2 class="active login-text"> Sign In </h2>
+    <!-- Login Form -->
+    <form class="form" (ngSubmit)="onLogin()">
+      <div class="form-inputs">
+        <label>User Name</label>
+        <input type="text" id="userName" class="fadeIn second"  [(ngModel)]="loginModel.username" name="username" required>
+      </div>
+      <div class="form-inputs">
+        <label>Password</label>
+        <input type="text" id="password" class="fadeIn third"  [(ngModel)]="loginModel.password" name="password" required>
+      </div>
+      <div class="submit-inputs">
+        <input type="submit" class="fadeIn fourth" value="Log In">
+      </div>
+     
+    </form>
+
+    <!-- Remind Passowrd -->
+    <!--<div id="formFooter">
+    <a class="underlineHover" href="#" onclick="navigate()"><span class="span">Don't have account?</span> Sign in</a>
+  </div>-->
+
+  </div>
+</div>
+
+  
+

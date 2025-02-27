@@ -1,0 +1,19 @@
+<div class="mb-5">
+  <h2 class="screen-title">Export Report</h2>
+  <dx-tab-panel orientation="horizontal"
+                (onTitleClick)="onTitleClick($event)"
+                [tabIndex]="selectedTabIndex"
+                [selectedIndex]="selectedTabIndex">
+    <dxi-item title="Tickets"
+              name="mainUserInfo"
+              icon="fa-solid fa-circle-info">
+      <app-tickets-report></app-tickets-report>
+    </dxi-item>
+    <dxi-item title="Shifts"
+              name="userAddress"
+              icon="fa-solid fa-location-dot">
+      <app-shifts-report></app-shifts-report>
+    </dxi-item>
+
+  </dx-tab-panel>
+</div>

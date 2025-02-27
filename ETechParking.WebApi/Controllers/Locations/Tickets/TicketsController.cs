@@ -1,66 +1,61 @@
 ﻿using ETechParking.Application.Dtos.Locations.Tickets;
-using ETechParking.Application.Dtos.Shared;
 using ETechParking.Application.Interfaces.Locations.Tickets;
+using ETechParking.Domain.Models.Locations.Tickets;
+using ETechParking.WebApi.Controllers.Abstraction;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ETechParking.WebApi.Controllers.Locations.Tickets
+namespace ETechParking.WebApi.Controllers.Locations.Tickets;
+
+[Route("api/[controller]")]
+[ApiController]
+[Authorize(Roles = "Admin,Accountant,Cashier")]
+public class TicketsController(ITicketService ticketService) :
+    BaseController<ITicketService, Ticket, TicketDto, int>(ticketService)
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class TicketsController(ITicketService ticketService) : ControllerBase
+    private readonly ITicketService _ticketService = ticketService;
+
+    public override async Task<IActionResult> Create(TicketDto ticketDto)
     {
-        private readonly ITicketService _ticketService = ticketService;
+        var result = await _ticketService.CreateAsync(ticketDto);
 
-        [HttpPost("Create")]
-        public async Task<IActionResult> Create(TicketDto ticketDto)
-        {
-            return Ok(await _ticketService.CreateAsync(ticketDto));
-        }
+        if (result is null)
+            return BadRequest("Plate number has opened ticket!");
 
-        [HttpGet("Get")]
-        public async Task<IActionResult> Get(int id)
-        {
-            var ticketDto = await _ticketService.GetAsync(id);
+        return Ok(result);
+    }
 
-            if (ticketDto == null)
-                return NotFound();
+    [HttpGet("GetByPlateNumber")]
+    public virtual async Task<IActionResult> GetByPlateNumber(string plateNumber)
+    {
+        var dto = await _ticketService.GetByPlateNumberAsync(plateNumber);
 
-            return Ok(ticketDto);
-        }
+        if (dto == null)
+            return NotFound();
 
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
-        {
-            return Ok(await _ticketService.GetAllAsync());
-        }
+        return Ok(dto);
+    }
 
-        [HttpPost("GetAllPaginated")]
-        public async Task<IActionResult> GetAllPaginated(PaginatedModelDto paginatedModelDto)
-        {
-            return Ok(await _ticketService.GetAllPaginatedAsync(paginatedModelDto));
-        }
+    [HttpPost("GetAllFiltered")]
+    public async Task<IActionResult> GetAllFiltered(TicketFilterDto ticketFilterDto)
+    {
+        return Ok(await _ticketService.GetAllFilteredAsync(ticketFilterDto));
+    }
 
-        [HttpPut("Update")]
-        public async Task<IActionResult> Update(TicketDto newTicketDto)
-        {
-            return Ok(await _ticketService.Update(newTicketDto));
-        }
+    [HttpPost("CalculateTicketTotal")]
+    public async Task<IActionResult> CalculateTicketTotal(CalculateTicketTotalDto ticketTotalDto)
+    {
+        var result = await _ticketService.CalculateTicketTotal(ticketTotalDto);
 
-        [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var ticketDto = await _ticketService.Delete(id);
+        if (result is null)
+            return BadRequest("Invalid Date!");
 
-            if (ticketDto == null)
-                return NotFound();
+        return Ok(result);
+    }
 
-            return Ok(ticketDto);
-        }
-
-        [HttpDelete("DeleteRange")]
-        public async Task<IActionResult> DeleteRange(IEnumerable<TicketDto> ticketDtos)
-        {
-            return Ok(await _ticketService.DeleteRange(ticketDtos));
-        }
+    [HttpPost("PayTicket")]
+    public async Task<IActionResult> PayTicket(PayTicketDto payTicketDto)
+    {
+        return Ok(await _ticketService.PayTicket(payTicketDto));
     }
 }

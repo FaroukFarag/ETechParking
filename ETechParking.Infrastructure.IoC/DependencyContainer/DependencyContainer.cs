@@ -2,6 +2,7 @@
 using ETechParking.Application.AutoMapper.Locations;
 using ETechParking.Application.AutoMapper.Locations.Fares;
 using ETechParking.Application.AutoMapper.Locations.Roles;
+using ETechParking.Application.AutoMapper.Locations.Shifts;
 using ETechParking.Application.AutoMapper.Locations.Tickets;
 using ETechParking.Application.AutoMapper.Locations.Users;
 using ETechParking.Application.AutoMapper.Shared;
@@ -9,17 +10,20 @@ using ETechParking.Application.Interfaces.Abstraction;
 using ETechParking.Application.Interfaces.Locations;
 using ETechParking.Application.Interfaces.Locations.Fares;
 using ETechParking.Application.Interfaces.Locations.Roles;
+using ETechParking.Application.Interfaces.Locations.Shifts;
 using ETechParking.Application.Interfaces.Locations.Tickets;
 using ETechParking.Application.Interfaces.Locations.Users;
 using ETechParking.Application.Services.Abstraction;
 using ETechParking.Application.Services.Locations;
 using ETechParking.Application.Services.Locations.Fares;
 using ETechParking.Application.Services.Locations.Roles;
+using ETechParking.Application.Services.Locations.Shifts;
 using ETechParking.Application.Services.Locations.Tickets;
 using ETechParking.Application.Services.Locations.Users;
 using ETechParking.Application.Validators.Locations;
 using ETechParking.Application.Validators.Locations.Fares;
 using ETechParking.Application.Validators.Locations.Roles;
+using ETechParking.Application.Validators.Locations.Shifts;
 using ETechParking.Application.Validators.Locations.Tickets;
 using ETechParking.Application.Validators.Locations.Users;
 using ETechParking.Common.Tokens.Configurations;
@@ -30,6 +34,7 @@ using ETechParking.Domain.Interfaces.Repositories.Abstraction;
 using ETechParking.Domain.Interfaces.Repositories.Locations;
 using ETechParking.Domain.Interfaces.Repositories.Locations.Fares;
 using ETechParking.Domain.Interfaces.Repositories.Locations.Roles;
+using ETechParking.Domain.Interfaces.Repositories.Locations.Shifts;
 using ETechParking.Domain.Interfaces.Repositories.Locations.Tickets;
 using ETechParking.Domain.Interfaces.Repositories.Locations.Users;
 using ETechParking.Domain.Interfaces.UnitOfWork;
@@ -40,9 +45,13 @@ using ETechParking.Infrastructure.Data.Repositories.Abstraction;
 using ETechParking.Infrastructure.Data.Repositories.Locations;
 using ETechParking.Infrastructure.Data.Repositories.Locations.Fares;
 using ETechParking.Infrastructure.Data.Repositories.Locations.Roles;
+using ETechParking.Infrastructure.Data.Repositories.Locations.Shifts;
 using ETechParking.Infrastructure.Data.Repositories.Locations.Tickets;
 using ETechParking.Infrastructure.Data.Repositories.Locations.Users;
 using ETechParking.Infrastructure.Data.UnitOfWork;
+using ETechParking.Reporting.Interfaces;
+using ETechParking.Reporting.Services;
+using ETechParking.WebApi.Middlewares.Exceptions;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -69,7 +78,9 @@ public static class DependencyContainer
             .AddScoped<IUserService, UserService>()
             .AddScoped<IRoleService, RoleService>()
             .AddScoped<IFareService, FareService>()
-            .AddScoped<ITicketService, TicketService>();
+            .AddScoped<ITicketService, TicketService>()
+            .AddScoped<IShiftService, ShiftService>()
+            .AddScoped<IReportService, ReportService>();
     }
 
     public static void RegisterDbContext(this IServiceCollection services, IConfiguration configuration)
@@ -87,7 +98,8 @@ public static class DependencyContainer
             .AddScoped<IUserRepository, UserRepository>()
             .AddScoped<IRoleRepository, RoleRepository>()
             .AddScoped<IFareRepository, FareRepository>()
-            .AddScoped<ITicketRepository, TicketRepository>();
+            .AddScoped<ITicketRepository, TicketRepository>()
+            .AddScoped<IShiftRepository, ShiftRepository>();
     }
 
     public static void RegisterUnitOfWork(this IServiceCollection services)
@@ -104,16 +116,22 @@ public static class DependencyContainer
         services.AddAutoMapper(typeof(RoleProfile).Assembly);
         services.AddAutoMapper(typeof(FareProfile).Assembly);
         services.AddAutoMapper(typeof(TicketProfile).Assembly);
+        services.AddAutoMapper(typeof(ShiftProfile).Assembly);
     }
 
     public static void RegisterValidators(this IServiceCollection services)
     {
         services.AddValidatorsFromAssemblyContaining<LocationDtoValidator>();
         services.AddValidatorsFromAssemblyContaining<UserDtoValidator>();
+        services.AddValidatorsFromAssemblyContaining<LoginDtoValidator>();
+        services.AddValidatorsFromAssemblyContaining<ResetPasswordDtoValidator>();
+        services.AddValidatorsFromAssemblyContaining<ForgotPasswordDtoValidator>();
         services.AddValidatorsFromAssemblyContaining<RoleDtoValidator>();
         services.AddValidatorsFromAssemblyContaining<FareDtoValidator>();
         services.AddValidatorsFromAssemblyContaining<TicketDtoValidator>();
-        services.AddValidatorsFromAssemblyContaining<LoginDtoValidator>();
+        services.AddValidatorsFromAssemblyContaining<CalculateTicketTotalDtoValidator>();
+        services.AddValidatorsFromAssemblyContaining<PayTicketDtoValidator>();
+        services.AddValidatorsFromAssemblyContaining<ShiftDtoValidator>();
     }
 
     public static void RegisterIdentity(this IServiceCollection services)
@@ -167,5 +185,10 @@ public static class DependencyContainer
         var dbContext = scope.ServiceProvider.GetRequiredService<ETechParkingDbContext>();
 
         dbContext.Database.Migrate();
+    }
+
+    public static void RegisterMiddlewares(this IServiceCollection services)
+    {
+        services.AddTransient<ExceptionHandlingMiddleware>();
     }
 }

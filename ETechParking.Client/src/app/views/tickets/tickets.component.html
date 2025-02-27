@@ -1,0 +1,106 @@
+
+
+<div id="data-grid-demo">
+  <h4 class="screen-title">Tickets</h4>
+  <div class="filter-btn">
+    <dx-button icon="filter"
+               (onClick)="showFilterPopup()">
+    </dx-button>
+  </div>
+  <div class="dx-viewport">
+    <dx-popup [width]="500"
+              [height]="380"
+              [showTitle]="true"
+              title="Search on tickets"
+              [dragEnabled]="false"
+              [hideOnOutsideClick]="true"
+              [showCloseButton]="true"
+              container=".dx-viewport"
+              [(visible)]="popupVisible">
+
+      <!--<dxi-popup-toolbar-item widget="dxButton"
+                              toolbar="bottom"
+                              location="before"
+                              [options]="filterButtonOptions">
+      </dxi-popup-toolbar-item>
+      <dxi-popup-toolbar-item widget="dxButton"
+                              toolbar="bottom"
+                              location="after"
+                              [options]="closeButtonOptions">
+      </dxi-popup-toolbar-item>-->
+      <dxo-position at="center" my="center" [of]="positionOf" collision="fit">
+      </dxo-position>
+      <div *dxTemplate="let data of 'content'">
+        <p>
+          TEST:
+        </p>
+
+      </div>
+    </dx-popup>
+  </div>
+  <dx-data-grid id="gridContainer"
+                [dataSource]="ticketsList"
+                keyExpr="id"
+                [showBorders]="false"
+                [showColumnLines]="false"
+                [showRowLines]="true"
+                (onRowInserting)="onRowInserting($event)"
+                (onRowUpdating)="onRowUpdating($event)"
+                (onRowRemoving)="onRowRemoving($event)"
+                [rowAlternationEnabled]="false"
+                [remoteOperations]="true"
+                [repaintChangesOnly]="true"
+                [errorRowEnabled]="false"
+                searchMode="contains">
+    <dxo-paging [enabled]="true" [pageSize]="5"></dxo-paging>
+    <dxo-pager [visible]="true"
+               [allowedPageSizes]="allowedPageSizes"
+               [showPageSizeSelector]="true"
+               [showInfo]="true"
+               [showNavigationButtons]="true">
+    </dxo-pager>
+
+    <dxo-editing mode="popup"
+                 [allowUpdating]="false"
+                 [allowAdding]="false"
+                 [allowDeleting]="false">
+      <dxo-popup title="Ticket Info"
+                 [showTitle]="true"
+                 [width]="700"
+                 [height]="400">
+      </dxo-popup>
+      <dxo-form>
+        <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
+          <dxi-item dataField="ticketNumber"></dxi-item>
+          <dxi-item dataField="plateNumber"></dxi-item>
+          <dxi-item dataField="phoneNumber"></dxi-item>
+          <dxi-item dataField="entryDateTime"></dxi-item>
+          <dxi-item dataField="exitDateTime"></dxi-item>
+          <dxi-item dataField="clientType"></dxi-item>
+          <dxi-item dataField="transactionType"></dxi-item>
+          <dxi-item dataField="isPaid"></dxi-item>
+          <dxi-item dataField="locationId"></dxi-item>
+          <dxi-item dataField="locationName"></dxi-item>
+          <dxi-item dataField="totalWithoutVat"></dxi-item>
+          <dxi-item dataField="totalWithVat"></dxi-item>
+          <dxi-item dataField="vat"></dxi-item>
+        </dxi-item>
+      </dxo-form>
+    </dxo-editing>
+    <dxo-search-panel [visible]="true"
+                      [highlightCaseSensitive]="true"></dxo-search-panel>
+    <dxi-column dataField="ticketNumber" caption="Ticket Number" alignment="left" width="150"></dxi-column>
+    <dxi-column dataField="plateNumber" Caption="Plate Number" alignment="left"></dxi-column>
+    <dxi-column dataField="phoneNumber" caption="Phone Number" alignment="left"></dxi-column>
+    <dxi-column dataField="entryDateTime" caption="Entry date time" alignment="left"> </dxi-column>
+    <dxi-column dataField="exitDateTime" caption="Exit date time" alignment="left"> </dxi-column>
+    <dxi-column dataField="clientType" caption="Client type" alignment="left" width="80"> </dxi-column>
+    <dxi-column dataField="transactionType" caption="Transaction type" alignment="left"> </dxi-column>
+    <dxi-column dataField="isPaid" caption="is paid" alignment="left" width="50"> </dxi-column>
+    <dxi-column dataField="locationId" caption="Location Id" alignment="left"> </dxi-column>
+    <dxi-column dataField="locationName" caption="Location Name" alignment="left"> </dxi-column>
+    <dxi-column dataField="totalWithoutVat" caption="Total witout Vat" alignment="left"> </dxi-column>
+    <dxi-column dataField="totalWithVat" caption="Total with Vat" alignment="left"> </dxi-column>
+    <dxi-column dataField="vat" caption="Vat" alignment="left" width="50"> </dxi-column>
+  </dx-data-grid>
+</div>

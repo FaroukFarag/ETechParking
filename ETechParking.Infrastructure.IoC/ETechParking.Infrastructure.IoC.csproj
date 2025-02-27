@@ -18,6 +18,7 @@
     <ProjectReference Include="..\ETechParking.Application\ETechParking.Application.csproj" />
     <ProjectReference Include="..\ETechParking.Common\ETechParking.Common.csproj" />
     <ProjectReference Include="..\ETechParking.Infrastructure.Data\ETechParking.Infrastructure.Data.csproj" />
+    <ProjectReference Include="..\ETechParking.Reports\ETechParking.Reporting.csproj" />
   </ItemGroup>
 
 </Project>

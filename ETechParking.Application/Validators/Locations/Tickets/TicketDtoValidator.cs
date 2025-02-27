@@ -7,17 +7,20 @@ public class TicketDtoValidator : AbstractValidator<TicketDto>
 {
     public TicketDtoValidator()
     {
-        RuleFor(c => c.PlateNumber)
+        RuleFor(t => t.PlateNumber)
            .NotEmpty()
            .MaximumLength(50);
 
-        RuleFor(c => c.EntryDateTime)
+        RuleFor(t => t.EntryDateTime)
             .NotNull();
 
-        RuleFor(c => c.ExitDateTime)
+        RuleFor(t => t.ExitDateTime)
             .NotNull();
 
-        RuleFor(c => c.LocationId)
+        RuleFor(t => t.LocationId)
+            .NotNull();
+
+        RuleFor(t => t.ShiftId)
             .NotNull();
     }
 }

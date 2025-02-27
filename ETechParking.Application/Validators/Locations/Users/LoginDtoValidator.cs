@@ -7,10 +7,13 @@ public class LoginDtoValidator : AbstractValidator<LoginDto>
 {
     public LoginDtoValidator()
     {
-        RuleFor(c => c.UserName)
+        RuleFor(l => l.UserName)
             .NotEmpty();
 
-        RuleFor(c => c.Password)
+        RuleFor(l => l.Password)
+            .NotEmpty();
+
+        RuleFor(l => l.StartDateTime)
             .NotEmpty();
     }
 }

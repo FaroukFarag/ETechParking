@@ -12,10 +12,6 @@ public class LocationConfigurations : IEntityTypeConfiguration<Location>
             .HasMaxLength(50)
             .IsRequired();
 
-        builder.Property(l => l.Country)
-            .HasMaxLength(50)
-            .IsRequired();
-
         builder.Property(l => l.City)
             .HasMaxLength(50)
             .IsRequired();
@@ -41,6 +37,11 @@ public class LocationConfigurations : IEntityTypeConfiguration<Location>
         builder.HasMany(l => l.Tickets)
             .WithOne(t => t.Location)
             .HasForeignKey(t => t.LocationId)
+            .IsRequired();
+
+        builder.HasMany(l => l.Shifts)
+            .WithOne(s => s.Location)
+            .HasForeignKey(s => s.LocationId)
             .IsRequired();
     }
 }

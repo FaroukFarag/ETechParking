@@ -1,5 +1,6 @@
 ﻿using ETechParking.Domain.Models.Abstraction;
 using ETechParking.Domain.Models.Locations.Fares;
+using ETechParking.Domain.Models.Locations.Shifts;
 using ETechParking.Domain.Models.Locations.Tickets;
 using ETechParking.Domain.Models.Locations.Users;
 
@@ -16,4 +17,5 @@ public class Location : BaseModel<int>
     public virtual IEnumerable<User> Users { get; set; } = default!;
     public virtual IEnumerable<Fare> Fares { get; set; } = default!;
     public virtual IEnumerable<Ticket> Tickets { get; set; } = default!;
+    public virtual IEnumerable<Shift> Shifts { get; set; } = default!;
 }

@@ -26,12 +26,24 @@ public class TicketConfigurations : IEntityTypeConfiguration<Ticket>
         builder.Property(t => t.ClientType)
             .IsRequired();
 
-        builder.Property(t => t.LocationId)
-            .IsRequired();
+        builder.Property(f => f.TotalAmount)
+            .HasPrecision(18, 6);
 
         builder.HasOne(t => t.Location)
             .WithMany(l => l.Tickets)
             .HasForeignKey(t => t.LocationId)
             .IsRequired();
+
+        builder.HasOne(t => t.CreateUser)
+            .WithMany(u => u.CreatedTickets)
+            .HasForeignKey(t => t.CreateUserId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(t => t.CloseUser)
+            .WithMany(u => u.ClosedTickets)
+            .HasForeignKey(t => t.CloseUserId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
