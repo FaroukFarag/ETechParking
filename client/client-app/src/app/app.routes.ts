@@ -6,13 +6,8 @@ import { LoginComponent } from './views/login/login.component';
 import { TicketsComponent } from './views/tickets/tickets.component';
 import { ShiftsComponent } from './views/shifts/shifts.component';
 import { ReportsComponent } from './views/reports/reports.component';
-import { ResetPasswordComponent } from './views/reset-password/reset-password.component';
-
+import { AuthGuard } from './auth.guard';
 export const routes: Routes = [
-  //  {
-  //      path: 'locations',
-  //      loadChildren: () => import('./views/locations/locations.route').then(l => l.routes)
-  //}, 
   {
     path: 'locations',
     component: Locationsv2Component
@@ -41,12 +36,10 @@ export const routes: Routes = [
 
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+
   },
-  {
-    path: 'reset-password',
-    component: ResetPasswordComponent
-  },
+ 
   {
     path: 'locations',
     redirectTo: '/locations',

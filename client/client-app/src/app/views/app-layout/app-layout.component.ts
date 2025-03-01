@@ -7,6 +7,8 @@ import { DxDrawerModule, DxDrawerComponent, DxDrawerTypes } from 'devextreme-ang
 import { DxListModule, DxToolbarModule } from 'devextreme-angular';
 import { LoginComponent } from '../login/login.component';
 import { CommonModule } from '@angular/common';
+import { ResetPasswordComponent } from '../reset-password/reset-password.component'; // Adjust the path as necessary
+import { AuthService } from '../../services/auth/auth.service';
 @Component({
   selector: 'app-app-layout',
   standalone: true,
@@ -18,13 +20,15 @@ import { CommonModule } from '@angular/common';
     DxToolbarModule,
     DxListModule,
     LoginComponent,
-    CommonModule
+    CommonModule,
+    ResetPasswordComponent
   ],
   templateUrl: './app-layout.component.html',
   styleUrl: './app-layout.component.scss'
 })
 export class AppLayoutComponent {
   canAccessMainLayout: boolean = false;
+  isFirstLogin: boolean = false;
   isClosed = false;
   toggleSidebar() {
     this.isClosed = !this.isClosed;
@@ -33,7 +37,6 @@ export class AppLayoutComponent {
   selectedOpenMode: DxDrawerTypes.OpenedStateMode = 'shrink';
   selectedPosition: DxDrawerTypes.PanelLocation = 'left';
   selectedRevealMode: DxDrawerTypes.RevealMode = 'slide';
-
   isDrawerOpen = true;
  
   navigation: any = [
@@ -53,10 +56,19 @@ export class AppLayoutComponent {
       onClick: () => this.isDrawerOpen = !this.isDrawerOpen,
     },
   },
-
+    {
+    widget: 'dxButton',
+    location: 'after',
+    options: {
+      icon: 'login',
+      stylingMode: 'text',
+      text: 'Log out',
+      onClick: () => this.authService.logout(),
+    },
+  },
   ];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) { }
 
   navigateTo(route: string) {
     this.router.navigate([route]);
@@ -66,6 +78,6 @@ export class AppLayoutComponent {
   //  this.canAccessMainLayout = true;
   //}
   onLoginClicked() {
-    this.canAccessMainLayout = true; 
-  }
+    this.canAccessMainLayout = true;
+    }
 }

@@ -98,11 +98,43 @@ export class BaseService<T> {
     return this.handleRequest(req);
   }
 
-  closeShift(url: string, data: any) {
-    return this.http.post(url, data);
+  closeShift(endpoint: string, closeShiftData: any): Observable<T | null> {
+    
+    const req = new HttpRequest('POST', `${this.baseUrl}/${endpoint}`, closeShiftData);
+    return this.handleRequest(req).pipe(
+      map(event => {
+        if (event.type === HttpEventType.Response) {
+          return event.body as T;
+        }
+        return null;
+      }),
+      catchError(error => {
+        console.error('Error occurred during create:', error);
+        return of(null);
+      })
+    );
+
+  }
+ 
+
+  resetPassword(endpoint: string, data:any): Observable<T | null> {
+    const req = new HttpRequest('POST', `${this.baseUrl}/${endpoint}`, data);
+    return this.handleRequest(req).pipe(
+      map(event => {
+        if (event.type === HttpEventType.Response) {
+          return event.body as T;
+        }
+        return null;
+      }),
+      catchError(error => {
+        console.error('Error occurred during Reset Password:', error);
+        return of(null);
+      })
+    );
   }
 
- 
+
+
   generateReport(endpoint: string): Observable<Blob | null> { // Change return type to Blob | null
     const req = new HttpRequest('GET', `${environment.apiUrl}/${endpoint}`, {
       responseType: 'blob'

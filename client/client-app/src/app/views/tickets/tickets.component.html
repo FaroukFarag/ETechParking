@@ -1,53 +1,47 @@
 <div id="data-grid-demo">
   <h2 class="screen-title">Tickets</h2>
-
+  <!-- Filter Controls -->
   <div class="filter-section">
-    <dx-form id="form" [formData]="filterData">
-      <dxi-item itemType="group" cssClass="form-group" [colCount]="6">
+    <dx-form id="filterForm" [formData]="filterData" (onFieldDataChanged)="applyFilters()">
+      <dxi-item itemType="group" cssClass="form-group" [colCount]="2">
         <dxi-item dataField="fromDateTime" caption="Start Date" editorType="dxDateBox"
-                  [editorOptions]="{ width: '100%', value:fromDateTime}"
-                  [label]="{ text: 'Date from' }"></dxi-item>
+                  [editorOptions]="{ width: '100%' }"
+                  [label]="{ text: 'Start date' }"></dxi-item>
         <dxi-item dataField="toDateTime" caption="End Date" editorType="dxDateBox"
-                  [editorOptions]="{ width: '100%',value:toDateTime }"
-                  [label]="{ text: 'Date To' }"></dxi-item>
-
-
+                  [editorOptions]="{ width: '100%' }"
+                  [label]="{ text: 'End date' }"></dxi-item>
+      </dxi-item>
+      <dxi-item itemType="group" cssClass="form-group" [colCount]="3">
         <dxi-item dataField="locationId" editorType="dxSelectBox"
                   [editorOptions]="{
-                                   dataSource: locationsList,
-                                   valueExpr: 'id',
-                                   displayExpr: 'name',
-                                   value:locationId
-                                  }"
+                    dataSource: locationsList,
+                    valueExpr: 'id',
+                    displayExpr: 'name',
+                    placeholder: 'Select'
+                  }"
                   [label]="{ text: 'Location name' }">
         </dxi-item>
-        <dxi-item dataField="createUserId" editorType="dxSelectBox"
+        <dxi-item dataField="createUser Id" editorType="dxSelectBox"
                   [editorOptions]="{
-                        dataSource: usersList,
-                        valueExpr: 'id',
-                        displayExpr: 'userName',
-                        value:createUserId,
-                        placeholder: 'Select Cashier',
-                      }"
+                    dataSource: usersList,
+                    valueExpr: 'id',
+                    displayExpr: 'userName',
+                    placeholder: 'Select'
+                  }"
                   [label]="{ text: 'Cashier started the shift' }"></dxi-item>
-
-        <dxi-item dataField="closeUserId" editorType="dxSelectBox"
+        <dxi-item dataField="closeUser Id" editorType="dxSelectBox"
                   [editorOptions]="{
-                        dataSource: usersList,
-                        valueExpr: 'id',
-                        displayExpr: 'userName',
-                        value:closeUserId,
-                        placeholder: 'Select Cashier',
-                      }"
+                    dataSource: usersList,
+                    valueExpr: 'id',
+                    displayExpr: 'userName',
+                    placeholder: 'Select'
+                  }"
                   [label]="{ text: 'Cashier closed the shift' }"></dxi-item>
       </dxi-item>
-      <dxi-item itemType="button"
-                [buttonOptions]="filterButtonOptions">
-      </dxi-item>
-    
     </dx-form>
-
   </div>
+ 
+
   <dx-data-grid id="gridContainer"
                 [dataSource]="ticketsList"
                 keyExpr="id"
@@ -61,8 +55,7 @@
                 [remoteOperations]="true"
                 [repaintChangesOnly]="true"
                 [errorRowEnabled]="false"
-                searchMode="contains"
-                >
+                searchMode="contains">
     <dxo-paging [enabled]="true" [pageSize]="5"></dxo-paging>
     <dxo-pager [visible]="true"
                [allowedPageSizes]="allowedPageSizes"
@@ -98,7 +91,7 @@
                       [highlightCaseSensitive]="true"></dxo-search-panel>-->
 
 
- 
+
 
     <dxi-column dataField="plateNumber" Caption="Plate Number" alignment="left" width="120"></dxi-column>
     <dxi-column dataField="phoneNumber" caption="Phone Number" alignment="left" width="150"></dxi-column>

@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class LoginService  {
   protected baseUrl: string;
   protected http = inject(HttpClient);
   constructor() {
@@ -20,4 +20,11 @@ export class LoginService {
   login(loginModel: Login): Observable<any> {
     return this.http.post(`${this.baseUrl}/Users/login`, loginModel);
   }
+
+  resetPassword(data: any): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/Users/ResetPassword`, data);
+  }
+
+
+
 }

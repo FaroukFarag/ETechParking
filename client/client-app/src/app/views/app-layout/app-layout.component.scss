@@ -128,3 +128,12 @@
 ::ng-deep .dx-item.dx-list-item {
   border-top: none !important;
 }
+
+::ng-deep .dx-toolbar-after .dx-button-text {
+  color: #f15b27 !important;
+  font-size:16px!important;
+  overflow:initial!important;
+}
+::ng-deep .dx-button-mode-text .dx-icon {
+  color: #f15b27!important;
+}

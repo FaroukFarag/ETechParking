@@ -11,6 +11,8 @@ import { exportDataGrid } from 'devextreme/excel_exporter';
 import { DxDataGridTypes } from 'devextreme-angular/ui/data-grid';
 import { Workbook } from 'exceljs';
 import { saveAs } from 'file-saver';
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-shifts',
   standalone: true,
@@ -22,12 +24,13 @@ import { saveAs } from 'file-saver';
     DxTextAreaModule,
     DxDateBoxModule,
     DxFormModule,
-    DxTextBoxModule, ],
+    DxTextBoxModule,
+    CommonModule],
   templateUrl: './shifts.component.html',
   styleUrl: './shifts.component.scss'
 })
 export class ShiftsComponent {
-  shiftsList: any;
+  shiftsList: any[] = [];
   allowedPageSizes: (number | "auto")[] = [10, 20, 50];
   popupVisible = false;
   locationsList: any;
@@ -44,11 +47,34 @@ export class ShiftsComponent {
     locationId: null,
     createUserId: null,
     closeUserId: null,
+
   };
+
   selectedFormat: any;
   exportFormats: string[] = ['PDF', 'Excel', 'Word'];
-  constructor(private shiftsService: ShiftsService, private locationService: LocationService, private usersService: UsersService, private http: HttpClient) {
 
+  viewPopupVisible = false;
+
+  viewFormData: any = {
+
+    totalCash: 0,
+
+    totalCredit: 0,
+
+    endDateTime: new Date().toISOString(),
+
+  };
+  saveShiftButtonOptions: any;
+  constructor(private shiftsService: ShiftsService, private locationService: LocationService, private usersService: UsersService, private http: HttpClient) {
+    this.saveShiftButtonOptions = {
+      icon: 'save',
+      stylingMode: 'contained',
+      type:'normal',
+      text: 'Save',
+      onClick: () => {
+        this.saveShift();
+      },
+    };
   }
 
 
@@ -60,13 +86,70 @@ export class ShiftsComponent {
   }
 
 
+
+
+
+  openViewPopup(shift: any) {
+
+    this.viewFormData = {
+
+      id: shift.id,
+
+      totalCash: 0,
+
+      totalCredit: 0,
+
+      endDateTime: new Date().toISOString(),
+
+    };
+
+    this.viewPopupVisible = true;
+
+  }
+
+
+  saveShift() {
+    console.log("fidjdgj")
+    const closeShiftData = {
+
+      id: this.viewFormData.id,
+
+      totalCash: this.viewFormData.totalCash,
+
+      totalCredit: this.viewFormData.totalCredit,
+
+      endDateTime: this.viewFormData.endDateTime,
+
+    };
+
+
+    this.shiftsService.closeShift('Shifts/CloseShift', closeShiftData).subscribe(
+
+      () => {
+
+        this.getAllShifts(); 
+
+        this.viewPopupVisible = false; 
+      },
+
+      (error) => {
+
+        console.error('Error closing shift:', error);
+
+      }
+
+    );
+
+  }
+
+
+
   showFilterPopup() {
     this.popupVisible = !this.popupVisible;
   }
   getAllShifts() {
     this.locationService.getAll('Shifts/GetAll').subscribe((data: Location[]) => {
-      this.shiftsList = data;
-    });
+      this.shiftsList = Array.isArray(data) ? data : [];    });
   }
   getAllLocations() {
     this.locationService.getAll('Locations/GetAll').subscribe((data: Location[]) => {
@@ -107,20 +190,20 @@ export class ShiftsComponent {
     });
   }
 
-
   applyFilters() {
+
     const filters = {
+
       fromDateTime: this.filterData.fromDateTime,
       toDateTime: this.filterData.toDateTime,
       locationId: this.filterData.locationId,
       createUserId: this.filterData.createUserId,
       closeUserId: this.filterData.closeUserId,
-    };
+    }
 
-    this.shiftsService.getAllFiltered('Shifts/GetAllFiltered',filters).subscribe(
+    this.shiftsService.getAllFiltered('Shifts/GetAllFiltered', filters).subscribe(
       (data: any) => {
-        this.shiftssList = data;
-        this.popupVisible = false;
+        this.shiftsList = Array.isArray(data) ? data : [];
       },
       (error) => {
         console.error('Error applying filters:', error);
@@ -182,7 +265,7 @@ export class ShiftsComponent {
       totalCredit: 0 
     };
 
-    this.shiftsService.closeShift('api/Shifts/CloseShift', closeShiftData).subscribe(
+    this.shiftsService.closeShift('Shifts/CloseShift', closeShiftData).subscribe(
       () => {
         this.getAllShifts();
       },

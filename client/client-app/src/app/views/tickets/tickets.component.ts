@@ -148,21 +148,19 @@ export class TicketsComponent {
       fromDateTime: this.filterData.fromDateTime,
       toDateTime: this.filterData.toDateTime,
       locationId: this.filterData.locationId,
-      createUserId: this.filterData.createUserId, 
-      closeUserId: this.filterData.closeUserId,    
+      createUserId: this.filterData.createUserId,
+      closeUserId: this.filterData.closeUserId,
     };
 
     this.ticketsService.getAllFiltered('Tickets/GetAllFiltered', filters).subscribe(
       (data: any) => {
         this.ticketsList = data;
-        this.popupVisible = false;
       },
       (error) => {
         console.error('Error applying filters:', error);
       }
     );
   }
-
 
   /*EXPORT TO EXCEL */
   onExporting(e: any) {

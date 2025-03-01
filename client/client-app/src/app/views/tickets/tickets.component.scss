@@ -191,3 +191,13 @@
     width:100%;
     margin-bottom:3rem;
 }
+
+::ng-deep .dx-layout-manager .dx-label-h-align.dx-flex-layout:not(.dx-field-item-label-align) {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+::ng-deep .dx-first-col.dx-last-row.dx-field-item.dx-col-0.dx-field-item-optional.dx-flex-layout.dx-label-h-align {
+  display: flex !important;
+  flex-direction: column !important;
+}
