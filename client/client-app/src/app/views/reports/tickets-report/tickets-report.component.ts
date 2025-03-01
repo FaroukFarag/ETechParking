@@ -127,6 +127,7 @@ export class TicketsReportComponent {
 
     this.ticketsService.getAllFiltered('Tickets/GetAllFiltered', filters).subscribe(
       (data: any) => {
+        debugger
         this.ticketsList = data;
         this.popupVisible = false;
       },

@@ -16,6 +16,7 @@ export class BaseService<T> {
   constructor() {
     this.baseUrl = `${environment.apiUrl}`;
   }
+  
   private handleRequest(req: HttpRequest<any>): Observable<HttpEvent<any>> {
     return this.interceptor.intercept(req, {
       handle: (request: HttpRequest<any>) => this.http.request(request.method, request.url, {
@@ -28,15 +29,7 @@ export class BaseService<T> {
   }
 
   getAll(endpoint: string): Observable<T[]> {
-    const req = new HttpRequest('GET', `${this.baseUrl}/${endpoint}`);
-    return this.handleRequest(req).pipe(
-      map(event => {
-        if (event.type === HttpEventType.Response) {
-          return event.body as T[]; 
-        }
-        return []; 
-      })
-    );
+    return this.http.get<T[]>(`${this.baseUrl}/${endpoint}`);
   }
 
   getAllPaginated(endpoint: string, paginatedModel: any): Observable<T[]> {

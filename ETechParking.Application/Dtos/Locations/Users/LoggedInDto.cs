@@ -7,6 +7,7 @@ public class LoggedInDto
     public int UserId { get; set; }
     public int LocationId { get; set; }
     public int? ShiftId { get; set; }
+    public string RoleName { get; set; } = default!;
 
     public string Token { get; set; } = default!;
 }

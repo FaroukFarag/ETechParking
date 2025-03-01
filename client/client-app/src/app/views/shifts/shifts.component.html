@@ -90,6 +90,7 @@
         </dxo-form>
       </dxo-editing>
 
+      <dxi-column [visible]="false" dataField="id" ></dxi-column>
       <dxi-column dataField="userName" caption="User  Name" alignment="left"></dxi-column>
       <dxi-column dataField="locationName" caption="Location Name" alignment="left"></dxi-column>
       <dxi-column dataField="totalGuests" caption="Guests" alignment="left"></dxi-column>
@@ -140,6 +141,7 @@
         </dx-button>
       </dxi-toolbar-item>
       <dx-form [formData]="viewFormData">
+        <dxi-item [visible]="false" dataField="id"></dxi-item>
         <dxi-item dataField="totalCash" label="Total Cash"></dxi-item>
         <dxi-item dataField="totalCredit" label="Total Credit"></dxi-item>
         <dxi-item dataField="endDateTime" label="End Date" editorType="dxDateBox"></dxi-item>

@@ -56,6 +56,7 @@ export class ShiftsComponent {
   viewPopupVisible = false;
 
   viewFormData: any = {
+    id: 0,
 
     totalCash: 0,
 
@@ -89,11 +90,10 @@ export class ShiftsComponent {
 
 
 
-  openViewPopup(shift: any) {
-
+  openViewPopup(event: any) {
     this.viewFormData = {
 
-      id: shift.id,
+      id: event.data.id,
 
       totalCash: 0,
 
@@ -110,6 +110,7 @@ export class ShiftsComponent {
 
   saveShift() {
     console.log("fidjdgj")
+    debugger
     const closeShiftData = {
 
       id: this.viewFormData.id,

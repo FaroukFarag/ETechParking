@@ -109,6 +109,7 @@ public class UserService(
             UserId = user.Id,
             LocationId = user.LocationId,
             ShiftId = shift?.Id,
+            RoleName = user.Role.Name!,
             Token = await GetToken(user)
         };
     }

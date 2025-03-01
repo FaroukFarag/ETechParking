@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {
   DxButtonModule, DxDataGridModule, DxTemplateModule,
   DxPopupModule, DxSelectBoxModule, DxDateBoxModule,
@@ -17,7 +17,7 @@ import { HttpClient } from '@angular/common/http';
 import { exportDataGrid } from 'devextreme/excel_exporter';
 import { DxDataGridTypes } from 'devextreme-angular/ui/data-grid';
 import { Workbook } from 'exceljs';
-import { saveAs } from 'file-saver'; 
+import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
 import { HttpHeaders } from '@angular/common/http';
 import { DxDropDownButtonModule, DxDropDownButtonComponent, DxDropDownButtonTypes } from 'devextreme-angular/ui/drop-down-button';
@@ -94,7 +94,7 @@ export class TicketsComponent {
 
 
 
- 
+
   showFilterPopup() {
     this.popupVisible = !this.popupVisible;
   }
@@ -112,7 +112,7 @@ export class TicketsComponent {
       this.ticketsList = data;
 
     });
- 
+
   }
 
 
@@ -120,7 +120,7 @@ export class TicketsComponent {
 
 
   onRowInserting(e: any) {
-   
+
   }
 
 
@@ -129,7 +129,7 @@ export class TicketsComponent {
   }
 
   onRowRemoving(e: any) {
-    
+
   }
 
   getAllLocations() {
@@ -154,7 +154,7 @@ export class TicketsComponent {
 
     this.ticketsService.getAllFiltered('Tickets/GetAllFiltered', filters).subscribe(
       (data: any) => {
-        this.ticketsList = data;
+        this.ticketsList = data.body;
       },
       (error) => {
         console.error('Error applying filters:', error);
