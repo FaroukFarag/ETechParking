@@ -25,7 +25,7 @@ public class GuestTicketCalculationStrategy : ITicketCalculationStrategy
         return CalculateSingleDayFare(ticket, fare);
     }
 
-    private decimal CalculateMultiDayFare(Ticket ticket, Fare fare)
+    private static decimal CalculateMultiDayFare(Ticket ticket, Fare fare)
     {
         int numberOfDays = ticket.NumberOfDays!.Value;
         decimal totalFare = numberOfDays * fare.Amount;
@@ -38,7 +38,6 @@ public class GuestTicketCalculationStrategy : ITicketCalculationStrategy
             if (overstayDuration.TotalHours > fare.ExitGracePeriod)
             {
                 int extraDays = (int)Math.Ceiling((overstayDuration.TotalHours - fare.ExitGracePeriod) / 24);
-
                 totalFare += extraDays * fare.Amount;
             }
         }
@@ -46,28 +45,28 @@ public class GuestTicketCalculationStrategy : ITicketCalculationStrategy
         return totalFare;
     }
 
-    private decimal CalculateSingleDayFare(Ticket ticket, Fare fare)
+    private static decimal CalculateSingleDayFare(Ticket ticket, Fare fare)
     {
         TimeSpan duration = ticket.ExitDateTime!.Value - ticket.EntryDateTime;
-
         if (duration.TotalDays < 1)
         {
-            return 0m;
+            return fare.Amount;
         }
 
         DateTime nextDayStart = ticket.EntryDateTime.Date.AddDays(1);
         TimeSpan remainingDuration = ticket.ExitDateTime.Value - nextDayStart;
-        int days = CalculateDaysWithGracePeriod(remainingDuration, fare.ExitGracePeriod);
 
-        return days * fare.Amount;
+        int totalDays = CalculateDaysWithGracePeriod(remainingDuration, fare.ExitGracePeriod);
+
+        return totalDays * fare.Amount;
     }
 
     private static int CalculateDaysWithGracePeriod(TimeSpan duration, int gracePeriodHours)
     {
         int totalDays = (int)duration.TotalDays;
-        int remainingHours = duration.Hours;
+        double remainingHours = duration.TotalHours;
 
-        if (remainingHours > gracePeriodHours)
+        if (remainingHours > (double)gracePeriodHours)
         {
             totalDays += 1;
         }
