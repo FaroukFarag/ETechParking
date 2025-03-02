@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
 import { ResetPasswordService } from '../../services/reset-password/reset-password.service';
+import { DxButtonModule, DxLoadIndicatorModule, DxTemplateModule } from 'devextreme-angular';
+
 
 @Component({
   selector: 'app-login',
@@ -15,6 +17,9 @@ import { ResetPasswordService } from '../../services/reset-password/reset-passwo
   imports: [
     CommonModule,
     FormsModule,
+    DxButtonModule,
+    DxLoadIndicatorModule,
+    DxTemplateModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
@@ -26,24 +31,29 @@ export class LoginComponent {
   loginModel: Login = new Login();
   resetModel: any = {}; 
   showResetPasswordForm: boolean = false;
+  loading: boolean = false;
   constructor(private loginService: LoginService, private router: Router, private authService: AuthService, private resetPasswordService: ResetPasswordService) { }
 
   onLogin() {
-
+    this.loading = true;
     this.loginService.login(this.loginModel).subscribe({
       next: (response) => {
         console.log('Token:', response.token);
         localStorage.setItem('token', response.token);
-        if (response.isFirstLogin===true) {
+        localStorage.setItem('roleName', response.roleName);
+        if (response.isFirstLogin === true) {
           this.showResetPasswordForm = true; 
         } else if (response.isFirstLogin === false) {
           this.loginClicked.emit();
-          this.router.navigate(['/locations']);
+          this.router.navigate(['/tickets']);
         }
       },
       error: (error) => {
         console.error('Login failed', error);
         alert('Login failed. Please check your credentials.');
+      },
+      complete: () => {
+        this.loading = false;
       }
     });
   }

@@ -12,21 +12,18 @@ export class AuthService {
   constructor(private http: HttpClient,private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-
     const token = localStorage.getItem('token');
-
     if (!token) {
-
       return true; 
     }
     return false;
-
   }
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token'); 
   }
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('roleName');
     this.router.navigate(['/login']);
     window.location.reload();
   }

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
 import { ContentComponent } from './content/content.component';
 import { FooterComponent } from './footer/footer.component';
@@ -9,6 +9,7 @@ import { LoginComponent } from '../login/login.component';
 import { CommonModule } from '@angular/common';
 import { ResetPasswordComponent } from '../reset-password/reset-password.component'; // Adjust the path as necessary
 import { AuthService } from '../../services/auth/auth.service';
+import { RoleService } from '../../services/role/role.service';
 @Component({
   selector: 'app-app-layout',
   standalone: true,
@@ -38,15 +39,33 @@ export class AppLayoutComponent {
   selectedPosition: DxDrawerTypes.PanelLocation = 'left';
   selectedRevealMode: DxDrawerTypes.RevealMode = 'slide';
   isDrawerOpen = true;
- 
-  navigation: any = [
-    { id: 1, text: 'Locations', icon: '/assets/icons/location.svg'},
-    { id: 2, text: 'Rates', icon: '/assets/icons/fare.svg'},
-    { id: 3, text: 'Tickets', icon: '/assets/icons/tickets.svg'},
-    { id: 3, text: 'Shifts', icon: '/assets/icons/shift.svg'},
-    { id: 4, text: 'Users', icon: '/assets/icons/users.svg' },
-    { id: 4, text: 'Reports', icon: '/assets/icons/reports.svg' },
-  ]; 
+  navigation: any = [];
+  initializeNavigation() {
+    if (this.roleService.isAdmin()) {
+      this.navigation = [
+        { id: 1, text: 'Locations', icon: '/assets/icons/location.svg' },
+        { id: 2, text: 'Rates', icon: '/assets/icons/fare.svg' },
+        { id: 3, text: 'Tickets', icon: '/assets/icons/tickets.svg' },
+        { id: 4, text: 'Shifts', icon: '/assets/icons/shift.svg' },
+        { id: 5, text: 'Users', icon: '/assets/icons/users.svg' },
+        { id: 6, text: 'Reports', icon: '/assets/icons/reports.svg' },
+      ];
+    } else if (this.roleService.isCashier()) {
+      this.navigation = [
+        { id: 3, text: 'Tickets', icon: '/assets/icons/tickets.svg' },
+        { id: 4, text: 'Shifts', icon: '/assets/icons/shift.svg' },
+      ];
+    }
+    else if (this.roleService.isAccountant()) {
+
+      [
+        { id: 3, text: 'Tickets', icon: '/assets/icons/tickets.svg' },
+        { id: 4, text: 'Shifts', icon: '/assets/icons/shift.svg' },
+      ];
+
+    }
+
+  }
   toolbarContent = [{
     widget: 'dxButton',
     location: 'before',
@@ -68,15 +87,33 @@ export class AppLayoutComponent {
   },
   ];
 
-  constructor(private router: Router, private authService: AuthService) { }
-
+  constructor(private router: Router, private authService: AuthService, private roleService: RoleService) { }
+  isAdmin(): boolean {
+    return this.roleService.isAdmin();
+  }
+  isAccountant(): boolean {
+    return this.roleService.isAccountant();
+  }
+  isCashier(): boolean {
+    return this.roleService.isCashier();
+  }
   navigateTo(route: string) {
     this.router.navigate([route]);
   }
 
-  //onLoginSuccess() {
-  //  this.canAccessMainLayout = true;
-  //}
+
+  ngAfterViewInit() {
+
+    // Call initializeNavigation after a delay of 1000 milliseconds (1 second)
+
+    setTimeout(() => {
+
+      this.initializeNavigation();
+
+    }, 1000); // Adjust the delay as needed
+
+  }
+
   onLoginClicked() {
     this.canAccessMainLayout = true;
     }

@@ -11,16 +11,28 @@
     <form class="form" (ngSubmit)="onLogin()">
       <div class="form-inputs">
         <label>User Name</label>
-        <input type="text" id="userName" class="fadeIn second"  [(ngModel)]="loginModel.username" name="username" required>
+        <input type="text" id="userName" class="fadeIn second" [(ngModel)]="loginModel.username" name="username" required>
       </div>
       <div class="form-inputs">
         <label>Password</label>
-        <input type="password" id="password" class="fadeIn third"  [(ngModel)]="loginModel.password" name="password" required>
+        <input type="password" id="password" class="fadeIn third" [(ngModel)]="loginModel.password" name="password" required>
       </div>
       <div class="submit-inputs">
-        <input type="submit" class="fadeIn fourth" value="Log In">
+
+        <button type="submit" class="fadeIn fourth submit-btn" [disabled]="loading">
+
+          <ng-container *ngIf="loading; else loginText">
+
+            <span class="loader">Loading...</span> 
+
+          </ng-container>
+
+          <ng-template #loginText>Log In</ng-template>
+
+        </button>
+
       </div>
-     
+
     </form>
 
     <!-- Remind Passowrd -->
