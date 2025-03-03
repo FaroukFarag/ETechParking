@@ -194,7 +194,15 @@ export class TicketsComponent {
     }
 
     const format = this.selectedFormat;
-    this.ticketsService.generateReport(`Reports/GetTicketsReport?format=${format}`).subscribe(
+    const filters = {
+      fromDateTime: this.filterData.fromDateTime,
+      toDateTime: this.filterData.toDateTime,
+      locationId: this.filterData.locationId,
+      createUserId: this.filterData.createUserId,
+      closeUserId: this.filterData.closeUserId,
+    }
+
+    this.ticketsService.generateReport(`Reports/GetTicketsReport?format=${format}`, filters).subscribe(
       (blob: Blob | null) => {
         if (blob) { // Check if blob is not null
           const link = document.createElement('a');

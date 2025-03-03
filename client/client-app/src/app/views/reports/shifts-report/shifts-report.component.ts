@@ -38,8 +38,8 @@ export class ShiftsReportComponent {
     fromDateTime: null,
     toDateTime: null,
     locationId: null,
-    createUserId: null,
-    closeUserId: null,
+    cashierUserId: null,
+    accountantUserId: null,
   };
   selectedFormat: any;
   exportFormats: string[] = ['PDF', 'Excel', 'Word'];
@@ -81,8 +81,8 @@ export class ShiftsReportComponent {
       fromDateTime: this.filterData.fromDateTime,
       toDateTime: this.filterData.toDateTime,
       locationId: this.filterData.locationId,
-      createUserId: this.filterData.createUserId,
-      closeUserId: this.filterData.closeUserId,
+      cashierUserId: this.filterData.cashierUserId,
+      accountantUserId: this.filterData.accountantUserId,
     }
     this.shiftsService.getAllFiltered('Shifts/GetAllFiltered', filters).subscribe(
       (data: any) => {
@@ -101,7 +101,15 @@ export class ShiftsReportComponent {
     }
 
     const format = this.selectedFormat;
-    this.shiftsService.generateReport(`Reports/GetShiftsReport?format=${format}`).subscribe(
+    const filters = {
+      fromDateTime: this.filterData.fromDateTime,
+      toDateTime: this.filterData.toDateTime,
+      locationId: this.filterData.locationId,
+      cashierUserId: this.filterData.cashierUserId,
+      accountantUserId: this.filterData.accountantUserId,
+    }
+
+    this.shiftsService.generateReport(`Reports/DownloadShiftsReport?format=${format}`, filters).subscribe(
       (blob: Blob | null) => {
         if (blob) { // Check if blob is not null
           const link = document.createElement('a');

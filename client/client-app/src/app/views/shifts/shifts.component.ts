@@ -219,7 +219,15 @@ export class ShiftsComponent {
     }
 
     const format = this.selectedFormat;
-    this.shiftsService.generateReport(`Reports/GetShiftsReport?format=${format}`).subscribe(
+    const filters = {
+      fromDateTime: this.filterData.fromDateTime,
+      toDateTime: this.filterData.toDateTime,
+      locationId: this.filterData.locationId,
+      createUserId: this.filterData.createUserId,
+      closeUserId: this.filterData.closeUserId,
+    }
+
+    this.shiftsService.generateReport(`Reports/GetShiftsReport?format=${format}`, filters).subscribe(
       (blob: Blob | null) => {
         if (blob) { // Check if blob is not null
           const link = document.createElement('a');

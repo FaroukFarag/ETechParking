@@ -1,10 +1,10 @@
-import { HttpClient, HttpRequest, HttpHandler, HttpEvent, HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpHandler, HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { MyInterceptor } from './../../my-interceptor.interceptor';
-import { map, catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs'; 
+import { map, catchError, filter } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class BaseService<T> {
   constructor() {
     this.baseUrl = `${environment.apiUrl}`;
   }
-  
+
   private handleRequest(req: HttpRequest<any>): Observable<HttpEvent<any>> {
     return this.interceptor.intercept(req, {
       handle: (request: HttpRequest<any>) => this.http.request(request.method, request.url, {
@@ -75,7 +75,7 @@ export class BaseService<T> {
     return this.http.post(`${this.baseUrl}/${endpoint}`, filters);
   }
 
-  
+
 
 
   //getAllFiltered(endpoint: string, filters: any): Observable<any> {
@@ -84,7 +84,7 @@ export class BaseService<T> {
   //}
 
   closeShift(endpoint: string, closeShiftData: any): Observable<T | null> {
-    
+
     const req = new HttpRequest('POST', `${this.baseUrl}/${endpoint}`, closeShiftData);
     return this.handleRequest(req).pipe(
       map(event => {
@@ -100,9 +100,9 @@ export class BaseService<T> {
     );
 
   }
- 
 
-  resetPassword(endpoint: string, data:any): Observable<T | null> {
+
+  resetPassword(endpoint: string, data: any): Observable<T | null> {
     const req = new HttpRequest('POST', `${this.baseUrl}/${endpoint}`, data);
     return this.handleRequest(req).pipe(
       map(event => {
@@ -120,22 +120,8 @@ export class BaseService<T> {
 
 
 
-  generateReport(endpoint: string): Observable<Blob | null> { // Change return type to Blob | null
-    const req = new HttpRequest('GET', `${environment.apiUrl}/${endpoint}`, {
-      responseType: 'blob'
-    });
-    return this.handleRequest(req).pipe(
-      map(event => {
-        if (event.type === HttpEventType.Response) {
-          return event.body as Blob;
-        }
-        return null; // Return null for non-response events
-      }),
-      catchError(error => {
-        console.error('Error occurred during report generation:', error);
-        return of(null); // Return null or handle the error as needed
-      })
-    );
+  generateReport(endpoint: string, filters: any): Observable<Blob | null> {
+    return this.http.post(`${environment.apiUrl}/${endpoint}`, filters, {responseType: 'blob'})
   }
 
 }
