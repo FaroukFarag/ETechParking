@@ -142,19 +142,20 @@ export class TicketsComponent {
       this.usersList = data;
     });
   }
-
   applyFilters() {
+
     const filters = {
+
       fromDateTime: this.filterData.fromDateTime,
       toDateTime: this.filterData.toDateTime,
       locationId: this.filterData.locationId,
       createUserId: this.filterData.createUserId,
       closeUserId: this.filterData.closeUserId,
-    };
+    }
 
     this.ticketsService.getAllFiltered('Tickets/GetAllFiltered', filters).subscribe(
       (data: any) => {
-        this.ticketsList = data.body;
+        this.ticketsList = Array.isArray(data) ? data : [];
       },
       (error) => {
         console.error('Error applying filters:', error);

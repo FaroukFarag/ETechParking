@@ -40,56 +40,48 @@ export class BaseService<T> {
     return this.http.get<T>(`${this.baseUrl}/${endpoint}/${id}`);
   }
 
-  create(endpoint: string, entity: T): Observable<T | null> {
-    const req = new HttpRequest('POST', `${this.baseUrl}/${endpoint}`, entity);
-    return this.handleRequest(req).pipe(
-      map(event => {
-        if (event.type === HttpEventType.Response) {
-          return event.body as T; 
-        }
-        return null; 
-      }),
-      catchError(error => {
-        console.error('Error occurred during create:', error);
-        return of(null); 
-      })
-    );
+  create(endpoint: string, entity: T): Observable<T> {
+    return this.http.post<T>(`${this.baseUrl}/${endpoint}`, entity);
   }
-  
-  update(endpoint: string, entity: T): Observable<T | null> {
-    const req = new HttpRequest('PUT', `${this.baseUrl}/${endpoint}`, entity);
-    return this.handleRequest(req).pipe(
-      map(event => {
-        if (event.type === HttpEventType.Response) {
-          return event.body as T; 
-        }
-        return null; 
-      })
-    );
+  //create(endpoint: string, entity: T): Observable<T | null> {
+  //  const req = new HttpRequest('POST', `${this.baseUrl}/${endpoint}`, entity);
+  //  return this.handleRequest(req).pipe(
+  //    map(event => {
+  //      if (event.type === HttpEventType.Response) {
+  //        return event.body as T;
+  //      }
+  //      return null;
+  //    }),
+  //    catchError(error => {
+  //      console.error('Error occurred during create:', error);
+  //      return of(null);
+  //    })
+  //  );
+  //}
+
+  update(endpoint: string, entity: T): Observable<T> {
+    return this.http.put<T>(`${this.baseUrl}/${endpoint}`, entity);
   }
 
-  delete(endpoint: string): Observable<T | null> {
-    const req = new HttpRequest('DELETE', `${this.baseUrl}/${endpoint}`);
-    return this.handleRequest(req).pipe(
-      map(event => {
-        if (event.type === HttpEventType.Response) {
-          return event.body as T; 
-        }
-        return null; 
-      })
-    );
+  delete(endpoint: string): Observable<T> {
+    return this.http.delete<T>(`${this.baseUrl}/${endpoint}`);
   }
-
 
   deleteRange(endpoint: string, entities: T[] | null): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/${endpoint}`, { body: entities });
   }
 
-
   getAllFiltered(endpoint: string, filters: any): Observable<any> {
-    const req = new HttpRequest('POST', `${this.baseUrl}/${endpoint}`, filters);
-    return this.handleRequest(req);
+    return this.http.post(`${this.baseUrl}/${endpoint}`, filters);
   }
+
+  
+
+
+  //getAllFiltered(endpoint: string, filters: any): Observable<any> {
+  //  const req = new HttpRequest('POST', `${this.baseUrl}/${endpoint}`, filters);
+  //  return this.handleRequest(req);
+  //}
 
   closeShift(endpoint: string, closeShiftData: any): Observable<T | null> {
     

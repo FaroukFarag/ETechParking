@@ -83,12 +83,10 @@ export class ShiftsReportComponent {
       locationId: this.filterData.locationId,
       createUserId: this.filterData.createUserId,
       closeUserId: this.filterData.closeUserId,
-    };
-
+    }
     this.shiftsService.getAllFiltered('Shifts/GetAllFiltered', filters).subscribe(
       (data: any) => {
-        this.shiftssList = data;
-        this.popupVisible = false;
+        this.shiftsList = Array.isArray(data) ? data : [];
       },
       (error) => {
         console.error('Error applying filters:', error);

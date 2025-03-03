@@ -123,13 +123,11 @@ export class TicketsReportComponent {
       locationId: this.filterData.locationId,
       createUserId: this.filterData.createUserId,
       closeUserId: this.filterData.closeUserId,
-    };
+    }
 
     this.ticketsService.getAllFiltered('Tickets/GetAllFiltered', filters).subscribe(
       (data: any) => {
-        debugger
-        this.ticketsList = data;
-        this.popupVisible = false;
+        this.ticketsList = Array.isArray(data) ? data : [];
       },
       (error) => {
         console.error('Error applying filters:', error);
@@ -145,7 +143,7 @@ export class TicketsReportComponent {
     const format = this.selectedFormat;
     this.ticketsService.generateReport(`Reports/GetTicketsReport?format=${format}`).subscribe(
       (blob: Blob | null) => {
-        if (blob) { // Check if blob is not null
+        if (blob) { 
           const link = document.createElement('a');
           link.href = window.URL.createObjectURL(blob);
           link.download = `Tickets Report.${format}`;
@@ -153,7 +151,6 @@ export class TicketsReportComponent {
           link.click();
           document.body.removeChild(link);
         } else {
-          // Handle the case when blob is null
           notify('Failed to generate report. Please try again.', 'error', 3000);
         }
       },

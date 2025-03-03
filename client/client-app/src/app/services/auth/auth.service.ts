@@ -23,7 +23,6 @@ export class AuthService {
   }
   logout() {
     localStorage.removeItem('token');
-    localStorage.removeItem('roleName');
     this.router.navigate(['/login']);
     window.location.reload();
   }
