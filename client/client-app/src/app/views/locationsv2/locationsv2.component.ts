@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { DxButtonModule, DxDataGridModule, DxPopupModule } from 'devextreme-angular';
 import { LocationService } from '../../services/locations/location.service';
 import { exportDataGrid } from 'devextreme/excel_exporter';
-import { DxDataGridTypes } from 'devextreme-angular/ui/data-grid';
 import { Workbook } from 'exceljs';
 import { saveAs } from 'file-saver';
-import jsPDF from 'jspdf';
+
 @Component({
   selector: 'app-locationsv2',
   standalone: true,
@@ -266,6 +265,7 @@ export class Locationsv2Component {
     { name: 'Zambia', code: 'ZM' },
     { name: 'Zimbabwe', code: 'ZW' }
   ]
+
   constructor(private locationService: LocationService) {
     this.countryEditorOptions = {
       dataSource: this.countries,
@@ -292,6 +292,10 @@ export class Locationsv2Component {
     })
   }
   onRowInserting(e: any) {
+    if (!e.data.country) {
+      e.data.country = 'Saudi Arabia';
+    }
+
     this.locationService.create('Locations/Create',e.data).subscribe(() => {
       this.getAllLocations(); 
     });

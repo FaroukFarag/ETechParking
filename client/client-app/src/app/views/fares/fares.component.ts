@@ -79,6 +79,7 @@ export class FaresComponent {
   }
 
   onRowInserting(e: any) {
+    debugger
     this.faresService.create('Fares/Create', e.data).subscribe(() => {
       this.getAllFares();
     });
@@ -128,6 +129,7 @@ export class FaresComponent {
 
 
   onFareTypeChange(event: any) {
+    debugger
     this.fareType = event.value; // Set the fareType
     this.showMaxLimit = this.fareType === 1; // Show max limit if fareType is Hourly
   }
