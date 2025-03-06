@@ -79,14 +79,12 @@ export class FaresComponent {
   }
 
   onRowInserting(e: any) {
-    debugger
     this.faresService.create('Fares/Create', e.data).subscribe(() => {
       this.getAllFares();
     });
   }
 
   onRowUpdating(e: any) {
-    debugger
     const updatedData = { ...e.oldData, ...e.newData };
     this.faresService.update('Fares/Update', updatedData).subscribe(
       () => {
