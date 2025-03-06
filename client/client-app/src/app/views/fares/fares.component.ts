@@ -31,15 +31,7 @@ export class FaresComponent {
   exitGracePeriodEditorOptions: any;
   fareType: number | null = null;
   constructor(private faresService: FareService, private locationService: LocationService) {
-    this.enterGracePeriodEditorOptions = {
-      editorType: 'dxNumberBox',
-      label: this.getGracePeriodLabel('enter')
-    };
-    this.exitGracePeriodEditorOptions = {
-      editorType: 'dxNumberBox',
-     
-      label: this.getGracePeriodLabel('exit')
-    };
+  
 
   }
 
@@ -79,12 +71,11 @@ export class FaresComponent {
   }
 
   onRowInserting(e: any) {
-    debugger
+    e.data.fareType = this.fareType; // Set the fareType from the component property
     this.faresService.create('Fares/Create', e.data).subscribe(() => {
       this.getAllFares();
     });
   }
-
   onRowUpdating(e: any) {
     debugger
     const updatedData = { ...e.oldData, ...e.newData };
@@ -101,7 +92,7 @@ export class FaresComponent {
   onRowRemoving(e: any) {
     const fareId = e.data.id;
     this.faresService.delete(`Fares/Delete?id=${fareId}`).subscribe(() => {
-      this.getAllFares(); // Refresh the list after deleting
+      this.getAllFares(); 
     });
   }
 
@@ -127,21 +118,13 @@ export class FaresComponent {
   //  this.fareType = {id: event.value, value: 'test'};
   //}
 
-
   onFareTypeChange(event: any) {
-    debugger
-    this.fareType = event.value; // Set the fareType
-    this.showMaxLimit = this.fareType === 1; // Show max limit if fareType is Hourly
+
+    this.fareType = event.value; 
+
+    this.showMaxLimit = this.fareType === 1; 
+
   }
 
-  getGracePeriodLabel(type: string) {
-    if (this.fareType === 1) {
-      return { text: `${type.charAt(0).toUpperCase() + type.slice(1)} grace period (Hours)` };
-    } else if (this.fareType === 2) {
-      return { text: `${type.charAt(0).toUpperCase() + type.slice(1)} grace period (Minutes)` };
-    } else {
-      return { text: `${type.charAt(0).toUpperCase() + type.slice(1)} grace period` }; 
-    }
-  }
 
 }
