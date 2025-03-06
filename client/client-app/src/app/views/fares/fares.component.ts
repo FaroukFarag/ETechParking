@@ -99,7 +99,6 @@ export class FaresComponent {
       this.getAllFares();
     });
   }
-
   onRowUpdating(e: any) {
     const updatedData = { ...e.oldData, ...e.newData };
     this.faresService.update('Fares/Update', updatedData).subscribe(
@@ -115,7 +114,7 @@ export class FaresComponent {
   onRowRemoving(e: any) {
     const fareId = e.data.id;
     this.faresService.delete(`Fares/Delete?id=${fareId}`).subscribe(() => {
-      this.getAllFares(); // Refresh the list after deleting
+      this.getAllFares(); 
     });
   }
 

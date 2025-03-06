@@ -15,14 +15,12 @@ import { RoleService } from '../../services/role/role.service';
   standalone: true,
   imports: [
     DxDrawerModule,
-    HeaderComponent,
     ContentComponent,
     FooterComponent,
     DxToolbarModule,
     DxListModule,
     LoginComponent,
-    CommonModule,
-    ResetPasswordComponent
+    CommonModule
   ],
   templateUrl: './app-layout.component.html',
   styleUrl: './app-layout.component.scss'
