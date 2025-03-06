@@ -1,60 +1,36 @@
 <div id="data-grid-demo">
-  <h2 class="screen-title">Fares</h2>
+  <h2 class="screen-title">Rates</h2>
 
-  <dx-data-grid id="gridContainer"
-                [dataSource]="faresList"
-                keyExpr="id"
-                [showBorders]="false"
-                [showColumnLines]="false"
-                [showRowLines]="true"
-                (onRowInserting)="onRowInserting($event)"
-                (onRowUpdating)="onRowUpdating($event)"
-                (onRowRemoving)="onRowRemoving($event)"
-                [rowAlternationEnabled]="false"
-                [remoteOperations]="true"
-                [repaintChangesOnly]="true"
-                [errorRowEnabled]="false"
-                searchMode="contains"
-                (onExporting)="onExporting($event)">
+  <dx-data-grid id="gridContainer" [dataSource]="faresList" keyExpr="id" [showBorders]="false" [showColumnLines]="false"
+    [showRowLines]="true" (onInitNewRow)="onInitNewRow($event)" (onRowInserting)="onRowInserting($event)"
+    (onEditingStart)="onEditingStart($event)" (onRowUpdating)="onRowUpdating($event)"
+    (onRowRemoving)="onRowRemoving($event)" [rowAlternationEnabled]="false" [remoteOperations]="true"
+    [repaintChangesOnly]="true" [errorRowEnabled]="false" searchMode="contains" (onExporting)="onExporting($event)">
     <dxo-paging [enabled]="true" [pageSize]="5"></dxo-paging>
     <dxo-pager [visible]="true" [allowedPageSizes]="allowedPageSizes" [showPageSizeSelector]="true" [showInfo]="true"
       [showNavigationButtons]="true">
     </dxo-pager>
-    <dxo-search-panel [visible]="true"
-                      [highlightCaseSensitive]="true"></dxo-search-panel>
-    <dxo-editing mode="popup"
-                 [allowUpdating]="true"
-                 [allowAdding]="true"
-                 [allowDeleting]="true"
-                 [useIcons]="true">
-      <dxo-popup title="Fare Info"
-                 [showTitle]="true"
-                 [width]="600"
-                 [height]="600"
-                 [hideOnOutsideClick]="true">
+    <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+    <dxo-editing mode="popup" [allowUpdating]="true" [allowAdding]="true" [allowDeleting]="true" [useIcons]="true">
+      <dxo-popup title="Fare Info" [showTitle]="true" [width]="600" [height]="600" [hideOnOutsideClick]="true">
       </dxo-popup>
       <dxo-form>
         <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
-          <dxi-item dataField="locationId" editorType="dxSelectBox" [editorOptions]="{
-                              dataSource: locations,
-                              valueExpr: 'id',
-                              displayExpr: 'name',
-                              value:locationId
-                             }" [label]="{ text: 'Location name' }">
+          <dxi-item dataField="locationId" editorType="dxSelectBox" [editorOptions]="locationEditorOptions"
+            [label]="{ text: 'Location name' }">
           </dxi-item>
           <dxi-item dataField="amount" caption="Amount"></dxi-item>
           <dxi-item dataField="fareType" editorType="dxSelectBox" [editorOptions]="fareTypeEditorOptions"
-                    [label]="{ text: 'Fare type' }"></dxi-item>
+            [label]="{ text: 'Fare type' }"></dxi-item>
           <dxi-item *ngIf="showMaxLimit" dataField="maxLimit" caption="Max Limit"></dxi-item>
 
           <dxi-item dataField="enterGracePeriod" editorType="dxNumberBox"
-                    [editorOptions]="{ min: 0, showSpinButtons: true }"></dxi-item>
-          <dxi-item dataField="exitGracePeriod" caption="Exit grace period" alignment="left"
-                    editorType="dxNumberBox"
-                    [editorOptions]="{ min: 0, showSpinButtons: true }">
+            [editorOptions]="{ min: 0, showSpinButtons: true }"></dxi-item>
+          <dxi-item dataField="exitGracePeriod" caption="Exit grace period" alignment="left" editorType="dxNumberBox"
+            [editorOptions]="{ min: 0, showSpinButtons: true }">
           </dxi-item>
         </dxi-item>
-       
+
       </dxo-form>
     </dxo-editing>
 
@@ -63,7 +39,7 @@
     <dxi-column dataField="fareTypeName" caption="Fare type" alignment="left"></dxi-column>
     <dxi-column dataField="enterGracePeriod" caption="Enter grace period" alignment="left"> </dxi-column>
     <dxi-column dataField="exitGracePeriod" caption="Exit grace period" alignment="left"> </dxi-column>
-    <dxi-column dataField="maxLimit" caption="Max Limit" alignment="left"> </dxi-column>
+    <dxi-column [visible]="false" dataField="maxLimit" caption="Max Limit" alignment="left"> </dxi-column>
     <dxi-column [visible]="false" dataField="locationId" caption="Location Id" alignment="left"> </dxi-column>
     <dxi-column dataField="locationName" caption="Location name" alignment="left"> </dxi-column>
 

@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
 import { ContentComponent } from './content/content.component';
 import { FooterComponent } from './footer/footer.component';
@@ -27,7 +27,7 @@ import { RoleService } from '../../services/role/role.service';
   templateUrl: './app-layout.component.html',
   styleUrl: './app-layout.component.scss'
 })
-export class AppLayoutComponent {
+export class AppLayoutComponent implements OnInit {
   canAccessMainLayout: boolean = false;
   isFirstLogin: boolean = false;
   isClosed = false;
@@ -88,6 +88,12 @@ export class AppLayoutComponent {
   ];
 
   constructor(private router: Router, private authService: AuthService, private roleService: RoleService) { }
+  
+  ngOnInit(): void {
+    if(localStorage.getItem('token'))
+      this.canAccessMainLayout = true;
+  }
+
   isAdmin(): boolean {
     return this.roleService.isAdmin();
   }

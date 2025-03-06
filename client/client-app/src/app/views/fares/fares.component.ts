@@ -24,12 +24,13 @@ export class FaresComponent {
   locations: Location[] = [];
   allowedPageSizes: (number | "auto")[] = [10, 20, 50];
   locationId: any;
+  locationEditorOptions: any;
   fareTypes = [{ id: 1, name: 'Hourly' }, { id: 2, name: 'Daily' }]
   fareTypeEditorOptions: any;
   showMaxLimit = false;
   enterGracePeriodEditorOptions: any;
   exitGracePeriodEditorOptions: any;
-  fareType: number | null = null;
+  fareType: any;
   constructor(private faresService: FareService, private locationService: LocationService) {
     this.enterGracePeriodEditorOptions = {
       editorType: 'dxNumberBox',
@@ -37,7 +38,7 @@ export class FaresComponent {
     };
     this.exitGracePeriodEditorOptions = {
       editorType: 'dxNumberBox',
-     
+
       label: this.getGracePeriodLabel('exit')
     };
 
@@ -48,9 +49,8 @@ export class FaresComponent {
     this.getAllFares();
     this.getAllLocations();
     this.loadFareTypeEditorOptions();
- 
   }
- 
+
 
 
 
@@ -64,8 +64,18 @@ export class FaresComponent {
   getAllLocations() {
     this.locationService.getAll('Locations/GetAll').subscribe((data: Location[]) => {
       this.locations = data;
+      this.loadLocationEditorOptions();
     });
 
+  }
+
+  loadLocationEditorOptions() {
+    this.locationEditorOptions = {
+      dataSource: this.locations,
+      valueExpr: 'id',
+      displayExpr: 'name',
+      value: this.locationId
+    }
   }
 
   loadFareTypeEditorOptions() {
@@ -78,7 +88,13 @@ export class FaresComponent {
     }
   }
 
+  onInitNewRow(e: any) {
+    this.showMaxLimit = false;
+  }
+
   onRowInserting(e: any) {
+    e.data.fareType = this.fareType;
+
     this.faresService.create('Fares/Create', e.data).subscribe(() => {
       this.getAllFares();
     });
@@ -103,6 +119,11 @@ export class FaresComponent {
     });
   }
 
+  onEditingStart(e: any) {
+    this.fareType = e.data.fareType;
+    this.showMaxLimit = this.fareType === 1;
+  }
+
   /*EXPORT TO EXCEL */
   onExporting(e: any) {
     const workbook = new Workbook();
@@ -119,17 +140,10 @@ export class FaresComponent {
     });
   }
 
-  //onFareTypeChange(event: any) {
-  //  debugger
-  //  this.showMaxLimit = event.value == 1;
-  //  this.fareType = {id: event.value, value: 'test'};
-  //}
-
-
   onFareTypeChange(event: any) {
-    debugger
-    this.fareType = event.value; // Set the fareType
-    this.showMaxLimit = this.fareType === 1; // Show max limit if fareType is Hourly
+    this.fareType = event.value;
+    this.fareTypeEditorOptions.value = event.value;
+    this.showMaxLimit = this.fareType === 1;
   }
 
   getGracePeriodLabel(type: string) {
@@ -138,7 +152,7 @@ export class FaresComponent {
     } else if (this.fareType === 2) {
       return { text: `${type.charAt(0).toUpperCase() + type.slice(1)} grace period (Minutes)` };
     } else {
-      return { text: `${type.charAt(0).toUpperCase() + type.slice(1)} grace period` }; 
+      return { text: `${type.charAt(0).toUpperCase() + type.slice(1)} grace period` };
     }
   }
 
