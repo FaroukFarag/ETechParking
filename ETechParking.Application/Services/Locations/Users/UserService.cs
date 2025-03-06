@@ -81,8 +81,21 @@ public class UserService(
 
     public async override Task<UserDto> Update(UserDto newUserDto)
     {
-        var user = _mapper.Map<User>(newUserDto);
-        var result = await _userManager.UpdateAsync(user);
+        var existingUser = await _userManager.FindByIdAsync(newUserDto.Id.ToString());
+
+        if (existingUser == null)
+        {
+            return default!;
+        }
+
+        _mapper.Map(newUserDto, existingUser);
+
+        if (string.IsNullOrEmpty(existingUser.SecurityStamp))
+        {
+            existingUser.SecurityStamp = Guid.NewGuid().ToString();
+        }
+
+        var result = await _userManager.UpdateAsync(existingUser);
 
         if (!result.Succeeded)
             return default!;
