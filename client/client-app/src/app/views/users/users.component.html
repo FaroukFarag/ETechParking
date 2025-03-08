@@ -18,7 +18,7 @@
             <dxi-validation-rule type="required" message="Name is required">
             </dxi-validation-rule>
           </dxi-item>
-          <dxi-item dataField="email" Caption="Email">
+          <dxi-item dataField="email" Caption="Email" type="email">
             <dxi-validation-rule type="required" message="Email is required">
             </dxi-validation-rule>
           </dxi-item>
@@ -29,6 +29,7 @@
           <dxi-item dataField="phoneNumber" caption="Phone Number">
             <dxi-validation-rule type="required" message="Phone Number is required">
             </dxi-validation-rule>
+
           </dxi-item>
 
           <dxi-item dataField="locationId" editorType="dxSelectBox" [editorOptions]="{

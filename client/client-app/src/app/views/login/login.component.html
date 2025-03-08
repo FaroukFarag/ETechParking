@@ -8,14 +8,20 @@
     </div>
     <h2 class="active login-text"> Sign In </h2>
     <!-- Login Form -->
-    <form class="form" (ngSubmit)="onLogin()">
+    <form #loginForm="ngForm"  class="form" (ngSubmit)="onLogin()">
       <div class="form-inputs">
         <label>User Name</label>
         <input type="text" id="userName" class="fadeIn second" [(ngModel)]="loginModel.username" name="username" required>
+        <div *ngIf="loginForm.submitted && !loginModel.username" class="error-message">
+          User Name is required.
+        </div>
       </div>
       <div class="form-inputs">
         <label>Password</label>
         <input type="password" id="password" class="fadeIn third" [(ngModel)]="loginModel.password" name="password" required>
+        <div *ngIf="loginForm.submitted && !loginModel.password" class="error-message">
+          Password is required.
+        </div>
       </div>
       <div class="submit-inputs">
 
