@@ -483,3 +483,4 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 /ETechParking.Client/src/app
+/client/client-app/src/app

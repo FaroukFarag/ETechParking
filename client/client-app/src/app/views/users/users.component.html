@@ -23,8 +23,11 @@
             </dxi-validation-rule>
           </dxi-item>
           <dxi-item dataField="password" Caption="Password" mode="password">
-            <dxi-validation-rule type="required" message="Password is required">
-            </dxi-validation-rule>
+              <dxi-validation-rule type="required" message="Password is required"></dxi-validation-rule>
+              <dxi-validation-rule type="pattern"
+                                   pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                                   message="Password must be at least 8 characters long, contain at least one digit, one uppercase letter, one lowercase letter, and one special character.">
+              </dxi-validation-rule>
           </dxi-item>
           <dxi-item dataField="phoneNumber" caption="Phone Number">
             <dxi-validation-rule type="required" message="Phone Number is required">
