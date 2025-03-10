@@ -42,7 +42,7 @@ public class UserService(
 
         user.IsFirstLogin = true;
 
-        var userResult = await _userManager.CreateAsync(user, userDto.Password);
+        var userResult = await _userManager.CreateAsync(user, userDto.Password!);
 
         if (!userResult.Succeeded)
             return default!;

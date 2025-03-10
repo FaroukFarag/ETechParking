@@ -73,7 +73,7 @@ export class AppLayoutComponent implements OnInit {
       onClick: () => this.isDrawerOpen = !this.isDrawerOpen,
     },
   },
-    {
+  {
     widget: 'dxButton',
     location: 'after',
     options: {
@@ -86,9 +86,9 @@ export class AppLayoutComponent implements OnInit {
   ];
 
   constructor(private router: Router, private authService: AuthService, private roleService: RoleService) { }
-  
+
   ngOnInit(): void {
-    if(localStorage.getItem('token'))
+    if (localStorage.getItem('token') && !this.authService.isTokenExpired(localStorage.getItem('token')))
       this.canAccessMainLayout = true;
   }
 
@@ -120,5 +120,5 @@ export class AppLayoutComponent implements OnInit {
 
   onLoginClicked() {
     this.canAccessMainLayout = true;
-    }
+  }
 }

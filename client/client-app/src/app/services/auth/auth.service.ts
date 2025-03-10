@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +19,11 @@ export class AuthService {
     }
     return false;
   }
+
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token'); 
   }
+
   logout() {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
@@ -28,10 +31,9 @@ export class AuthService {
   }
 
   isAuthenticated() {
-
     return !!localStorage.getItem('token');
-
   }
+
   // Method to reset the password
   resetPassword(newPassword: string): Observable<any> {
     const userId = localStorage.getItem('userId'); 
@@ -41,5 +43,25 @@ export class AuthService {
     };
 
     return this.http.post(`${this.apiUrl}/users/reset-password`, payload);
+  }
+
+  isTokenExpired(token: any): boolean {
+    if (!token) {
+      return true;
+    }
+
+    try {
+      const decoded = jwtDecode<JwtPayload>(token);
+      const currentTime = Date.now() / 1000;
+
+      if (decoded.exp && decoded.exp < currentTime) {
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return true;
+    }
   }
 }

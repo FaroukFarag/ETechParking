@@ -109,8 +109,6 @@ export class ShiftsComponent {
 
 
   saveShift() {
-    console.log("fidjdgj")
-    debugger
     const closeShiftData = {
 
       id: this.viewFormData.id,
@@ -143,7 +141,9 @@ export class ShiftsComponent {
 
   }
 
-
+  cancel() {
+    this.viewPopupVisible = false;
+  }
 
   showFilterPopup() {
     this.popupVisible = !this.popupVisible;
