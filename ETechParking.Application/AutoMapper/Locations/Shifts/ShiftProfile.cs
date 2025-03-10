@@ -14,7 +14,7 @@ public class ShiftProfile : Profile
             .ForMember(des => des.CashierUserName, opt => opt
                 .MapFrom(src => src.CashierUser.UserName))
             .ForMember(des => des.AccountantUserName, opt => opt
-                .MapFrom(src => src.AccountantUser.UserName))
+                .MapFrom(src => src.AccountantUser!.UserName))
             .ForMember(des => des.TotalCashCaculated, opt => opt
                 .MapFrom(src => src.Tickets
                     .Where(t => t.TransactionType == TransactionType.Cash).Sum(t => t.TotalAmount)))

@@ -62,7 +62,13 @@ public class TicketService(
 
     public async override Task<IEnumerable<TicketDto>> GetAllAsync()
     {
-        var tickets = await _ticketRepository.GetAllAsync(includeProperties: t => t.Location);
+        var tickets = await _ticketRepository
+            .GetAllAsync(
+                filter: default!,
+                orderBy: default!,
+                t => t.Location,
+                t => t.CreateUser,
+                t => t.CloseUser!);
         var ticketsDtos = _mapper.Map<IReadOnlyList<TicketDto>>(tickets);
 
         return ticketsDtos;

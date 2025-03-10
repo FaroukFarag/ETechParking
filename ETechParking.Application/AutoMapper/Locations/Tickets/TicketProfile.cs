@@ -12,6 +12,8 @@ public class TicketProfile : Profile
         CreateMap<TicketDto, Ticket>();
 
         CreateMap<Ticket, TicketDto>()
+            .ForMember(des => des.ClientTypeName, opt => opt.MapFrom(src => src.ClientType.ToString()))
+            .ForMember(des => des.TransactionTypeName, opt => opt.MapFrom(src => src.TransactionType.ToString()))
             .ForMember(des => des.LocationName, opt => opt.MapFrom(src => src.Location.Name))
             .ForMember(des => des.CreateUserName, opt => opt.MapFrom(src => src.CreateUser.UserName))
             .ForMember(des => des.CloseUserName, opt => opt.MapFrom(src => src.CloseUser!.UserName))

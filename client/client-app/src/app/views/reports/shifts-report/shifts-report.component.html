@@ -1,15 +1,5 @@
 <div id="data-grid-demo">
   <h2 class="screen-title">Shifts</h2>
-  <div class="buttons-header">
-
-    <div class="export-reoprt-btn">
-      <dx-select-box [(value)]="selectedFormat"
-                     [dataSource]="exportFormats"
-                     [placeholder]="'Export Report'"
-                     (onValueChanged)="exportReport($event)">
-      </dx-select-box>
-    </div>
-  </div>
   <!-- Filter Controls -->
   <div class="filter-section">
     <dx-form id="filterForm" [formData]="filterData" (onFieldDataChanged)="applyFilters()">
@@ -50,7 +40,16 @@
       </dxi-item>
     </dx-form>
   </div>
+  <div class="buttons-header">
 
+    <div class="export-reoprt-btn">
+      <dx-select-box [(value)]="selectedFormat"
+                     [dataSource]="exportFormats"
+                     [placeholder]="'Export Report'"
+                     (onValueChanged)="exportReport($event)">
+      </dx-select-box>
+    </div>
+  </div>
   <!--Start Data Grid-->
   <dx-data-grid id="gridContainer"
                 [dataSource]="shiftsList"

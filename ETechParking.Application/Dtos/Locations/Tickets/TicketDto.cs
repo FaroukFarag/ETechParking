@@ -11,7 +11,9 @@ namespace ETechParking.Application.Dtos.Locations.Tickets
         public DateTime EntryDateTime { get; set; } = default!;
         public DateTime? ExitDateTime { get; set; }
         public ClientType ClientType { get; set; }
+        public string? ClientTypeName { get; set; }
         public TransactionType? TransactionType { get; set; }
+        public string? TransactionTypeName { get; set; }
         public bool IsPaid { get; set; }
         public int? NumberOfDays { get; set; }
         public decimal? TotalAmount { get; set; }

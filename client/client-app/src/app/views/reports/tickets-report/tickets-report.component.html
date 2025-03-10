@@ -1,87 +1,61 @@
 <div id="data-grid-demo">
   <h2 class="screen-title">Tickets</h2>
-  <div class="buttons-header">
-    <div class="export-reoprt-btn">
-      <dx-select-box [(value)]="selectedFormat"
-                     [dataSource]="exportFormats"
-                     [placeholder]="'Export Report'"
-                     (onValueChanged)="exportReport($event)">
-      </dx-select-box>
-    </div>
-  </div>
- <!-- Filter Controls -->
- <div class="filter-section">
-   <dx-form id="filterForm" [formData]="filterData" (onFieldDataChanged)="applyFilters()">
-     <dxi-item itemType="group" cssClass="form-group" [colCount]="2">
-       <dxi-item dataField="fromDateTime" caption="Start Date" editorType="dxDateBox"
-                 [editorOptions]="{ width: '100%' }"
-                 [label]="{ text: 'Start date' }"></dxi-item>
-       <dxi-item dataField="toDateTime" caption="End Date" editorType="dxDateBox"
-                 [editorOptions]="{ width: '100%' }"
-                 [label]="{ text: 'End date' }"></dxi-item>
-     </dxi-item>
-     <dxi-item itemType="group" cssClass="form-group" [colCount]="3">
-       <dxi-item dataField="locationId" editorType="dxSelectBox"
-                 [editorOptions]="{
+  <!-- Filter Controls -->
+  <div class="filter-section">
+    <dx-form id="filterForm" [formData]="filterData" (onFieldDataChanged)="applyFilters()">
+      <dxi-item itemType="group" cssClass="form-group" [colCount]="2">
+        <dxi-item dataField="fromDateTime" caption="Start Date" editorType="dxDateBox"
+          [editorOptions]="{ width: '100%' }" [label]="{ text: 'Start date' }"></dxi-item>
+        <dxi-item dataField="toDateTime" caption="End Date" editorType="dxDateBox" [editorOptions]="{ width: '100%' }"
+          [label]="{ text: 'End date' }"></dxi-item>
+      </dxi-item>
+      <dxi-item itemType="group" cssClass="form-group" [colCount]="3">
+        <dxi-item dataField="locationId" editorType="dxSelectBox" [editorOptions]="{
                    dataSource: locationsList,
                    valueExpr: 'id',
                    displayExpr: 'name',
                    placeholder: 'Select'
-                 }"
-                 [label]="{ text: 'Location name' }">
-       </dxi-item>
-       <dxi-item dataField="createUser Id" editorType="dxSelectBox"
-                 [editorOptions]="{
+                 }" [label]="{ text: 'Location name' }">
+        </dxi-item>
+        <dxi-item dataField="createUser Id" editorType="dxSelectBox" [editorOptions]="{
                    dataSource: usersList,
                    valueExpr: 'id',
                    displayExpr: 'userName',
                    placeholder: 'Select'
-                 }"
-                 [label]="{ text: 'Cashier started the shift' }"></dxi-item>
-       <dxi-item dataField="closeUser Id" editorType="dxSelectBox"
-                 [editorOptions]="{
+                 }" [label]="{ text: 'Cashier started the shift' }"></dxi-item>
+        <dxi-item dataField="closeUser Id" editorType="dxSelectBox" [editorOptions]="{
                    dataSource: usersList,
                    valueExpr: 'id',
                    displayExpr: 'userName',
                    placeholder: 'Select'
-                 }"
-                 [label]="{ text: 'Cashier closed the shift' }"></dxi-item>
-     </dxi-item>
-   </dx-form>
- </div>
-   <dx-data-grid id="gridContainer"
-                [dataSource]="ticketsList"
-                keyExpr="id"
-                [showBorders]="false"
-                [showColumnLines]="false"
-                [showRowLines]="true"
-                [rowAlternationEnabled]="false"
-                [remoteOperations]="true"
-                [repaintChangesOnly]="true"
-                [errorRowEnabled]="false"
-                searchMode="contains">
+                 }" [label]="{ text: 'Cashier closed the shift' }"></dxi-item>
+      </dxi-item>
+    </dx-form>
+  </div>
+  <div class="buttons-header">
+    <div class="export-reoprt-btn">
+      <dx-select-box [(value)]="selectedFormat" [dataSource]="exportFormats" [placeholder]="'Export Report'"
+        (onValueChanged)="exportReport($event)">
+      </dx-select-box>
+    </div>
+  </div>
+  <dx-data-grid id="gridContainer" [dataSource]="ticketsList" keyExpr="id" [showBorders]="false"
+    [showColumnLines]="false" [showRowLines]="true" [rowAlternationEnabled]="false" [remoteOperations]="true"
+    [repaintChangesOnly]="true" [errorRowEnabled]="false" searchMode="contains">
     <dxo-paging [enabled]="true" [pageSize]="5"></dxo-paging>
-    <dxo-pager [visible]="true"
-               [allowedPageSizes]="allowedPageSizes"
-               [showPageSizeSelector]="true"
-               [showInfo]="true"
-               [showNavigationButtons]="true">
+    <dxo-pager [visible]="true" [allowedPageSizes]="allowedPageSizes" [showPageSizeSelector]="true" [showInfo]="true"
+      [showNavigationButtons]="true">
     </dxo-pager>
 
-    <dxo-editing mode="popup"
-                 [allowUpdating]="false"
-                 [allowAdding]="false"
-                 [allowDeleting]="false">
-      <dxo-popup title="Ticket Info"
-                 [showTitle]="true"
-                 [width]="700"
-                 [height]="400">
+    <dxo-editing mode="popup" [allowUpdating]="false" [allowAdding]="false" [allowDeleting]="false">
+      <dxo-popup title="Ticket Info" [showTitle]="true" [width]="700" [height]="400">
       </dxo-popup>
-      
+
     </dxo-editing>
     <dxi-column dataField="plateNumber" Caption="Plate Number" alignment="left" width="120"></dxi-column>
     <dxi-column dataField="phoneNumber" caption="Phone Number" alignment="left" width="150"></dxi-column>
-    <dxi-column dataField="entryDateTime" caption="Entry date" dataType="date" alignment="left" width="140"> </dxi-column>
+    <dxi-column dataField="entryDateTime" caption="Entry date" dataType="date" alignment="left" width="140">
+    </dxi-column>
     <dxi-column dataField="exitDateTime" caption="Exit date" dataType="date" alignment="left" width="140"> </dxi-column>
     <dxi-column dataField="clientName" caption="Client type" alignment="left" width="120"> </dxi-column>
     <dxi-column dataField="transactionName" caption="Transaction type" alignment="left" width="140"> </dxi-column>
