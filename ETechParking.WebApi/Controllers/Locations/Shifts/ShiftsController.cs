@@ -37,8 +37,14 @@ public class ShiftsController(IShiftService shiftService) : BaseController<IShif
     }
 
     [HttpPost("CloseShift")]
-    public async Task<IActionResult> CloseShift(CloseShiftDto payTicketDto)
+    public async Task<IActionResult> CloseShift(CloseShiftDto closeShiftDto)
     {
-        return Ok(await _shiftService.CloseShiftAsync(payTicketDto));
+        return Ok(await _shiftService.CloseShiftAsync(closeShiftDto));
+    }
+
+    [HttpPost("ConfirmShift")]
+    public async Task<IActionResult> ConfirmShift(ConfirmShiftDto confirmShiftDto)
+    {
+        return Ok(await _shiftService.ConfirmShiftAsync(confirmShiftDto, GetCurrentUserId()));
     }
 }

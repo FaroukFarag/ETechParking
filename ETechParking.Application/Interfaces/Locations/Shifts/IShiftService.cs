@@ -10,5 +10,5 @@ public interface IShiftService : IBaseService<Shift, ShiftDto, int>
     Task<IEnumerable<ShiftDto>> GetAllByUserIdAsync(int userId);
     Task<IEnumerable<ShiftDto>> GetAllPaginatedByUserIdAsync(PaginatedModelDto paginatedModelDto, int userId);
     Task<ShiftDto> CloseShiftAsync(CloseShiftDto payTicketDto);
-    Task<ShiftDto> ReviewShiftAsync(ReviewShiftDto reviewShiftDto);
+    Task<ShiftDto> ConfirmShiftAsync(ConfirmShiftDto confirmShiftDto, int userId);
 }

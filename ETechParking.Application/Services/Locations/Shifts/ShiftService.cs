@@ -141,20 +141,21 @@ public class ShiftService(IShiftRepository shiftRepository, IUnitOfWork unitOfWo
         return _mapper.Map<ShiftDto>(shift);
     }
 
-    public async Task<ShiftDto> ReviewShiftAsync(ReviewShiftDto reviewShiftDto)
+    public async Task<ShiftDto> ConfirmShiftAsync(ConfirmShiftDto confirmShiftDto, int userId)
     {
         var shift = await _shiftRepository
             .GetAsync(
-                reviewShiftDto.Id,
+                confirmShiftDto.Id,
                 query => query.Include(s => s.Tickets)
                     .Include(s => s.Location)
                     .Include(s => s.CashierUser)
                     .Include(s => s.AccountantUser)
             );
 
-        shift.AccountantTotalCash = reviewShiftDto.TotalCash;
-        shift.AccountantTotalCredit = reviewShiftDto.TotalCredit;
-        shift.Status = ShiftStatus.Reviewed;
+        shift.AccountantUserId = userId;
+        shift.AccountantTotalCash = confirmShiftDto.TotalCash;
+        shift.AccountantTotalCredit = confirmShiftDto.TotalCredit;
+        shift.Status = ShiftStatus.Confirmed;
 
         _shiftRepository.Update(shift);
 

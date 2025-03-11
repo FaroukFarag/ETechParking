@@ -101,13 +101,10 @@
       <dxi-column caption="Actions" alignment="left" cellTemplate="viewButtonTemplate"></dxi-column>
 
       <div *dxTemplate="let data of 'viewButtonTemplate'">
-        <dx-button stylingMode="text"
-            text="Review"
+        <dx-button [disabled]="data.data.status === 3" stylingMode="text"
+            text="Confirm"
                    type="default"
            (onClick)="openViewPopup(data)"></dx-button>
-      </div>
-      <div *dxTemplate="let data of 'closeShift'">
-        <dx-button (onClick)="closeShift(data)">Close</dx-button>
       </div>
       <div *dxTemplate="let data of 'statusTemplate'">
 
@@ -116,13 +113,13 @@
         <span *ngIf="data.value === 1">Open</span>
         <span *ngIf="data.value === 2">Closed</span>
 
-        <span *ngIf="data.value === 3">Reviewed</span>
+        <span *ngIf="data.value === 3">Confirmed</span>
 
       </div>
     </dx-data-grid>
 
 
-    <dx-popup [(visible)]="viewPopupVisible" [width]="550" [height]="400" [showCloseButton]="true" [title]="'Review Shift'">
+    <dx-popup [(visible)]="viewPopupVisible" [width]="550" [height]="400" [showCloseButton]="true" [title]="'Confirm Shift'">
       <dxi-toolbar-item widget="dxButton"
                         toolbar="bottom"
                         location="after"
@@ -131,7 +128,7 @@
                    type="default"
                    (onClick)="saveShift()"
                    class="p-3">
-          Save
+                   Confirm
         </dx-button>
         <dx-button stylingMode="contained"
                    type="default"

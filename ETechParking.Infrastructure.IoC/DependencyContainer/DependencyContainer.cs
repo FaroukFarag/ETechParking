@@ -132,6 +132,8 @@ public static class DependencyContainer
         services.AddValidatorsFromAssemblyContaining<CalculateTicketTotalDtoValidator>();
         services.AddValidatorsFromAssemblyContaining<PayTicketDtoValidator>();
         services.AddValidatorsFromAssemblyContaining<ShiftDtoValidator>();
+        services.AddValidatorsFromAssemblyContaining<CloseShiftDtoValidator>();
+        services.AddValidatorsFromAssemblyContaining<ConfirmShiftDtoValidator>();
     }
 
     public static void RegisterIdentity(this IServiceCollection services)

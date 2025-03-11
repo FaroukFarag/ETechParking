@@ -109,7 +109,7 @@ export class ShiftsComponent {
 
 
   saveShift() {
-    const closeShiftData = {
+    const confirmShiftData = {
 
       id: this.viewFormData.id,
 
@@ -122,7 +122,7 @@ export class ShiftsComponent {
     };
 
 
-    this.shiftsService.closeShift('Shifts/CloseShift', closeShiftData).subscribe(
+    this.shiftsService.closeShift('Shifts/ConfirmShift', confirmShiftData).subscribe(
 
       () => {
 
