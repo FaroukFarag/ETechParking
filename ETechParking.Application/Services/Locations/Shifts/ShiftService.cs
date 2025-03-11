@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using ETechParking.Application.Dtos.Locations.Shifts;
+using ETechParking.Application.Dtos.Locations.Tickets;
 using ETechParking.Application.Dtos.Shared;
 using ETechParking.Application.Interfaces.Locations.Shifts;
+using ETechParking.Application.Interfaces.Locations.Tickets;
 using ETechParking.Application.Services.Abstraction;
 using ETechParking.Domain.Enums.Locations.Shifts;
 using ETechParking.Domain.Interfaces.Repositories.Locations.Shifts;
@@ -12,11 +14,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ETechParking.Application.Services.Locations.Shifts;
 
-public class ShiftService(IShiftRepository shiftRepository, IUnitOfWork unitOfWork, IMapper mapper) : BaseService<Shift, ShiftDto, int>(shiftRepository, unitOfWork, mapper), IShiftService
+public class ShiftService(
+    IShiftRepository shiftRepository,
+    IUnitOfWork unitOfWork,
+    IMapper mapper,
+    ITicketService ticketService) : BaseService<Shift, ShiftDto, int>(shiftRepository, unitOfWork, mapper), IShiftService
 {
     private readonly IShiftRepository _shiftRepository = shiftRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
+    private readonly ITicketService _ticketService = ticketService;
 
     public async override Task<ShiftDto> GetAsync(int id)
     {
@@ -102,6 +109,11 @@ public class ShiftService(IShiftRepository shiftRepository, IUnitOfWork unitOfWo
         var shiftsDtos = _mapper.Map<IReadOnlyList<ShiftDto>>(shifts);
 
         return shiftsDtos;
+    }
+
+    public async Task<IEnumerable<TicketDto>> GetAllShiftTicketsAsync(int shiftId)
+    {
+        return await _ticketService.GetAllByShiftIdAsync(shiftId);
     }
 
     public async Task<ShiftDto> GetLastUserOpenedShiftAsync(int userId)

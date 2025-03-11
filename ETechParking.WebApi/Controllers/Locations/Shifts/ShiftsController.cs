@@ -27,6 +27,12 @@ public class ShiftsController(IShiftService shiftService) : BaseController<IShif
         return Ok(await _shiftService.GetAllByUserIdAsync(GetCurrentUserId()));
     }
 
+    [HttpGet("GetAllShiftTickets")]
+    public async Task<IActionResult> GetAllShiftTickets(int shiftId)
+    {
+        return Ok(await _shiftService.GetAllShiftTicketsAsync(shiftId));
+    }
+
     [HttpGet("GetAllPaginatedByUserId")]
     public async Task<IActionResult> GetAllPaginatedByUserId(PaginatedModelDto paginatedModelDto)
     {

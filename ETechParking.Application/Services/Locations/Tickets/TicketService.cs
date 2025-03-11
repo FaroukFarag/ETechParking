@@ -60,12 +60,26 @@ public class TicketService(
         return ticketDto;
     }
 
+    public async Task<IEnumerable<TicketDto>> GetAllByShiftIdAsync(int shiftId)
+    {
+        var tickets = await _ticketRepository
+            .GetAllAsync(
+                filter: s => s.ShiftId == shiftId,
+                orderBy: q => q.OrderByDescending(s => s.EntryDateTime),
+                t => t.Location,
+                t => t.CreateUser,
+                t => t.CloseUser!);
+        var ticketsDtos = _mapper.Map<IReadOnlyList<TicketDto>>(tickets);
+
+        return ticketsDtos;
+    }
+
     public async override Task<IEnumerable<TicketDto>> GetAllAsync()
     {
         var tickets = await _ticketRepository
             .GetAllAsync(
                 filter: default!,
-                orderBy: default!,
+                orderBy: q => q.OrderByDescending(s => s.EntryDateTime),
                 t => t.Location,
                 t => t.CreateUser,
                 t => t.CloseUser!);
