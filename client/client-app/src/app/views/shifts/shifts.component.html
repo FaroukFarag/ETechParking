@@ -97,6 +97,8 @@
       <dxi-column dataField="startDateTime" dataType="date" caption="Start Date" alignment="left"></dxi-column>
       <dxi-column dataField="endDateTime" dataType="date" caption="End Date" alignment="left"></dxi-column>
       <dxi-column dataField="totalVisitors" caption="Visitors" alignment="left"></dxi-column>
+      <dxi-column dataField="totalCashCaculated" caption="Total Cash" alignment="left"></dxi-column>
+      <dxi-column dataField="totalCreditCaculated" caption="Total Credit" alignment="left"></dxi-column>
       <dxi-column dataField="status" caption="Status" alignment="left" cellTemplate="statusTemplate"></dxi-column>
       <dxi-column caption="Actions" alignment="left" cellTemplate="viewButtonTemplate"></dxi-column>
 
@@ -107,14 +109,9 @@
            (onClick)="openViewPopup(data)"></dx-button>
       </div>
       <div *dxTemplate="let data of 'statusTemplate'">
-
-       
-
         <span *ngIf="data.value === 1">Open</span>
         <span *ngIf="data.value === 2">Closed</span>
-
         <span *ngIf="data.value === 3">Confirmed</span>
-
       </div>
     </dx-data-grid>
 

@@ -7,6 +7,8 @@ import { Users } from '../../../models/users/users.model';
 import { UsersService } from '../../../services/users/users.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import notify from 'devextreme/ui/notify';
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-shifts-report',
   standalone: true,
@@ -18,7 +20,8 @@ import notify from 'devextreme/ui/notify';
     DxTextAreaModule,
     DxDateBoxModule,
     DxFormModule,
-    DxTextBoxModule,],
+    DxTextBoxModule,
+    CommonModule],
   templateUrl: './shifts-report.component.html',
   styleUrl: './shifts-report.component.scss'
 })

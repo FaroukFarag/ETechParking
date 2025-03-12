@@ -7,7 +7,12 @@ import { TicketsComponent } from './views/tickets/tickets.component';
 import { ShiftsComponent } from './views/shifts/shifts.component';
 import { ReportsComponent } from './views/reports/reports.component';
 import { AuthGuard } from './auth.guard';
+import { DashboardComponent } from './views/dashboard/dashboard.component';
 export const routes: Routes = [
+  {
+    path: 'dashboard',
+    component: DashboardComponent
+  },
   {
     path: 'locations',
     component: Locationsv2Component
