@@ -45,7 +45,7 @@ export class LoginComponent {
           this.showResetPasswordForm = true; 
         } else if (response.isFirstLogin === false) {
           this.loginClicked.emit();
-          this.router.navigate(['/tickets']);
+          this.router.navigate(['/dashboard']);
         }
       },
       error: (error) => {

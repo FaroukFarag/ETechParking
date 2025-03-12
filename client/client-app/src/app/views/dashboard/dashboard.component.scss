@@ -1,0 +1,50 @@
+.screen-title {
+  color: #232323;
+  font-weight: 600;
+}
+.section-one {
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 2px 4px 7px #4f008c0f;
+  width: 100%;
+  padding: 1.5rem;
+}
+
+.dashboard-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 2px 4px 7px #4f008c0f;
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+.card-header{
+    display:flex;
+    flex-direction:row;
+}
+.card-header span {
+  font-size: 18px;
+  font-weight: 600;
+  margin-left:14px;
+}
+.card-total-number {
+  display: flex;
+  flex-direction: row-reverse;
+  color: #f15b27;
+  font-size:24px;
+  font-weight:600;
+}
+.section-two {
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 2px 4px 7px #4f008c0f;
+  width: 100%;
+  padding: 1.5rem;
+}
+.canvasjs-chart-credit{
+    display:none!important;
+}

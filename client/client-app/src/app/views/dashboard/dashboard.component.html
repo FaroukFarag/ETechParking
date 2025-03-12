@@ -1,0 +1,98 @@
+<div>
+  <h2 class="screen-title">Dashboard</h2>
+  <div class="filter-section">
+    <div class="dx-fieldset">
+      <div class="dx-field">
+        <div class="dx-field-value">
+          <dx-select-box [dataSource]="locationsList"
+                         displayExpr="name"
+                         valueExpr="ID"
+                         [inputAttr]="{ 'aria-label': 'Product' }"
+            [searchExpr]="searchExprOption"
+            [searchTimeout]="searchTimeoutOption"
+                         [searchEnabled]="true"
+                      ></dx-select-box>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="section-one row">
+    <div class="dashboard-card col-2 m-3">
+      <div class="card-header  mb-3">
+        <img width="20" src="/assets/icons/shift.svg" />
+        <span>Total Shifts</span>
+      </div>
+      <div class="card-total-number">
+        50
+      </div>
+    </div>
+    <div class="dashboard-card col-2 m-3">
+      <div class="card-header mb-3">
+        <img width="20" src="/assets/icons/shift.svg" />
+        <span>Total Closed Shifts</span>
+      </div>
+      <div class="card-total-number">
+        30
+      </div>
+    </div>
+    <div class="dashboard-card col-2 m-3">
+      <div class="card-header mb-3">
+        <img width="20" src="/assets/icons/tickets.svg" />
+        <span>Total Tickets</span>
+      </div>
+      <div class="card-total-number">
+        2500
+      </div>
+    </div>
+
+    <div class="dashboard-card col-2 m-3">
+      <div class="card-header mb-3">
+        <img width="20" src="/assets/icons/tickets.svg" />
+        <span>Total Paid Tickets</span>
+      </div>
+      <div class="card-total-number">
+        2000
+      </div>
+    </div>
+
+    <div class="dashboard-card col-2 m-3">
+      <div class="card-header  mb-3">
+        <img width="20" src="/assets/icons/location.svg" />
+        <span>Total Locations</span>
+      </div>
+      <div class="card-total-number">
+        50
+      </div>
+    </div>
+    <div class="dashboard-card col-2 m-3">
+      <div class="card-header mb-3">
+        <img width="20" src="/assets/icons/users.svg" />
+        <span>Total Cashier users</span>
+      </div>
+      <div class="card-total-number">
+        100
+      </div>
+    </div>
+
+    <div class="dashboard-card col-2 m-3">
+      <div class="card-header mb-3">
+        <img width="20" src="/assets/icons/fare.svg" />
+        <span>Total Rates</span>
+      </div>
+      <div class="card-total-number">
+        100.000.000
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="section-two mt-5">
+    <div class="charts-row row">
+      <canvasjs-chart [options]="chartOptions" [styles]="{width: '100%', height:'360px'}" class="col-6" ></canvasjs-chart>
+    </div>
+  </div>
+</div>
+

@@ -41,10 +41,10 @@ export class AppLayoutComponent implements OnInit {
   initializeNavigation() {
     if (this.roleService.isAdmin()) {
       this.navigation = [
-        { id: 1, text: 'Dashboard', icon: '/assets/icons/location.svg' },
+        { id: 1, text: 'Dashboard', icon: '/assets/icons/dashboard.svg' },
         { id: 2, text: 'Locations', icon: '/assets/icons/location.svg' },
         { id: 3, text: 'Rates', icon: '/assets/icons/fare.svg' },
-        { id: 4, text: 'Tickets', icon: '/assets/icons/tickets.svg' },
+        { id: 4, text: 'Tickets', icon: '/assets/icons/.svg' },
         { id: 5, text: 'Shifts', icon: '/assets/icons/shift.svg' },
         { id: 6, text: 'Users', icon: '/assets/icons/users.svg' },
         { id: 7, text: 'Reports', icon: '/assets/icons/reports.svg' },
