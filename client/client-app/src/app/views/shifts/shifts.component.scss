@@ -221,3 +221,35 @@
 ::ng-deep .dx-button-mode-contained .dx-icon {
   color: #fff!important;
 }
+.order-status {
+  display:flex;
+  flex-direction:row;
+  align-items:baseline;
+}
+.status-shape {
+  width: 12px;
+  height: 12px;
+  border-radius: 50px;
+  margin-right:6px;
+}
+.open {
+  background: yellow;
+}
+.closed {
+  background: red;
+}
+.confirmed {
+  background: green;
+}
+.open-text {
+  color: #d7cb1a;
+}
+.closed-text{
+  color: red;
+}
+.confirmed-text {
+  color: green;
+}
+
+
+

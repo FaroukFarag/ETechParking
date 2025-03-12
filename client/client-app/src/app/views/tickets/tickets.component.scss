@@ -14,10 +14,10 @@
   height: 70px !important;
 }
 
-  ::ng-deep .dx-datagrid-header-panel .dx-toolbar-after {
-    display: flex;
-    flex-direction: row-reverse;
-  }
+::ng-deep .dx-datagrid-header-panel .dx-toolbar-after {
+  display: flex;
+  flex-direction: row-reverse;
+}
 
 ::ng-deep .dx-datagrid-search-panel.dx-show-invalid-badge.dx-textbox.dx-texteditor.dx-editor-outlined.dx-searchbox.dx-show-clear-button.dx-texteditor-empty.dx-widget {
   width: 350px !important;
@@ -34,19 +34,21 @@
   width: 48px !important;
   border-color: #f15b27 !important;
 }
+
 ::ng-deep .dx-button-mode-contained {
   border-radius: 8px !important;
 }
-  ::ng-deep .dx-button-mode-contained .dx-icon{
-      color:#5a5a5a!important;
-  }
 
-  /*END BUTTON STYLES*/
+::ng-deep .dx-button-mode-contained .dx-icon {
+  color: #5a5a5a !important;
+}
+
+/*END BUTTON STYLES*/
 
 
-  ::ng-deep .dx-icon.dx-icon-edit-button-addrow {
-    color: #fff !important;
-  }
+::ng-deep .dx-icon.dx-icon-edit-button-addrow {
+  color: #fff !important;
+}
 
 ::ng-deep .dx-page-size.dx-selection {
   background: #f15b27 !important;
@@ -99,9 +101,8 @@
 .filter-btn {
   width: 100%;
   display: flex;
-  /*flex-direction: row-reverse;*/
   position: relative;
-  margin-bottom:10px!important;
+  margin-bottom: 10px !important;
 }
 
 
@@ -115,9 +116,9 @@
 
 
 /*Filter Popup*/
-::ng-deep .dx-first-row.dx-field-item.dx-col-0.dx-field-item-optional.dx-flex-layout.dx-label-h-align{
-    display:flex!important;
-    flex-direction:column!important;
+::ng-deep .dx-first-row.dx-field-item.dx-col-0.dx-field-item-optional.dx-flex-layout.dx-label-h-align {
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 ::ng-deep .dx-first-row.dx-last-col.dx-last-row.dx-field-item.dx-col-1.dx-field-item-optional.dx-flex-layout.dx-label-h-align {
@@ -131,9 +132,9 @@
   width: 100% !important;
   margin: auto !important;
 }
-::ng-deep #form{
-    width:100%!important;
-    //margin:auto!important;
+
+::ng-deep #form {
+  width: 100% !important;
 }
 
 ::ng-deep .dx-popup-wrapper .dx-button-mode-contained.dx-button-default {
@@ -144,25 +145,23 @@
 }
 
 ::ng-deep .dx-datagrid-header-panel .dx-button-mode-contained {
-  //background: #f15b27 !important;
   border-radius: 8px !important;
-  width:54px!important;
-  height:48px!important;
- // border-color: #f15b27 !important;
+  width: 54px !important;
+  height: 48px !important;
 }
 
 
 ::ng-deep .dx-popup-wrapper .dx-state-focused.dx-overlay-content {
   border: 1px solid #fff !important;
-
-} 
+}
 
 ::ng-deep .dx-checkbox-checked .dx-checkbox-icon {
   color: #f15b27 !important;
 }
-.buttons-header{
-    display:flex;
-    flex-direction:row;
+
+.buttons-header {
+  display: flex;
+  flex-direction: row;
 }
 
 .export-reoprt-btn {
@@ -171,25 +170,28 @@
 }
 
 ::ng-deep .dx-first-row.dx-last-row.dx-field-item.dx-col-2.dx-field-item-optional.dx-flex-layout.dx-label-h-align {
-  display: flex!important;
-  flex-direction: column!important;
+  display: flex !important;
+  flex-direction: column !important;
 }
+
 ::ng-deep .dx-first-row.dx-last-row.dx-field-item.dx-col-1.dx-field-item-optional.dx-flex-layout.dx-label-h-align {
   display: flex !important;
   flex-direction: column !important;
 }
+
 ::ng-deep .dx-first-row.dx-last-row.dx-field-item.dx-col-3.dx-field-item-optional.dx-flex-layout.dx-label-h-align {
   display: flex !important;
   flex-direction: column !important;
 }
+
 ::ng-deep .dx-first-row.dx-last-row.dx-field-item.dx-col-4.dx-field-item-optional.dx-flex-layout.dx-label-h-align {
   display: flex !important;
   flex-direction: column !important;
 }
 
-.filter-section{
-    width:100%;
-    margin-bottom:3rem;
+.filter-section {
+  width: 100%;
+  margin-bottom: 3rem;
 }
 
 ::ng-deep .dx-layout-manager .dx-label-h-align.dx-flex-layout:not(.dx-field-item-label-align) {
@@ -200,4 +202,13 @@
 ::ng-deep .dx-first-col.dx-last-row.dx-field-item.dx-col-0.dx-field-item-optional.dx-flex-layout.dx-label-h-align {
   display: flex !important;
   flex-direction: column !important;
+}
+
+
+.tickets-count {
+  color: #232323;
+
+  span {
+    color: #f15b27;
+  }
 }

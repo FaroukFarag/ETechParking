@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
 import {
   DxButtonModule, DxDataGridModule, DxTemplateModule,
   DxPopupModule, DxSelectBoxModule, DxDateBoxModule,
   DxFormModule, DxTextAreaModule, DxTextBoxModule
 } from 'devextreme-angular'; 4
-
 import { TicketsService } from '../../services/tickets/tickets.service';
 import notify from 'devextreme/ui/notify';
 import { LocationService } from '../../services/locations/location.service';
-
 import { Location } from '../../models/locations/location.model';
 import { Users } from '../../models/users/users.model';
 import { UsersService } from '../../services/users/users.service';
@@ -22,11 +23,13 @@ import jsPDF from 'jspdf';
 import { HttpHeaders } from '@angular/common/http';
 import { DxDropDownButtonModule, DxDropDownButtonComponent, DxDropDownButtonTypes } from 'devextreme-angular/ui/drop-down-button';
 import { DxListModule } from 'devextreme-angular';
+import { ShiftsService } from '../../services/shifts/shifts.service';
 @Component({
   selector: 'app-tickets',
   standalone: true,
 
-  imports: [DxButtonModule,
+  imports: [CommonModule,
+    DxButtonModule,
     DxDataGridModule,
     DxTemplateModule,
     DxPopupModule,
@@ -64,10 +67,14 @@ export class TicketsComponent {
   usersList: any;
   selectedFormat: any;
   exportFormats: string[] = ['PDF', 'Excel', 'Word'];
+  shiftId: number | null = null; 
+  totalTicketsCount: number = 0;
   constructor(private ticketsService: TicketsService,
     private locationService: LocationService,
     private usersService: UsersService,
-    private http: HttpClient) {
+    private http: HttpClient,
+    private route: ActivatedRoute,
+    private shiftsService: ShiftsService) {
     this.filterButtonOptions = {
       icon: 'search',
       stylingMode: 'outlined',
@@ -92,45 +99,36 @@ export class TicketsComponent {
 
 
 
-
-
-
   showFilterPopup() {
     this.popupVisible = !this.popupVisible;
   }
 
   ngOnInit() {
-    this.getAllTickets();
+    this.route.queryParams.subscribe(params => {
+      this.shiftId = params['shiftId'] ? +params['shiftId'] : null;
+      if (this.shiftId) {
+        this.getTicketsByShiftId(this.shiftId); 
+      } else {
+        this.getAllTickets();
+      }
+    });
     this.getAllLocations();
     this.getAllUsers();
-
   }
 
+  getTicketsByShiftId(shiftId: number) {
+    this.shiftsService.getShiftTickets(shiftId).subscribe((tickets: any) => {
+      this.ticketsList = tickets; 
+      this.totalTicketsCount = tickets.length; 
+    });
+  }
 
   getAllTickets() {
     this.ticketsService.getAll('Tickets/GetAll').subscribe((data: any) => {
       this.ticketsList = data;
-
     });
-
   }
 
-
-
-
-
-  onRowInserting(e: any) {
-
-  }
-
-
-  onRowUpdating(e: any) {
-
-  }
-
-  onRowRemoving(e: any) {
-
-  }
 
   getAllLocations() {
     this.locationService.getAll('Locations/GetAll').subscribe((data: Location[]) => {
@@ -143,9 +141,7 @@ export class TicketsComponent {
     });
   }
   applyFilters() {
-
     const filters = {
-
       fromDateTime: this.filterData.fromDateTime,
       toDateTime: this.filterData.toDateTime,
       locationId: this.filterData.locationId,
@@ -178,15 +174,7 @@ export class TicketsComponent {
       });
     });
   }
-  //onExporting(e: any) {
-  //  const doc = new jsPDF();
-  //  exportDataGrid({
-  //    component: e.component,
-  //    // Remove jsPDFDocument if it's not recognized
-  //  }).then(() => {
-  //    doc.save('Tickets.pdf');
-  //  });
-  //}
+
   exportReport(e: any) {
     if (!this.selectedFormat) {
       notify('Please select a format to export.', 'error', 3000);

@@ -43,22 +43,7 @@ export class BaseService<T> {
   create(endpoint: string, entity: T): Observable<T> {
     return this.http.post<T>(`${this.baseUrl}/${endpoint}`, entity);
   }
-  //create(endpoint: string, entity: T): Observable<T | null> {
-  //  const req = new HttpRequest('POST', `${this.baseUrl}/${endpoint}`, entity);
-  //  return this.handleRequest(req).pipe(
-  //    map(event => {
-  //      if (event.type === HttpEventType.Response) {
-  //        return event.body as T;
-  //      }
-  //      return null;
-  //    }),
-  //    catchError(error => {
-  //      console.error('Error occurred during create:', error);
-  //      return of(null);
-  //    })
-  //  );
-  //}
-
+ 
   update(endpoint: string, entity: T): Observable<T> {
     return this.http.put<T>(`${this.baseUrl}/${endpoint}`, entity);
   }

@@ -12,6 +12,8 @@ import { DxDataGridTypes } from 'devextreme-angular/ui/data-grid';
 import { Workbook } from 'exceljs';
 import { saveAs } from 'file-saver';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-shifts',
@@ -66,7 +68,19 @@ export class ShiftsComponent {
 
   };
   saveShiftButtonOptions: any;
-  constructor(private shiftsService: ShiftsService, private locationService: LocationService, private usersService: UsersService, private http: HttpClient) {
+  previewPopupVisible: boolean = false;
+
+  previewFormData: any = {};
+  protected baseUrl: string;
+
+  constructor(private shiftsService: ShiftsService,
+    private locationService: LocationService,
+    private usersService: UsersService,
+    private http: HttpClient,
+    private router: Router) {
+    this.baseUrl = `${environment.apiUrl}`;
+
+
     this.saveShiftButtonOptions = {
       icon: 'save',
       stylingMode: 'contained',
@@ -92,51 +106,41 @@ export class ShiftsComponent {
 
   openViewPopup(event: any) {
     this.viewFormData = {
-
       id: event.data.id,
-
       totalCash: 0,
-
       totalCredit: 0,
-
       endDateTime: new Date().toISOString(),
-
     };
-
     this.viewPopupVisible = true;
-
   }
-
+  openPreviewPopup(data: any) {
+    this.previewFormData = {
+      accountantTotalCash: data.data.accountantTotalCash,
+      accountantTotalCredit: data.data.accountantTotalCredit,
+      accountantTotalCashDifference: data.data.accountantTotalCashDifference,
+      accountantTotalCreditDifference: data.data.accountantTotalCreditDifference,
+    };
+    this.previewPopupVisible = true;
+  }
 
   saveShift() {
     const confirmShiftData = {
-
       id: this.viewFormData.id,
-
       totalCash: this.viewFormData.totalCash,
-
       totalCredit: this.viewFormData.totalCredit,
-
       endDateTime: this.viewFormData.endDateTime,
-
     };
 
 
     this.shiftsService.closeShift('Shifts/ConfirmShift', confirmShiftData).subscribe(
-
       () => {
-
         this.getAllShifts(); 
-
         this.viewPopupVisible = false; 
       },
 
       (error) => {
-
         console.error('Error closing shift:', error);
-
       }
-
     );
 
   }
@@ -282,5 +286,24 @@ export class ShiftsComponent {
         console.error('Error closing shift:', error);
       }
     );
+  }
+
+
+  getShiftTickets(shiftId: number) {
+    this.shiftsService.getShiftTickets(shiftId).subscribe(
+      (tickets: any) => {
+        console.log('Tickets for shift:', tickets);
+        this.router.navigate(['/tickets'], { queryParams: { shiftId: shiftId } });
+      },
+      (error) => {
+        console.error('Error fetching shift tickets:', error);
+        notify('Failed to fetch shift tickets. Please try again.', 'error', 3000);
+      }
+    );
+  }
+
+
+  previewShiftTickets(shiftId: number) {
+    this.getShiftTickets(shiftId);
   }
 }

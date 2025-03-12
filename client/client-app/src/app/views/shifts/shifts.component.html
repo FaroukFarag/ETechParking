@@ -90,31 +90,58 @@
         </dxo-form>
       </dxo-editing>
 
-      <dxi-column [visible]="false" dataField="id" ></dxi-column>
+      <dxi-column [visible]="false" dataField="id"></dxi-column>
       <dxi-column dataField="cashierUserName" caption="Cashier" alignment="left"></dxi-column>
       <dxi-column dataField="locationName" caption="Location Name" alignment="left"></dxi-column>
-      <dxi-column dataField="totalGuests" caption="Guests" alignment="left"></dxi-column>
+      <dxi-column dataField="totalGuests" caption="Guests" alignment="left" width="120"></dxi-column>
       <dxi-column dataField="startDateTime" dataType="date" caption="Start Date" alignment="left"></dxi-column>
       <dxi-column dataField="endDateTime" dataType="date" caption="End Date" alignment="left"></dxi-column>
-      <dxi-column dataField="totalVisitors" caption="Visitors" alignment="left"></dxi-column>
+      <dxi-column dataField="totalVisitors" caption="Visitors" alignment="left"  width="120"></dxi-column>
       <dxi-column dataField="totalCashCaculated" caption="Total Cash" alignment="left"></dxi-column>
       <dxi-column dataField="totalCreditCaculated" caption="Total Credit" alignment="left"></dxi-column>
       <dxi-column dataField="status" caption="Status" alignment="left" cellTemplate="statusTemplate"></dxi-column>
       <dxi-column caption="Actions" alignment="left" cellTemplate="viewButtonTemplate"></dxi-column>
+      <dxi-column caption="View Tickets" alignment="left" cellTemplate="previewButtonTemplate"></dxi-column>
 
-      <div *dxTemplate="let data of 'viewButtonTemplate'">
-        <dx-button [disabled]="data.data.status === 3" stylingMode="text"
-            text="Confirm"
+      <div *dxTemplate="let data of 'previewButtonTemplate'">
+        <dx-button stylingMode="text"
+                   text="view Tickets"
                    type="default"
-           (onClick)="openViewPopup(data)"></dx-button>
+                   (onClick)="previewShiftTickets(data.data.id)">
+
+        </dx-button>
+      </div>
+      <div *dxTemplate="let data of 'viewButtonTemplate'">
+        <dx-button stylingMode="text"
+                   [text]="data.data.status === 3 ? 'Preview Shift' : 'Confirm shift'"
+                   type="default"
+                   (onClick)="data.data.status === 3 ? openPreviewPopup(data) : openViewPopup(data)">
+
+        </dx-button>
       </div>
       <div *dxTemplate="let data of 'statusTemplate'">
-        <span *ngIf="data.value === 1">Open</span>
-        <span *ngIf="data.value === 2">Closed</span>
-        <span *ngIf="data.value === 3">Confirmed</span>
+
+
+        <!--<span *ngIf="data.value === 1">Open</span>
+  <span *ngIf="data.value === 2">Closed by Cashier</span>
+  <span *ngIf="data.value === 3">Confirmed</span>-->
+
+        <div class="order-status" *ngIf="data.value === 1 ">
+        <span class="status-shape open"></span>
+        <span class="status-value  open-text" > Open </span>
+        </div>
+        <div class="order-status" *ngIf="data.value === 2 ">
+          <span class="status-shape closed"></span>
+          <span class="status-value closed-text" > Closed by Cashier </span>
+        </div>
+        <div class="order-status" *ngIf="data.value === 3 ">
+          <span class="status-shape confirmed"></span>
+          <span class="status-value confirmed-text " > Confirmed </span>
+        </div>
       </div>
     </dx-data-grid>
 
+    <!--CLOSE SHIFT POPUP-->
 
     <dx-popup [(visible)]="viewPopupVisible" [width]="550" [height]="400" [showCloseButton]="true" [title]="'Confirm Shift'">
       <dxi-toolbar-item widget="dxButton"
@@ -125,7 +152,7 @@
                    type="default"
                    (onClick)="saveShift()"
                    class="p-3">
-                   Confirm
+          Confirm
         </dx-button>
         <dx-button stylingMode="contained"
                    type="default"
@@ -139,6 +166,17 @@
         <dxi-item dataField="totalCash" label="Total Cash"></dxi-item>
         <dxi-item dataField="totalCredit" label="Total Credit"></dxi-item>
         <dxi-item dataField="endDateTime" label="End Date" editorType="dxDateBox"></dxi-item>
+      </dx-form>
+    </dx-popup>
+
+
+    <!--PREVIEW POPUP-->
+    <dx-popup [(visible)]="previewPopupVisible" [width]="550" [height]="410" [showCloseButton]="true" [title]="'Preview Shift'">
+      <dx-form [formData]="previewFormData">
+        <dxi-item dataField="accountantTotalCash" label="Accountant Total Cash" [disabled]="true"></dxi-item>
+        <dxi-item dataField="accountantTotalCredit" label="Accountant Total Credit" [disabled]="true"></dxi-item>
+        <dxi-item dataField="accountantTotalCashDifference" label="Accountant Cash Difference" [disabled]="true"></dxi-item>
+        <dxi-item dataField="accountantTotalCreditDifference" label="Accountant Credit Difference" [disabled]="true"></dxi-item>
       </dx-form>
     </dx-popup>
   </div>
