@@ -209,7 +209,8 @@ public class UserService(
             new("userId", user.Id.ToString()),
             new("userName", user.UserName!),
             new("email", user.Email!),
-            new("role", user.Role.Name!)
+            new("role", user.Role.Name!),
+            new("locationId", user.LocationId.ToString())
         };
 
         return await _tokensService.GenerateToken(claims);

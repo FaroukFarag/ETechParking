@@ -3,15 +3,11 @@
   <div class="filter-section">
     <div class="dx-fieldset">
       <div class="dx-field">
+        <div class="dx-field-label">Select Location</div>
         <div class="dx-field-value">
-          <dx-select-box [dataSource]="locationsList"
-                         displayExpr="name"
-                         valueExpr="ID"
-                         [inputAttr]="{ 'aria-label': 'Product' }"
-            [searchExpr]="searchExprOption"
-            [searchTimeout]="searchTimeoutOption"
-                         [searchEnabled]="true"
-                      ></dx-select-box>
+          <dx-select-box [dataSource]="locationsList" displayExpr="name" valueExpr="ID"
+            [inputAttr]="{ 'aria-label': 'Product' }" [searchExpr]="searchExprOption"
+            [searchTimeout]="searchTimeoutOption" [searchEnabled]="true"></dx-select-box>
         </div>
       </div>
     </div>
@@ -25,16 +21,16 @@
         <span>Total Shifts</span>
       </div>
       <div class="card-total-number">
-        50
+        {{totalShifts}}
       </div>
     </div>
     <div class="dashboard-card col-lg-2 col-md-4 col-sm-6 col-12 m-3">
       <div class="card-header mb-3">
         <img width="20" src="/assets/icons/shift.svg" />
-        <span>Total Closed Shifts</span>
+        <span>Total Confirmed Shifts</span>
       </div>
       <div class="card-total-number">
-        30
+        {{totalConfirmedShifts}}
       </div>
     </div>
     <div class="dashboard-card col-lg-2 col-md-4 col-sm-6 col-12 m-3">
@@ -43,7 +39,8 @@
         <span>Total Tickets</span>
       </div>
       <div class="card-total-number">
-        2500
+        
+        {{totalTickets}}
       </div>
     </div>
 
@@ -53,7 +50,7 @@
         <span>Total Paid Tickets</span>
       </div>
       <div class="card-total-number">
-        2000
+        {{totalPaidTickets}}
       </div>
     </div>
 
@@ -91,8 +88,8 @@
 
   <div class="section-two mt-5">
     <div class="charts-row row">
-      <canvasjs-chart [options]="chartOptions" [styles]="{width: '100%', height:'360px'}" class="col-lg-6 col-md-12 col-sm-12 col-12" ></canvasjs-chart>
+      <canvasjs-chart [options]="chartOptions" [styles]="{width: '100%', height:'360px'}"
+        class="col-lg-6 col-md-12 col-sm-12 col-12"></canvasjs-chart>
     </div>
   </div>
 </div>
-

@@ -58,4 +58,12 @@ public class TicketsController(ITicketService ticketService) :
     {
         return Ok(await _ticketService.PayTicket(payTicketDto));
     }
+
+    [HttpGet("GetTotalTickets")]
+    public async Task<IActionResult> GetTicketsCount(bool isPaid)
+    {
+        var count = await _ticketService.GetTicketCountAsync(isPaid);
+
+        return Ok(count);
+    }
 }

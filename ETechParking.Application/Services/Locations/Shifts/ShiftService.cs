@@ -11,6 +11,7 @@ using ETechParking.Domain.Interfaces.UnitOfWork;
 using ETechParking.Domain.Models.Locations.Shifts;
 using ETechParking.Domain.Models.Shared;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace ETechParking.Application.Services.Locations.Shifts;
 
@@ -177,5 +178,17 @@ public class ShiftService(
             return default!;
 
         return _mapper.Map<ShiftDto>(shift);
+    }
+
+    public async Task<long> GetShiftCountAsync(ShiftStatus? status = default!)
+    {
+        Expression<Func<Shift, bool>> filter = default!;
+
+        if (status.HasValue)
+        {
+            filter = s => s.Status == status.Value;
+        }
+
+        return await _shiftRepository.GetCountAsync(filter);
     }
 }

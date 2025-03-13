@@ -1,6 +1,7 @@
 ﻿using ETechParking.Application.Dtos.Locations.Shifts;
 using ETechParking.Application.Dtos.Shared;
 using ETechParking.Application.Interfaces.Locations.Shifts;
+using ETechParking.Domain.Enums.Locations.Shifts;
 using ETechParking.Domain.Models.Locations.Shifts;
 using ETechParking.WebApi.Controllers.Abstraction;
 using Microsoft.AspNetCore.Authorization;
@@ -52,5 +53,13 @@ public class ShiftsController(IShiftService shiftService) : BaseController<IShif
     public async Task<IActionResult> ConfirmShift(ConfirmShiftDto confirmShiftDto)
     {
         return Ok(await _shiftService.ConfirmShiftAsync(confirmShiftDto, GetCurrentUserId()));
+    }
+
+    [HttpGet("GetTotalShifts")]
+    public async Task<IActionResult> GetShiftsCount([FromQuery] ShiftStatus? status = default!)
+    {
+        var count = await _shiftService.GetShiftCountAsync(status);
+
+        return Ok(count);
     }
 }

@@ -11,4 +11,5 @@ public interface ITicketService : IBaseService<Ticket, TicketDto, int>
     Task<IEnumerable<TicketDto>> GetAllFilteredAsync(TicketFilterDto ticketFilterDto);
     Task<TicketDto> CalculateTicketTotal(CalculateTicketTotalDto ticketTotalDto);
     Task<TicketDto> PayTicket(PayTicketDto payTicketDto);
+    Task<long> GetTicketCountAsync(bool isPaid);
 }

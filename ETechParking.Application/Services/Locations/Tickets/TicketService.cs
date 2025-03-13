@@ -11,6 +11,7 @@ using ETechParking.Domain.Interfaces.UnitOfWork;
 using ETechParking.Domain.Models.Locations.Tickets;
 using ETechParking.Domain.Models.Shared;
 using ETechParking.Domain.Services.Locations.Tickets;
+using System.Linq.Expressions;
 
 namespace ETechParking.Application.Services.Locations.Tickets;
 
@@ -160,11 +161,24 @@ public class TicketService(
         return ticketDto;
     }
 
+    public async Task<long> GetTicketCountAsync(bool isPaid)
+    {
+        Expression<Func<Ticket, bool>> filter = default!;
+
+        if (isPaid)
+        {
+            filter = t => t.IsPaid;
+        }
+
+        return await _ticketRepository.GetCountAsync(filter);
+    }
+
     private async Task<Ticket> GetLatestUnpaidTicketAsync(string plateNumber)
     {
         var tickets = await _ticketRepository
-            .GetAllAsync(filter: t => t.PlateNumber == plateNumber && !t.IsPaid,
-            includeProperties: t => t.Location.Fares);
+            .GetAllAsync(
+                filter: t => t.PlateNumber == plateNumber && !t.IsPaid,
+                includeProperties: t => t.Location.Fares);
         var ticket = tickets.LastOrDefault();
 
         return ticket ?? throw new InvalidOperationException("No unpaid ticket found for the provided plate number.");

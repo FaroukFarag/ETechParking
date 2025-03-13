@@ -26,4 +26,22 @@ public interface IBaseRepository<TEntity, TPrimaryKey> where TEntity : class
     TEntity Update(TEntity newEntity);
     TEntity Delete(TPrimaryKey id);
     void DeleteRange(IEnumerable<TEntity> entities);
+
+    Task<int> GetCountAsync(Expression<Func<TEntity, bool>> filter = default!);
+
+    Task<decimal> GetSumAsync(
+        Expression<Func<TEntity, decimal>> selector,
+        Expression<Func<TEntity, bool>> filter = default!);
+
+    Task<decimal> GetAverageAsync(
+        Expression<Func<TEntity, decimal>> selector,
+        Expression<Func<TEntity, bool>> filter = default!);
+
+    Task<TResult> GetMaxAsync<TResult>(
+        Expression<Func<TEntity, TResult>> selector,
+        Expression<Func<TEntity, bool>> filter = default!);
+
+    Task<TResult> GetMinAsync<TResult>(
+        Expression<Func<TEntity, TResult>> selector,
+        Expression<Func<TEntity, bool>> filter = default!);
 }

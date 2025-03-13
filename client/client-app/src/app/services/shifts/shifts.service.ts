@@ -12,6 +12,16 @@ export class ShiftsService extends BaseService<Shifts> {
   }
 
 
+  getTotalShifts(status?: number) {
+    let url = `${this.baseUrl}/Shifts/GetTotalShifts`;
+  
+    if (status !== undefined && status !== null) {
+      url += `?status=${status}`;
+    }
+  
+    return this.http.get<number>(url);
+  }
+
   getShiftTickets(shiftId: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/Shifts/GetAllShiftTickets?shiftId=${shiftId}`);
   }

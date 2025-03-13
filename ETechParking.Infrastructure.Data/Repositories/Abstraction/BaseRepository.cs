@@ -100,10 +100,68 @@ public class BaseRepository<TEntity, TPrimaryKey>(ETechParkingDbContext context)
         _context.RemoveRange(entities);
     }
 
+    public async Task<int> GetCountAsync(Expression<Func<TEntity, bool>> filter = default!)
+    {
+        var query = _context.Set<TEntity>().AsQueryable();
+
+        if (filter != null)
+            query = query.Where(filter);
+
+        return await query.CountAsync();
+    }
+
+    public async Task<decimal> GetSumAsync(
+        Expression<Func<TEntity, decimal>> selector,
+        Expression<Func<TEntity, bool>> filter = default!)
+    {
+        var query = _context.Set<TEntity>().AsQueryable();
+
+        if (filter != null)
+            query = query.Where(filter);
+
+        return await query.SumAsync(selector);
+    }
+
+    public async Task<decimal> GetAverageAsync(
+        Expression<Func<TEntity, decimal>> selector,
+        Expression<Func<TEntity, bool>> filter = default!)
+    {
+        var query = _context.Set<TEntity>().AsQueryable();
+
+        if (filter != null)
+            query = query.Where(filter);
+
+        return await query.AverageAsync(selector);
+    }
+
+    public async Task<TResult> GetMaxAsync<TResult>(
+        Expression<Func<TEntity, TResult>> selector,
+        Expression<Func<TEntity, bool>> filter = default!)
+    {
+        var query = _context.Set<TEntity>().AsQueryable();
+
+        if (filter != null)
+            query = query.Where(filter);
+
+        return await query.MaxAsync(selector);
+    }
+
+    public async Task<TResult> GetMinAsync<TResult>(
+        Expression<Func<TEntity, TResult>> selector,
+        Expression<Func<TEntity, bool>> filter = default!)
+    {
+        var query = _context.Set<TEntity>().AsQueryable();
+
+        if (filter != null)
+            query = query.Where(filter);
+
+        return await query.MinAsync(selector);
+    }
+
     private IQueryable<TEntity> BuildQuery(
-    Expression<Func<TEntity, bool>> filter = default!,
-    Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = default!,
-    params Expression<Func<TEntity, object>>[] includeProperties)
+        Expression<Func<TEntity, bool>> filter = default!,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = default!,
+        params Expression<Func<TEntity, object>>[] includeProperties)
     {
         IQueryable<TEntity> query = _context.Set<TEntity>();
 
