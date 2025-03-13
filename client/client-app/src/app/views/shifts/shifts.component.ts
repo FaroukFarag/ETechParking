@@ -56,7 +56,7 @@ export class ShiftsComponent {
   exportFormats: string[] = ['PDF', 'Excel', 'Word'];
 
   viewPopupVisible = false;
-
+  shiftId: any;
   viewFormData: any = {
     id: 0,
 
@@ -114,11 +114,13 @@ export class ShiftsComponent {
     this.viewPopupVisible = true;
   }
   openPreviewPopup(data: any) {
+    this.shiftId = data.data.id;
     this.previewFormData = {
       accountantTotalCash: data.data.accountantTotalCash,
       accountantTotalCredit: data.data.accountantTotalCredit,
       accountantTotalCashDifference: data.data.accountantTotalCashDifference,
       accountantTotalCreditDifference: data.data.accountantTotalCreditDifference,
+     
     };
     this.previewPopupVisible = true;
   }
