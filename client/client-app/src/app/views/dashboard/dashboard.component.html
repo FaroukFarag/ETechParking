@@ -3,10 +3,10 @@
   <div class="filter-section">
     <div class="dx-fieldset">
       <div class="dx-field">
-        <div class="dx-field-label">Select Location</div>
+        <!--<div class="dx-field-label">Select Location</div>-->
         <div class="dx-field-value">
-          <dx-select-box [dataSource]="locationsList" displayExpr="name" valueExpr="ID"
-            [inputAttr]="{ 'aria-label': 'Product' }" [searchExpr]="searchExprOption"
+          <dx-select-box [dataSource]="locationsList" displayExpr="name" valueExpr="ID" 
+            [inputAttr]="{ 'aria-label': 'Locations' }" [searchExpr]="searchExprOption"
             [searchTimeout]="searchTimeoutOption" [searchEnabled]="true"></dx-select-box>
         </div>
       </div>
@@ -87,9 +87,49 @@
   </div>
 
   <div class="section-two mt-5">
-    <div class="charts-row row">
-      <canvasjs-chart [options]="chartOptions" [styles]="{width: '100%', height:'360px'}"
-        class="col-lg-6 col-md-12 col-sm-12 col-12"></canvasjs-chart>
+    <div class="row">
+      <!--ticketsTransactionType-->
+      <dx-pie-chart class="col-lg-6"
+                    id="pie"
+                    title="Tickets(Transaction type report)"
+                    palette="bright"
+                    [dataSource]="ticketsTransactionType">
+        <dxo-legend orientation="horizontal"
+                    itemTextPosition="right"
+                    horizontalAlignment="center"
+                    verticalAlignment="bottom"
+                    [columnCount]="4"></dxo-legend>
+        <dxo-export [enabled]="true"></dxo-export>
+        <dxi-series argumentField="type" valueField="value">
+          <dxo-label [visible]="true"
+                     position="columns"
+                     [customizeText]="customizeLabel">
+            <dxo-font [size]="16"></dxo-font>
+            <dxo-connector [visible]="true" [width]="0.5"></dxo-connector>
+          </dxo-label>
+        </dxi-series>
+      </dx-pie-chart>
+
+      <!--ticketsClientType-->
+      <dx-pie-chart class="col-lg-6"
+                    id="pie"
+                    title="Tickets(Client type report)"
+                    palette="bright"
+                    [dataSource]="ticketsClientType">
+        <dxo-legend orientation="horizontal"
+                    itemTextPosition="right"
+                    horizontalAlignment="center"
+                    verticalAlignment="bottom"
+                    [columnCount]="4"></dxo-legend>
+        <dxo-export [enabled]="true"></dxo-export>
+        <dxi-series argumentField="type" valueField="value">
+          <dxo-label [visible]="true"
+                     position="columns"
+                     [customizeText]="customizeLabel">
+            <dxo-font [size]="16"></dxo-font>
+            <dxo-connector [visible]="true" [width]="0.5"></dxo-connector>
+          </dxo-label>
+        </dxi-series>
+      </dx-pie-chart>
     </div>
-  </div>
 </div>

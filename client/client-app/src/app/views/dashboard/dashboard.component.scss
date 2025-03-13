@@ -49,3 +49,11 @@
 .canvasjs-chart-credit{
     display:none!important;
 }
+
+.filter-section{
+    display:flex;
+   flex-direction:row-reverse;
+}
+::ng-deep .dx-field-value:not(.dx-switch):not(.dx-checkbox):not(.dx-button) {
+  width: 100%!important;
+}
