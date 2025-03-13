@@ -120,6 +120,15 @@ export class ShiftsComponent {
       accountantTotalCredit: data.data.accountantTotalCredit,
       accountantTotalCashDifference: data.data.accountantTotalCashDifference,
       accountantTotalCreditDifference: data.data.accountantTotalCreditDifference,
+      cashierUserName: data.data.cashierUserName,
+      startDateTime: data.data.startDateTime,
+      endDateTime: data.data.endDateTime,
+      totalVisitors: data.data.totalVisitors,
+      totalGuests: data.data.totalGuests,
+      cashierTotalCredit: data.data.cashierTotalCredit,
+      cashierTotalCash: data.data.cashierTotalCash,
+      cashierTotalCashDifference: data.data.cashierTotalCashDifference,
+      cashierTotalCreditDifference: data.data.cashierTotalCreditDifference,
      
     };
     this.previewPopupVisible = true;
@@ -307,5 +316,17 @@ export class ShiftsComponent {
 
   previewShiftTickets(shiftId: number) {
     this.getShiftTickets(shiftId);
+  }
+
+
+  formatDate(dateString: string): string {
+
+    const date = new Date(dateString);
+
+    const options: Intl.DateTimeFormatOptions = { year: '2-digit', month: '2-digit', day: '2-digit' };
+
+    const formattedDate = date.toLocaleDateString('en-US', options);
+
+    return formattedDate;
   }
 }

@@ -2,7 +2,7 @@ import { Component, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { DxSelectBoxTypes } from 'devextreme-angular/ui/select-box';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { DxSelectBoxModule } from 'devextreme-angular';
+import { DxSelectBoxModule, DxDateBoxModule } from 'devextreme-angular';
 import { LocationService } from '../../services/locations/location.service';
 import { ShiftsService } from '../../services/shifts/shifts.service';
 import { TicketsService } from '../../services/tickets/tickets.service';
@@ -12,6 +12,7 @@ import { DxPieChartModule } from 'devextreme-angular';
   selector: 'app-dashboard',
   standalone: true,
   imports: [DxSelectBoxModule,
+    DxDateBoxModule,
     DxPieChartModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
