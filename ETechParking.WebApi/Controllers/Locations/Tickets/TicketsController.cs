@@ -9,7 +9,7 @@ namespace ETechParking.WebApi.Controllers.Locations.Tickets;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize(Roles = "Admin,Accountant,Cashier")]
+[Authorize(Roles = "Admin,Supervisor,Accountant,Cashier")]
 public class TicketsController(ITicketService ticketService) :
     BaseController<ITicketService, Ticket, TicketDto, int>(ticketService)
 {

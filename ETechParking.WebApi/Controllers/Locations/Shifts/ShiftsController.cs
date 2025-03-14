@@ -11,7 +11,7 @@ namespace ETechParking.WebApi.Controllers.Locations.Shifts;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize(Roles = "Admin,Accountant,Cashier")]
+[Authorize(Roles = "Admin,Supervisor,Accountant,Cashier")]
 public class ShiftsController(IShiftService shiftService) : BaseController<IShiftService, Shift, ShiftDto, int>(shiftService)
 {
     private readonly IShiftService _shiftService = shiftService;

@@ -9,7 +9,7 @@ namespace ETechParking.WebApi.Controllers.Locations.Fares;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admin,Supervisor")]
 public class FaresController(IFareService fareService) :
     BaseController<IFareService, Fare, FareDto, int>(fareService)
 {
