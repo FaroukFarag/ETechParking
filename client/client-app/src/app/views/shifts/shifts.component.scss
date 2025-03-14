@@ -253,3 +253,12 @@
 
 
 
+::ng-deep .dx-overlay-content .dx-popup-content > .dx-template-wrapper {
+  height:auto!important;
+  width: auto !important;
+}
+
+
+::ng-deep .dx-form-group-caption {
+  color: #f15b27 !important;
+}

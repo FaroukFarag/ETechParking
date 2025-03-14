@@ -100,32 +100,16 @@
       <dxi-column dataField="totalCashCaculated" caption="Total Cash" alignment="left"></dxi-column>
       <dxi-column dataField="totalCreditCaculated" caption="Total Credit" alignment="left"></dxi-column>
       <dxi-column dataField="status" caption="Status" alignment="left" cellTemplate="statusTemplate"></dxi-column>
-      <dxi-column caption="Actions" alignment="left" cellTemplate="viewButtonTemplate"></dxi-column>
-      <dxi-column caption="View Tickets" alignment="left" cellTemplate="previewButtonTemplate"></dxi-column>
-
-      <div *dxTemplate="let data of 'previewButtonTemplate'">
-        <dx-button stylingMode="text"
-                   text="view Tickets"
-                   type="default"
-                   (onClick)="previewShiftTickets(data.data.id)">
-
-        </dx-button>
-      </div>
+      <dxi-column caption="Review Shift" alignment="left" cellTemplate="viewButtonTemplate"></dxi-column>
       <div *dxTemplate="let data of 'viewButtonTemplate'">
-        <dx-button stylingMode="text"
+        <dx-button (stylingMode)="data.data.status === 3 ? 'outlined' : 'default'"
                    [text]="data.data.status === 3 ? 'Preview Shift' : 'Confirm shift'"
-                   type="default"
+                   type="normal"
                    (onClick)="data.data.status === 3 ? openPreviewPopup(data) : openViewPopup(data)">
 
         </dx-button>
       </div>
       <div *dxTemplate="let data of 'statusTemplate'">
-
-
-        <!--<span *ngIf="data.value === 1">Open</span>
-  <span *ngIf="data.value === 2">Closed by Cashier</span>
-  <span *ngIf="data.value === 3">Confirmed</span>-->
-
         <div class="order-status" *ngIf="data.value === 1 ">
         <span class="status-shape open"></span>
         <span class="status-value  open-text" > Open </span>
@@ -171,13 +155,45 @@
 
 
     <!--PREVIEW POPUP-->
-    <dx-popup [(visible)]="previewPopupVisible" [width]="550" [height]="410" [showCloseButton]="true" [title]="'Preview Shift'">
+    <dx-popup [(visible)]="previewPopupVisible" [width]="850" [height]="600" [showCloseButton]="true" [title]="'Preview Shift'">
       <dx-form [formData]="previewFormData">
-        <dxi-item dataField="accountantTotalCash" label="Accountant Total Cash" [disabled]="true"></dxi-item>
-        <dxi-item dataField="accountantTotalCredit" label="Accountant Total Credit" [disabled]="true"></dxi-item>
-        <dxi-item dataField="accountantTotalCashDifference" label="Accountant Cash Difference" [disabled]="true"></dxi-item>
-        <dxi-item dataField="accountantTotalCreditDifference" label="Accountant Credit Difference" [disabled]="true"></dxi-item>
+        <dxi-item itemType="group"
+                  captionTemplate="Cashier"
+                  caption="Cashier Data"
+                  [colCount]="3">
+          <dxi-item dataField="cashierUserName" label="Cashier" [disabled]="true"></dxi-item>
+          <dxi-item dataField="startDateTime" label="Start Date" [disabled]="true"></dxi-item>
+          <dxi-item dataField="endDateTime" label="End Date" [disabled]="true"></dxi-item>
+          <dxi-item dataField="cashierTotalCash" label="Cashier Total Cash" [disabled]="true"></dxi-item>
+          <dxi-item dataField="cashierTotalCredit" label="Cashier Total Credit" [disabled]="true"></dxi-item>
+          <dxi-item dataField="cashierTotalCashDifference" label="Cashier Cash Difference" [disabled]="true"></dxi-item>
+          <dxi-item dataField="cashierTotalCreditDifference" label="Cashier Credit Difference" [disabled]="true"></dxi-item>
+        </dxi-item>
+        <dxi-item itemType="group"
+                  captionTemplate="Accountant"
+                  caption="Accountant Data"
+                  [colCount]="2">
+          <dxi-item dataField="accountantTotalCash" label="Accountant Total Cash" [disabled]="true"></dxi-item>
+          <dxi-item dataField="accountantTotalCredit" label="Accountant Total Credit" [disabled]="true"></dxi-item>
+          <dxi-item dataField="accountantTotalCashDifference" label="Accountant Cash Difference" [disabled]="true"></dxi-item>
+          <dxi-item dataField="accountantTotalCreditDifference" label="Accountant Credit Difference" [disabled]="true"></dxi-item>
+        </dxi-item>
+        <dxi-item itemType="group"
+                  captionTemplate="Tickets"
+                  caption="Tickets Count"
+                  [colCount]="2">
+          <dxi-item dataField="totalVisitors" label="Visitors Tickets" [disabled]="true"></dxi-item>
+          <dxi-item dataField="totalGuests" label="Guests Tickets" [disabled]="true"></dxi-item>
+        </dxi-item>
       </dx-form>
+      <!-- Review Tickets Button -->
+      <dxi-toolbar-item widget="dxButton" toolbar="top" location="after"  class="col-12">
+        <dx-button icon="/assets/icons/tickets-white.svg"
+                   text="View Shift Tickets"
+                   (onClick)="previewShiftTickets(shiftId)"
+                   class="mt-4">
+        </dx-button>
+      </dxi-toolbar-item>
     </dx-popup>
   </div>
 </div>
