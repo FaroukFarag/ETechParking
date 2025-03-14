@@ -37,10 +37,12 @@ using ETechParking.Domain.Interfaces.Repositories.Locations.Roles;
 using ETechParking.Domain.Interfaces.Repositories.Locations.Shifts;
 using ETechParking.Domain.Interfaces.Repositories.Locations.Tickets;
 using ETechParking.Domain.Interfaces.Repositories.Locations.Users;
+using ETechParking.Domain.Interfaces.Services.Locations.Users;
 using ETechParking.Domain.Interfaces.UnitOfWork;
 using ETechParking.Domain.Models.Locations.Roles;
 using ETechParking.Domain.Models.Locations.Users;
 using ETechParking.Infrastructure.Data.Context;
+using ETechParking.Infrastructure.Data.Interceptors;
 using ETechParking.Infrastructure.Data.Repositories.Abstraction;
 using ETechParking.Infrastructure.Data.Repositories.Locations;
 using ETechParking.Infrastructure.Data.Repositories.Locations.Fares;
@@ -70,6 +72,20 @@ public static class DependencyContainer
         services.Configure<JwtTokenSettings>(configuration.GetSection(JwtTokenSettings.SectionName));
     }
 
+    public static void RegisterInterceptors(this IServiceCollection services)
+    {
+        services.AddScoped<LocationFilterInterceptor>();
+    }
+
+    public static void RegisterDbContext(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<ETechParkingDbContext>((sp, options) =>
+        {
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
+                   .AddInterceptors(sp.GetRequiredService<LocationFilterInterceptor>());
+        });
+    }
+
     public static void RegisterServices(this IServiceCollection services)
     {
         services.AddScoped(typeof(IBaseService<,,>), typeof(BaseService<,,>))
@@ -80,15 +96,8 @@ public static class DependencyContainer
             .AddScoped<IFareService, FareService>()
             .AddScoped<ITicketService, TicketService>()
             .AddScoped<IShiftService, ShiftService>()
-            .AddScoped<IReportService, ReportService>();
-    }
-
-    public static void RegisterDbContext(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.AddDbContext<ETechParkingDbContext>(options =>
-        {
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-        });
+            .AddScoped<IReportService, ReportService>()
+            .AddScoped<IUserContextService, UserContextService>();
     }
 
     public static void RegisterRepositories(this IServiceCollection services)

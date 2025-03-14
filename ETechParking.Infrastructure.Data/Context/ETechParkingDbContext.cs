@@ -20,8 +20,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ETechParking.Infrastructure.Data.Context;
 
-public class ETechParkingDbContext(DbContextOptions options) : IdentityDbContext<User, Role, int>(options)
+public class ETechParkingDbContext(
+    DbContextOptions options) : IdentityDbContext<User, Role, int>(options)
 {
+
     public DbSet<Location> Locations { get; set; }
     public DbSet<Fare> Fares { get; set; }
     public DbSet<Ticket> Tickets { get; set; }

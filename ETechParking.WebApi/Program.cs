@@ -41,8 +41,9 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-builder.Services.RegisterDbContext(builder.Configuration);
+builder.Services.RegisterInterceptors();
 builder.Services.RegisterConfiguration(builder.Configuration);
+builder.Services.RegisterDbContext(builder.Configuration);
 builder.Services.RegisterServices();
 builder.Services.RegisterRepositories();
 builder.Services.RegisterUnitOfWork();
