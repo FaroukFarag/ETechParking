@@ -40,16 +40,15 @@ export class ShiftsComponent {
   fromDateTime: any;
   toDateTime: any;
   locationId: any;
-  createUserId: any;
-  closeUserId: any;
+  cashierUserId: any;
+  accountantUserId: any;
   shiftssList: any;
   filterData = {
     fromDateTime: null,
     toDateTime: null,
     locationId: null,
-    createUserId: null,
-    closeUserId: null,
-
+    cashierUserId: null,
+    accountantUserId: null,
   };
 
   selectedFormat: any;
@@ -213,8 +212,8 @@ export class ShiftsComponent {
       fromDateTime: this.filterData.fromDateTime,
       toDateTime: this.filterData.toDateTime,
       locationId: this.filterData.locationId,
-      createUserId: this.filterData.createUserId,
-      closeUserId: this.filterData.closeUserId,
+      cashierUserId: this.filterData.cashierUserId,
+      accountantUserId: this.filterData.accountantUserId,
     }
 
     this.shiftsService.getAllFiltered('Shifts/GetAllFiltered', filters).subscribe(
@@ -238,8 +237,8 @@ export class ShiftsComponent {
       fromDateTime: this.filterData.fromDateTime,
       toDateTime: this.filterData.toDateTime,
       locationId: this.filterData.locationId,
-      createUserId: this.filterData.createUserId,
-      closeUserId: this.filterData.closeUserId,
+      cashierUserId: this.filterData.cashierUserId,
+      accountantUserId: this.filterData.accountantUserId,
     }
 
     this.shiftsService.generateReport(`Reports/GetShiftsReport?format=${format}`, filters).subscribe(

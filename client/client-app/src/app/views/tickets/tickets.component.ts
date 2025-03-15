@@ -117,15 +117,26 @@ export class TicketsComponent {
   }
 
   getTicketsByShiftId(shiftId: number) {
-    this.shiftsService.getShiftTickets(shiftId).subscribe((tickets: any) => {
-      this.ticketsList = tickets; 
-      this.totalTicketsCount = tickets.length; 
-    });
+    const filters = {
+      shiftId: shiftId
+    }
+
+    this.ticketsService.getAllFiltered('Tickets/GetAllFiltered', filters).subscribe(
+      (data: any) => {
+        this.ticketsList = Array.isArray(data) ? data : [];
+        this.totalTicketsCount = this.ticketsList.length;
+      },
+      (error) => {
+        console.error('Error applying filters:', error);
+      }
+    );
   }
 
   getAllTickets() {
     this.ticketsService.getAll('Tickets/GetAll').subscribe((data: any) => {
+      debugger
       this.ticketsList = data;
+      this.totalTicketsCount = this.ticketsList.length;
     });
   }
 
@@ -135,11 +146,13 @@ export class TicketsComponent {
       this.locationsList = data;
     });
   }
+
   getAllUsers() {
     this.usersService.getAll('Users/GetAll').subscribe((data: Users[]) => {
       this.usersList = data;
     });
   }
+
   applyFilters() {
     const filters = {
       fromDateTime: this.filterData.fromDateTime,
@@ -147,11 +160,13 @@ export class TicketsComponent {
       locationId: this.filterData.locationId,
       createUserId: this.filterData.createUserId,
       closeUserId: this.filterData.closeUserId,
+      shiftId: this.shiftId
     }
 
     this.ticketsService.getAllFiltered('Tickets/GetAllFiltered', filters).subscribe(
       (data: any) => {
         this.ticketsList = Array.isArray(data) ? data : [];
+        this.totalTicketsCount = this.ticketsList.length;
       },
       (error) => {
         console.error('Error applying filters:', error);

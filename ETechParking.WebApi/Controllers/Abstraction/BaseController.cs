@@ -1,4 +1,4 @@
-﻿using ETechParking.Application.Dtos.Shared;
+﻿using ETechParking.Application.Dtos.Shared.Paginations;
 using ETechParking.Application.Interfaces.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 

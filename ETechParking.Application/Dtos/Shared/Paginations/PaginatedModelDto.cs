@@ -1,4 +1,4 @@
-﻿namespace ETechParking.Application.Dtos.Shared;
+﻿namespace ETechParking.Application.Dtos.Shared.Paginations;
 
 public class PaginatedModelDto
 {

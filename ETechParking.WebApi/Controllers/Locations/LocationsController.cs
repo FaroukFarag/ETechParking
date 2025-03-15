@@ -13,4 +13,13 @@ namespace ETechParking.WebApi.Controllers.Locations;
 public class LocationsController(ILocationService locationService) :
     BaseController<ILocationService, Location, LocationDto, int>(locationService)
 {
+    private readonly ILocationService _locationService = locationService;
+
+    [HttpGet("GetTotalLocations")]
+    public async Task<IActionResult> GetLocationsCount()
+    {
+        var count = await _locationService.GetLocationCountAsync();
+
+        return Ok(count);
+    }
 }

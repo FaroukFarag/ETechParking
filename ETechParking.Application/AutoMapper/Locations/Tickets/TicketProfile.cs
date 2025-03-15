@@ -22,5 +22,6 @@ public class TicketProfile : Profile
                     Encoding.UTF8
                         .GetBytes($"Id: {src.Id},TicketNumber: {src.TicketNumber}, PlateNumber: {src.PlateNumber}"))));
 
+        CreateMap<TicketStatistics, TicketTransactionTypeDto>().ReverseMap();
     }
 }

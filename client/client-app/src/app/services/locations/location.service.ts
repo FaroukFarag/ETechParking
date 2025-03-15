@@ -9,4 +9,8 @@ export class LocationService extends BaseService<Location> {
   constructor() { 
     super();
   }
+
+  getTotalLocations() {
+    return this.http.get<number>(`${this.baseUrl}/Locations/GetTotalLocations`);
+  }
 }

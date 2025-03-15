@@ -1,19 +1,18 @@
 import { Component, NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { DxSelectBoxTypes } from 'devextreme-angular/ui/select-box';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { DxSelectBoxModule, DxDateBoxModule } from 'devextreme-angular';
 import { LocationService } from '../../services/locations/location.service';
 import { ShiftsService } from '../../services/shifts/shifts.service';
 import { TicketsService } from '../../services/tickets/tickets.service';
 import { DxPieChartModule } from 'devextreme-angular';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [DxSelectBoxModule,
     DxDateBoxModule,
-    DxPieChartModule],
+    DxPieChartModule,
+    FormsModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -22,29 +21,17 @@ export class DashboardComponent {
   searchModeOption = 'contains';
   searchExprOption = 'Name';
   searchTimeoutOption = 200;
+  selectedLocationId: any = null;
+  selectedDate: any = null;
   minSearchLengthOption = 0;
   totalShifts = 0;
   totalConfirmedShifts = 0;
   totalTickets = 0;
   totalPaidTickets = 0;
+  totalLocations = 0;
   showDataBeforeSearchOption = false;
-
-  ticketsTransactionType:any=[] =[{
-    type: 'Cash',
-    value: 70,
-  }, {
-    type: 'Credit',
-    value: 30,
-    },];
-
-    ticketsClientType:any=[] =[{
-    type: 'Guest',
-    value: 40,
-  }, {
-    type: 'Visitor',
-    value: 60,
-  }, ];
-
+  ticketsTransactionType: any = [];
+  ticketsClientType: any = [];
 
   constructor(
     private locationService: LocationService,
@@ -54,13 +41,9 @@ export class DashboardComponent {
   ngOnInit() {
     this.getLocationsList();
 
-    this.getTotalShifts();
+    this.getTotalLocations();
 
-    this.getTotalConfirmedShifts();
-
-    this.getTotalTickets();
-
-    this.getTotalPaidTickets();
+    this.getDashboardTotals();
   }
 
   customizeLabel(arg: any) {
@@ -72,27 +55,117 @@ export class DashboardComponent {
     })
   }
 
+  onLocationChange(value: any) {
+    this.selectedLocationId = value;
+
+    this.getDashboardTotals();
+  }
+
+  onDateChange(value: any) {
+    this.selectedDate = value;
+
+    this.getDashboardTotals();
+  }
+
   getTotalShifts() {
-    this.shiftService.getTotalShifts().subscribe((data: any) => {
+    const req = {
+      locationId: this.selectedLocationId,
+      day: this.selectedDate
+    }
+    this.shiftService.getTotalShifts(req).subscribe((data: any) => {
       this.totalShifts = data;
     })
   }
 
   getTotalConfirmedShifts() {
-    this.shiftService.getTotalShifts(3).subscribe((data: any) => {
+    const req = {
+      locationId: this.selectedLocationId,
+      day: this.selectedDate,
+      status: 3
+    }
+    this.shiftService.getTotalShifts(req).subscribe((data: any) => {
       this.totalConfirmedShifts = data;
     })
   }
 
   getTotalTickets() {
-    this.shiftService.getTotalShifts().subscribe((data: any) => {
+    const req = {
+      locationId: this.selectedLocationId,
+      day: this.selectedDate
+    }
+    this.ticketsService.getTotalTickets(req).subscribe((data: any) => {
       this.totalTickets = data;
     })
   }
 
   getTotalPaidTickets() {
-    this.ticketsService.getTotalTickets(true).subscribe((data: any) => {
+    const req = {
+      locationId: this.selectedLocationId,
+      day: this.selectedDate,
+      isPaid: true
+    }
+    this.ticketsService.getTotalTickets(req).subscribe((data: any) => {
       this.totalPaidTickets = data;
     })
+  }
+
+  getTotalLocations() {
+    this.locationService.getTotalLocations().subscribe((data: any) => {
+      this.totalLocations = data;
+    })
+  }
+
+  getTicketsTransactionType() {
+    const req = {
+      locationId: this.selectedLocationId,
+      day: this.selectedDate
+    }
+
+    this.ticketsService.getTicketsTransactionType(req).subscribe({
+      next: (data: any) => {
+        this.ticketsTransactionType = data;
+      },
+      error: (error: any) => {
+        console.error('Error fetching ticket transaction types:', error);
+        this.ticketsTransactionType = [];
+      },
+      complete: () => {
+        console.log('Transaction type data fetched successfully.');
+      }
+    });
+  }
+
+  getTicketsClientType() {
+    const req = {
+      locationId: this.selectedLocationId,
+      day: this.selectedDate
+    }
+
+    this.ticketsService.getTicketsClientType(req).subscribe({
+      next: (data: any) => {
+        this.ticketsClientType = data;
+      },
+      error: (error: any) => {
+        console.error('Error fetching ticket client types:', error);
+        this.ticketsClientType = [];
+      },
+      complete: () => {
+        console.log('Client type data fetched successfully.');
+      }
+    });
+  }
+
+  getDashboardTotals() {
+    this.getTotalShifts();
+
+    this.getTotalConfirmedShifts();
+
+    this.getTotalTickets();
+
+    this.getTotalPaidTickets();
+
+    this.getTicketsTransactionType();
+
+    this.getTicketsClientType();
   }
 }

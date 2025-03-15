@@ -3,21 +3,18 @@
   <div class="filter-section">
     <div class="dx-fieldset">
       <div class="dx-field">
-        <!--<div class="dx-field-label">Select Location</div>-->
         <div class="dx-field-value">
-          <dx-select-box [dataSource]="locationsList"                      placeholder="Select Location"
- displayExpr="name" valueExpr="ID" 
+          <dx-select-box [dataSource]="locationsList" placeholder="Select Location" displayExpr="name" valueExpr="id"
             [inputAttr]="{ 'aria-label': 'Locations' }" [searchExpr]="searchExprOption"
-            [searchTimeout]="searchTimeoutOption" [searchEnabled]="true"></dx-select-box>
+            [searchTimeout]="searchTimeoutOption" [searchEnabled]="true" [(ngModel)]="selectedLocationId"
+            (onValueChanged)="onLocationChange($event.value)">
+          </dx-select-box>
         </div>
       </div>
       <div class="dx-field">
-        <dx-date-box 
-                     id="hire-date"
-                     placeholder="Select date"
-                     stylingMode="outlined"
-                     labelMode="static"
-                     [inputAttr]="{ 'aria-label': 'date' }">
+        <dx-date-box id="hire-date" placeholder="Select date" stylingMode="outlined" labelMode="static"
+          [inputAttr]="{ 'aria-label': 'date' }" [(ngModel)]="selectedDate"
+          (onValueChanged)="onDateChange($event.value)">
         </dx-date-box>
       </div>
     </div>
@@ -26,7 +23,7 @@
   </div>
   <div class="section-one row">
     <div class="dashboard-card col-lg-2 col-md-4 col-sm-6 col-12 m-3">
-      <div class="card-header  mb-3">
+      <div class="card-header  mb-4">
         <img width="20" src="/assets/icons/shift.svg" />
         <span>Total Shifts</span>
       </div>
@@ -35,7 +32,7 @@
       </div>
     </div>
     <div class="dashboard-card col-lg-2 col-md-4 col-sm-6 col-12 m-3">
-      <div class="card-header mb-3">
+      <div class="card-header mb-4">
         <img width="20" src="/assets/icons/shift.svg" />
         <span>Total Confirmed Shifts</span>
       </div>
@@ -44,18 +41,18 @@
       </div>
     </div>
     <div class="dashboard-card col-lg-2 col-md-4 col-sm-6 col-12 m-3">
-      <div class="card-header mb-3">
+      <div class="card-header mb-4">
         <img width="20" src="/assets/icons/tickets.svg" />
         <span>Total Tickets</span>
       </div>
       <div class="card-total-number">
-        
+
         {{totalTickets}}
       </div>
     </div>
 
     <div class="dashboard-card col-lg-2 col-md-4 col-sm-6 col-12 m-3">
-      <div class="card-header mb-3">
+      <div class="card-header mb-4">
         <img width="20" src="/assets/icons/tickets.svg" />
         <span>Total Paid Tickets</span>
       </div>
@@ -65,55 +62,27 @@
     </div>
 
     <div class="dashboard-card col-lg-2 col-md-4 col-sm-6 col-12 m-3">
-      <div class="card-header  mb-3">
+      <div class="card-header  mb-4">
         <img width="20" src="/assets/icons/location.svg" />
         <span>Total Locations</span>
       </div>
       <div class="card-total-number">
-        50
+        {{totalLocations}}
       </div>
     </div>
-    <div class="dashboard-card col-lg-2 col-md-4 col-sm-6 col-12 m-3">
-      <div class="card-header mb-3">
-        <img width="20" src="/assets/icons/users.svg" />
-        <span>Total Cashier users</span>
-      </div>
-      <div class="card-total-number">
-        100
-      </div>
-    </div>
-
-    <div class="dashboard-card col-lg-2 col-md-4 col-sm-6 col-12 m-3">
-      <div class="card-header mb-3">
-        <img width="20" src="/assets/icons/fare.svg" />
-        <span>Total Rates</span>
-      </div>
-      <div class="card-total-number">
-        100.000.000
-      </div>
-    </div>
-
 
   </div>
 
   <div class="section-two mt-5">
     <div class="row">
       <!--ticketsTransactionType-->
-      <dx-pie-chart class="col-lg-6"
-                    id="pie"
-                    title="Tickets(Transaction type report)"
-                    palette="bright"
-                    [dataSource]="ticketsTransactionType">
-        <dxo-legend orientation="horizontal"
-                    itemTextPosition="right"
-                    horizontalAlignment="center"
-                    verticalAlignment="bottom"
-                    [columnCount]="4"></dxo-legend>
+      <dx-pie-chart class="col-lg-6" id="pie" title="Tickets(Transaction type report)" palette="bright"
+        [dataSource]="ticketsTransactionType">
+        <dxo-legend orientation="horizontal" itemTextPosition="right" horizontalAlignment="center"
+          verticalAlignment="bottom" [columnCount]="4"></dxo-legend>
         <dxo-export [enabled]="true"></dxo-export>
         <dxi-series argumentField="type" valueField="value">
-          <dxo-label [visible]="true"
-                     position="columns"
-                     [customizeText]="customizeLabel">
+          <dxo-label [visible]="true" position="columns" [customizeText]="customizeLabel">
             <dxo-font [size]="16"></dxo-font>
             <dxo-connector [visible]="true" [width]="0.5"></dxo-connector>
           </dxo-label>
@@ -121,25 +90,17 @@
       </dx-pie-chart>
 
       <!--ticketsClientType-->
-      <dx-pie-chart class="col-lg-6"
-                    id="pie"
-                    title="Tickets(Client type report)"
-                    palette="bright"
-                    [dataSource]="ticketsClientType">
-        <dxo-legend orientation="horizontal"
-                    itemTextPosition="right"
-                    horizontalAlignment="center"
-                    verticalAlignment="bottom"
-                    [columnCount]="4"></dxo-legend>
+      <dx-pie-chart class="col-lg-6" id="pie" title="Tickets(Client type report)" palette="bright"
+        [dataSource]="ticketsClientType">
+        <dxo-legend orientation="horizontal" itemTextPosition="right" horizontalAlignment="center"
+          verticalAlignment="bottom" [columnCount]="4"></dxo-legend>
         <dxo-export [enabled]="true"></dxo-export>
         <dxi-series argumentField="type" valueField="value">
-          <dxo-label [visible]="true"
-                     position="columns"
-                     [customizeText]="customizeLabel">
+          <dxo-label [visible]="true" position="columns" [customizeText]="customizeLabel">
             <dxo-font [size]="16"></dxo-font>
             <dxo-connector [visible]="true" [width]="0.5"></dxo-connector>
           </dxo-label>
         </dxi-series>
       </dx-pie-chart>
     </div>
-</div>
+  </div>

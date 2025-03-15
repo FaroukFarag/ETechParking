@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ETechParking.Application.Dtos.Shared;
+using ETechParking.Application.Dtos.Shared.Paginations;
 using ETechParking.Application.Interfaces.Abstraction;
 using ETechParking.Domain.Interfaces.Repositories.Abstraction;
 using ETechParking.Domain.Interfaces.UnitOfWork;
@@ -55,7 +55,8 @@ public class BaseService<TEntity, TEntityDto, TPrimaryKey>(
 
     public virtual async Task<IEnumerable<TEntityDto>> GetAllFilteredAsync<TFilterDto>(TFilterDto filterDto)
     {
-        var entities = await _repository.GetAllFilteredAsync<TFilterDto>(filterDto);
+        var entities = await _repository.GetAllFilteredAsync<TFilterDto>(
+            filterDto);
         var entitiesDtos = _mapper.Map<IReadOnlyList<TEntityDto>>(entities);
 
         return entitiesDtos;

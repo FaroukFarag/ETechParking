@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using ETechParking.Application.Dtos.Locations.Shifts;
 using ETechParking.Application.Dtos.Locations.Tickets;
-using ETechParking.Application.Dtos.Shared;
+using ETechParking.Application.Dtos.Shared.Paginations;
 using ETechParking.Application.Interfaces.Locations.Shifts;
 using ETechParking.Application.Interfaces.Locations.Tickets;
 using ETechParking.Application.Services.Abstraction;
@@ -68,7 +68,7 @@ public class ShiftService(
         return shiftsDtos;
     }
 
-    public async Task<IEnumerable<ShiftDto>> GetAllFilteredAsync(ShiftFilterDto shiftFilterDto)
+    public async override Task<IEnumerable<ShiftDto>> GetAllFilteredAsync<ShiftFilterDto>(ShiftFilterDto shiftFilterDto)
     {
         var shifts = await _shiftRepository.GetAllFilteredAsync(
             filterDto: shiftFilterDto,
@@ -180,15 +180,15 @@ public class ShiftService(
         return _mapper.Map<ShiftDto>(shift);
     }
 
-    public async Task<long> GetShiftCountAsync(ShiftStatus? status = default!)
+    public async Task<long> GetShiftCountAsync(ShiftDashboardFilterDto shiftDashboardFilterDto)
     {
         Expression<Func<Shift, bool>> filter = default!;
 
-        if (status.HasValue)
+        if (shiftDashboardFilterDto.Status.HasValue)
         {
-            filter = s => s.Status == status.Value;
+            filter = s => s.Status == shiftDashboardFilterDto.Status.Value;
         }
 
-        return await _shiftRepository.GetCountAsync(filter);
+        return await _shiftRepository.GetCountAsync(shiftDashboardFilterDto, filter);
     }
 }

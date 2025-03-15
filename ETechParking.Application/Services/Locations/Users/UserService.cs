@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using ETechParking.Application.Dtos.Locations.Users;
-using ETechParking.Application.Dtos.Shared;
+using ETechParking.Application.Dtos.Shared.Paginations;
 using ETechParking.Application.Interfaces.Locations.Users;
 using ETechParking.Application.Services.Abstraction;
 using ETechParking.Common.Tokens.Interfaces;

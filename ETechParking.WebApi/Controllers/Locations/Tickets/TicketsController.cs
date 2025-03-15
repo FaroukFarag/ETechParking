@@ -59,11 +59,27 @@ public class TicketsController(ITicketService ticketService) :
         return Ok(await _ticketService.PayTicket(payTicketDto));
     }
 
-    [HttpGet("GetTotalTickets")]
-    public async Task<IActionResult> GetTicketsCount(bool isPaid)
+    [HttpPost("GetTotalTickets")]
+    public async Task<IActionResult> GetTicketsCount(TicketDashboardFilterDto ticketDashboardFilterDto)
     {
-        var count = await _ticketService.GetTicketCountAsync(isPaid);
+        var count = await _ticketService.GetTicketCountAsync(ticketDashboardFilterDto);
 
         return Ok(count);
+    }
+
+    [HttpPost("GetTransactionTypeStatistics")]
+    public async Task<IActionResult> GetTransactionTypeStatistics(TicketDashboardFilterDto ticketDashboardFilterDto)
+    {
+        var result = await _ticketService.GetTransactionTypeStatisticsAsync(ticketDashboardFilterDto);
+
+        return Ok(result);
+    }
+
+    [HttpPost("GetClientTypeStatistics")]
+    public async Task<IActionResult> GetClientTypeStatistics(TicketDashboardFilterDto dashboardFilterDto)
+    {
+        var result = await _ticketService.GetClientTypeStatisticsAsync(dashboardFilterDto);
+
+        return Ok(result);
     }
 }

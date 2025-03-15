@@ -1,4 +1,4 @@
-﻿using ETechParking.Application.Dtos.Shared;
+﻿using ETechParking.Application.Dtos.Shared.Paginations;
 
 namespace ETechParking.Application.Interfaces.Abstraction;
 

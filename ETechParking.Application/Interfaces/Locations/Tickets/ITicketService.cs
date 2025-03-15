@@ -8,8 +8,9 @@ public interface ITicketService : IBaseService<Ticket, TicketDto, int>
 {
     Task<TicketDto> GetByPlateNumberAsync(string plateNumber);
     Task<IEnumerable<TicketDto>> GetAllByShiftIdAsync(int shiftId);
-    Task<IEnumerable<TicketDto>> GetAllFilteredAsync(TicketFilterDto ticketFilterDto);
     Task<TicketDto> CalculateTicketTotal(CalculateTicketTotalDto ticketTotalDto);
     Task<TicketDto> PayTicket(PayTicketDto payTicketDto);
-    Task<long> GetTicketCountAsync(bool isPaid);
+    Task<long> GetTicketCountAsync(TicketDashboardFilterDto ticketDashboardFilterDto);
+    Task<IEnumerable<TicketTransactionTypeDto>> GetTransactionTypeStatisticsAsync(TicketDashboardFilterDto ticketDashboardFilterDto);
+    Task<IEnumerable<TicketTransactionTypeDto>> GetClientTypeStatisticsAsync(TicketDashboardFilterDto ticketDashboardFilterDto);
 }

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using ETechParking.Application.Dtos.Locations.Tickets;
-using ETechParking.Application.Dtos.Shared;
+using ETechParking.Application.Dtos.Shared.Paginations;
 using ETechParking.Application.Interfaces.Locations.Tickets;
 using ETechParking.Application.Services.Abstraction;
 using ETechParking.Domain.Enums.Locations.Tickets;
@@ -100,9 +100,15 @@ public class TicketService(
         return ticketsDtos;
     }
 
-    public async Task<IEnumerable<TicketDto>> GetAllFilteredAsync(TicketFilterDto ticketFilterDto)
+    public async override Task<IEnumerable<TicketDto>> GetAllFilteredAsync<TicketFilterDto>(TicketFilterDto ticketFilterDto)
     {
-        var tickets = await _ticketRepository.GetAllFilteredAsync(filterDto: ticketFilterDto, includeProperties: t => t.Location);
+        var tickets = await _ticketRepository.GetAllFilteredAsync(
+            filterDto: ticketFilterDto,
+            filter: default!,
+            orderBy: default!,
+            t => t.Location,
+            t => t.CreateUser,
+            t => t.CloseUser!);
 
         return _mapper.Map<IReadOnlyList<TicketDto>>(tickets);
     }
@@ -161,16 +167,30 @@ public class TicketService(
         return ticketDto;
     }
 
-    public async Task<long> GetTicketCountAsync(bool isPaid)
+    public async Task<long> GetTicketCountAsync(TicketDashboardFilterDto ticketDashboardFilterDto)
     {
         Expression<Func<Ticket, bool>> filter = default!;
 
-        if (isPaid)
+        if (ticketDashboardFilterDto.IsPaid.HasValue)
         {
-            filter = t => t.IsPaid;
+            filter = t => t.IsPaid == ticketDashboardFilterDto.IsPaid.Value;
         }
 
-        return await _ticketRepository.GetCountAsync(filter);
+        return await _ticketRepository.GetCountAsync(ticketDashboardFilterDto, filter);
+    }
+
+    public async Task<IEnumerable<TicketTransactionTypeDto>> GetTransactionTypeStatisticsAsync(TicketDashboardFilterDto ticketDashboardFilterDto)
+    {
+        var statistics = await _ticketRepository.GetTransactionTypeStatisticsAsync(ticketDashboardFilterDto);
+
+        return _mapper.Map<IEnumerable<TicketTransactionTypeDto>>(statistics);
+    }
+
+    public async Task<IEnumerable<TicketTransactionTypeDto>> GetClientTypeStatisticsAsync(TicketDashboardFilterDto ticketDashboardFilterDto)
+    {
+        var statistics = await _ticketRepository.GetTransactionTypeStatisticsAsync(ticketDashboardFilterDto);
+
+        return _mapper.Map<IEnumerable<TicketTransactionTypeDto>>(statistics);
     }
 
     private async Task<Ticket> GetLatestUnpaidTicketAsync(string plateNumber)

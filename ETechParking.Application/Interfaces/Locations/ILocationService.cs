@@ -6,4 +6,5 @@ namespace ETechParking.Application.Interfaces.Locations;
 
 public interface ILocationService : IBaseService<Location, LocationDto, int>
 {
+    Task<long> GetLocationCountAsync();
 }

@@ -23,7 +23,7 @@
                   }"
                   [label]="{ text: 'Location name' }">
         </dxi-item>
-        <dxi-item dataField="createUser Id" editorType="dxSelectBox"
+        <dxi-item dataField="cashierUserId" editorType="dxSelectBox"
                   [editorOptions]="{
                     dataSource: usersList,
                     valueExpr: 'id',
@@ -31,7 +31,7 @@
                     placeholder: 'Select'
                   }"
                   [label]="{ text: 'Cashier started the shift' }"></dxi-item>
-        <dxi-item dataField="closeUser Id" editorType="dxSelectBox"
+        <dxi-item dataField="accountantUserId" editorType="dxSelectBox"
                   [editorOptions]="{
                     dataSource: usersList,
                     valueExpr: 'id',

@@ -100,7 +100,7 @@ public class BaseRepository<TEntity, TPrimaryKey>(ETechParkingDbContext context)
         _context.RemoveRange(entities);
     }
 
-    public async Task<int> GetCountAsync(Expression<Func<TEntity, bool>> filter = default!)
+    public async Task<long> GetCountAsync(Expression<Func<TEntity, bool>> filter = default!)
     {
         var query = _context.Set<TEntity>().AsQueryable();
 
@@ -110,51 +110,48 @@ public class BaseRepository<TEntity, TPrimaryKey>(ETechParkingDbContext context)
         return await query.CountAsync();
     }
 
-    public async Task<decimal> GetSumAsync(
+    public async Task<long> GetCountAsync<TFilterDto>(
+        TFilterDto filterDto,
+        Expression<Func<TEntity, bool>> filter = default!)
+    {
+        var query = BuildFilteredQuery(filterDto, filter);
+
+        return await query.CountAsync();
+    }
+
+    public async Task<decimal> GetSumAsync<TFilterDto>(
+        TFilterDto filterDto,
         Expression<Func<TEntity, decimal>> selector,
         Expression<Func<TEntity, bool>> filter = default!)
     {
-        var query = _context.Set<TEntity>().AsQueryable();
-
-        if (filter != null)
-            query = query.Where(filter);
-
+        var query = BuildFilteredQuery(filterDto, filter);
         return await query.SumAsync(selector);
     }
 
-    public async Task<decimal> GetAverageAsync(
+    public async Task<decimal> GetAverageAsync<TFilterDto>(
+        TFilterDto filterDto,
         Expression<Func<TEntity, decimal>> selector,
         Expression<Func<TEntity, bool>> filter = default!)
     {
-        var query = _context.Set<TEntity>().AsQueryable();
-
-        if (filter != null)
-            query = query.Where(filter);
-
+        var query = BuildFilteredQuery(filterDto, filter);
         return await query.AverageAsync(selector);
     }
 
-    public async Task<TResult> GetMaxAsync<TResult>(
+    public async Task<TResult> GetMaxAsync<TFilterDto, TResult>(
+        TFilterDto filterDto,
         Expression<Func<TEntity, TResult>> selector,
         Expression<Func<TEntity, bool>> filter = default!)
     {
-        var query = _context.Set<TEntity>().AsQueryable();
-
-        if (filter != null)
-            query = query.Where(filter);
-
+        var query = BuildFilteredQuery(filterDto, filter);
         return await query.MaxAsync(selector);
     }
 
-    public async Task<TResult> GetMinAsync<TResult>(
+    public async Task<TResult> GetMinAsync<TFilterDto, TResult>(
+        TFilterDto filterDto,
         Expression<Func<TEntity, TResult>> selector,
         Expression<Func<TEntity, bool>> filter = default!)
     {
-        var query = _context.Set<TEntity>().AsQueryable();
-
-        if (filter != null)
-            query = query.Where(filter);
-
+        var query = BuildFilteredQuery(filterDto, filter);
         return await query.MinAsync(selector);
     }
 
@@ -176,5 +173,34 @@ public class BaseRepository<TEntity, TPrimaryKey>(ETechParkingDbContext context)
             query = orderBy(query);
 
         return query;
+    }
+    private IQueryable<TEntity> BuildFilteredQuery<TFilterDto>(
+    TFilterDto filterDto,
+    Expression<Func<TEntity, bool>> filter = default!)
+    {
+        var query = _context.Set<TEntity>().AsQueryable();
+
+        if (filterDto == null && filter == null)
+            return query;
+
+        var predicate = filterDto != null ? filterDto.ToPredicate<TEntity, TFilterDto>() : default!;
+        var finalFilter = CombineFilters(predicate, filter);
+
+        return finalFilter != null ? query.Where(finalFilter) : query;
+    }
+
+    private Expression<Func<TEntity, bool>> CombineFilters(
+        Expression<Func<TEntity, bool>> predicate,
+        Expression<Func<TEntity, bool>> filter)
+    {
+        if (predicate == null)
+            return filter;
+
+        if (filter == null)
+            return predicate;
+
+        return Expression.Lambda<Func<TEntity, bool>>(
+            Expression.AndAlso(predicate.Body, Expression.Invoke(filter, predicate.Parameters)),
+            predicate.Parameters);
     }
 }

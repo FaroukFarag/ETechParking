@@ -4,8 +4,6 @@ using System.Data.Common;
 
 namespace ETechParking.Infrastructure.Data.Interceptors;
 
-
-
 public class LocationFilterInterceptor(IUserContextService userContextService) : DbCommandInterceptor
 {
     private readonly IUserContextService _userContextService = userContextService;
