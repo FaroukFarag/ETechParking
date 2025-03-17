@@ -38,7 +38,6 @@ export class FaresComponent {
     };
     this.exitGracePeriodEditorOptions = {
       editorType: 'dxNumberBox',
-
       label: this.getGracePeriodLabel('exit')
     };
 
@@ -143,16 +142,24 @@ export class FaresComponent {
     this.fareType = event.value;
     this.fareTypeEditorOptions.value = event.value;
     this.showMaxLimit = this.fareType === 1;
+
+    // Update the labels for grace periods
+    this.enterGracePeriodEditorOptions.label = this.getGracePeriodLabel('enter');
+    this.exitGracePeriodEditorOptions.label = this.getGracePeriodLabel('exit');
   }
 
+
+
+
   getGracePeriodLabel(type: string) {
+    let labelText = `${type.charAt(0).toUpperCase() + type.slice(1)} grace period`;
     if (this.fareType === 1) {
-      return { text: `${type.charAt(0).toUpperCase() + type.slice(1)} grace period (Hours)` };
-    } else if (this.fareType === 2) {
-      return { text: `${type.charAt(0).toUpperCase() + type.slice(1)} grace period (Minutes)` };
-    } else {
-      return { text: `${type.charAt(0).toUpperCase() + type.slice(1)} grace period` };
+      labelText += ' (Minutes)';
+    } else if (this.fareType === 2) { 
+      labelText += ' (Hours)';
     }
+    return { text: labelText };
+
   }
 
 }
