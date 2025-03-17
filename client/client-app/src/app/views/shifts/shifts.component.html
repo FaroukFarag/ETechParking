@@ -73,7 +73,8 @@
         <dxo-popup title="Shift Info"
                    [showTitle]="true"
                    [width]="550"
-                   [height]="500">
+                   [height]="500"
+                   [hideOnOutsideClick]="true">
         </dxo-popup>
         <dxo-form>
           <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
@@ -127,7 +128,7 @@
 
     <!--CLOSE SHIFT POPUP-->
 
-    <dx-popup [(visible)]="viewPopupVisible" [width]="550" [height]="400" [showCloseButton]="true" [title]="'Confirm Shift'">
+    <dx-popup [(visible)]="viewPopupVisible" [width]="550" [height]="400" [showCloseButton]="true" [title]="'Confirm Shift'" [hideOnOutsideClick]="true">
       <dxi-toolbar-item widget="dxButton"
                         toolbar="bottom"
                         location="after"
@@ -155,7 +156,7 @@
 
 
     <!--PREVIEW POPUP-->
-    <dx-popup [(visible)]="previewPopupVisible" [width]="850" [height]="600" [showCloseButton]="true" [title]="'Preview Shift'">
+    <dx-popup [(visible)]="previewPopupVisible" [width]="850" [height]="600" [showCloseButton]="true" [title]="'Preview Shift'" [hideOnOutsideClick]="true">
       <dx-form [formData]="previewFormData">
         <dxi-item itemType="group"
                   captionTemplate="Cashier"

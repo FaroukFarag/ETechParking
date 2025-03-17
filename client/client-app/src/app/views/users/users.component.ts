@@ -20,7 +20,7 @@ export class UsersComponent implements OnInit {
   roleId: any;
   locationId: any;
   allowedPageSizes: (number | "auto")[] = [10, 20, 50];
-  phonePattern = /^[02-9]\d{9}$/
+
   constructor(
     private usersService: UsersService,
     private locationService: LocationService) {
