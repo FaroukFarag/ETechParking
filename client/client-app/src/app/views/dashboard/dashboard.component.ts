@@ -32,7 +32,7 @@ export class DashboardComponent {
   showDataBeforeSearchOption = false;
   ticketsTransactionType: any = [];
   ticketsClientType: any = [];
-
+  palette: any = ['#CF3500', '#FF8D66'];
   constructor(
     private locationService: LocationService,
     private shiftService: ShiftsService,

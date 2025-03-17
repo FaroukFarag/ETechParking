@@ -23,60 +23,60 @@
   </div>
   <div class="section-one row">
     <div class="dashboard-card col-lg-2 col-md-4 col-sm-6 col-12 m-3">
-      <div class="card-header  mb-4">
-        <img width="20" src="/assets/icons/shift.svg" />
+      <div class="icon-container">
+        <img class="card-icon" width="20" src="/assets/icons/shift.svg" />
+        </div>
         <span>Total Shifts</span>
+        <div class="card-total-number">
+          {{totalShifts}}
+        </div>
       </div>
-      <div class="card-total-number">
-        {{totalShifts}}
-      </div>
-    </div>
     <div class="dashboard-card col-lg-2 col-md-4 col-sm-6 col-12 m-3">
-      <div class="card-header mb-4">
-        <img width="20" src="/assets/icons/shift.svg" />
-        <span>Total Confirmed Shifts</span>
+      <div class="icon-container">
+      <img class="card-icon" width="20" src="/assets/icons/shifts-confirmed.svg" />
       </div>
+      <span>Total Confirmed Shifts</span>
       <div class="card-total-number">
         {{totalConfirmedShifts}}
       </div>
     </div>
     <div class="dashboard-card col-lg-2 col-md-4 col-sm-6 col-12 m-3">
-      <div class="card-header mb-4">
-        <img width="20" src="/assets/icons/tickets.svg" />
+      <div class="icon-container">
+        <img class="card-icon" width="20" src="/assets/icons/tickets2.svg" />
+        </div>
         <span>Total Tickets</span>
-      </div>
-      <div class="card-total-number">
+        <div class="card-total-number">
 
-        {{totalTickets}}
+          {{totalTickets}}
+        </div>
       </div>
-    </div>
 
     <div class="dashboard-card col-lg-2 col-md-4 col-sm-6 col-12 m-3">
-      <div class="card-header mb-4">
-        <img width="20" src="/assets/icons/tickets.svg" />
+      <div class="icon-container">
+        <img class="card-icon" width="20" src="/assets/icons/tickets2.svg" />
+        </div>
         <span>Total Paid Tickets</span>
+        <div class="card-total-number">
+          {{totalPaidTickets}}
+        </div>
       </div>
-      <div class="card-total-number">
-        {{totalPaidTickets}}
-      </div>
-    </div>
 
     <div class="dashboard-card col-lg-2 col-md-4 col-sm-6 col-12 m-3">
-      <div class="card-header  mb-4">
-        <img width="20" src="/assets/icons/location.svg" />
+      <div class="icon-container">
+        <img class="card-icon" width="20" src="/assets/icons/location.svg" />
+        </div>
         <span>Total Locations</span>
+        <div class="card-total-number">
+          {{totalLocations}}
+        </div>
       </div>
-      <div class="card-total-number">
-        {{totalLocations}}
-      </div>
-    </div>
 
   </div>
 
   <div class="section-two mt-5">
-    <div class="row">
+    <div class="row charts-container">
       <!--ticketsTransactionType-->
-      <dx-pie-chart class="col-lg-6" id="pie" title="Tickets(Transaction type report)" palette="bright"
+      <dx-pie-chart class="chart" id="pie" title="Tickets(Transaction type report)" [palette]="palette"
         [dataSource]="ticketsTransactionType">
         <dxo-legend orientation="horizontal" itemTextPosition="right" horizontalAlignment="center"
           verticalAlignment="bottom" [columnCount]="4"></dxo-legend>
@@ -90,7 +90,7 @@
       </dx-pie-chart>
 
       <!--ticketsClientType-->
-      <dx-pie-chart class="col-lg-6" id="pie" title="Tickets(Client type report)" palette="bright"
+      <dx-pie-chart class=" chart" id="pie" title="Tickets(Client type report)"[palette]="palette"
         [dataSource]="ticketsClientType">
         <dxo-legend orientation="horizontal" itemTextPosition="right" horizontalAlignment="center"
           verticalAlignment="bottom" [columnCount]="4"></dxo-legend>

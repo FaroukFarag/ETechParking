@@ -8,7 +8,7 @@
       <dxi-item itemType="group" cssClass="form-group" [colCount]="2">
         <dxi-item dataField="fromDateTime" caption="Start Date" editorType="dxDateBox"
                   [editorOptions]="{ width: '100%' }"
-                  [label]="{ text: 'Start date' }"></dxi-item>
+                  [label]="{ text: 'Start date' }"   ></dxi-item>
         <dxi-item dataField="toDateTime" caption="End Date" editorType="dxDateBox"
                   [editorOptions]="{ width: '100%' }"
                   [label]="{ text: 'End date' }"></dxi-item>
@@ -135,13 +135,13 @@
         <dx-button stylingMode="contained"
                    type="default"
                    (onClick)="saveShift()"
-                   class="p-3">
+                   >
           Confirm
         </dx-button>
         <dx-button stylingMode="contained"
                    type="default"
                    (onClick)="cancel()"
-                   class="p-3">
+                  >
           Cancel
         </dx-button>
       </dxi-toolbar-item>

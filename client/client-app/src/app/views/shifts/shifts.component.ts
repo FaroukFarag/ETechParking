@@ -71,7 +71,7 @@ export class ShiftsComponent {
 
   previewFormData: any = {};
   protected baseUrl: string;
-
+  labelMode: any = "floating";
   constructor(private shiftsService: ShiftsService,
     private locationService: LocationService,
     private usersService: UsersService,

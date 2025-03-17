@@ -59,6 +59,7 @@ export class TicketsReportComponent {
   usersList: any;
   selectedFormat: any;
   exportFormats: string[] = ['PDF', 'Excel', 'Word'];
+  
   constructor(private ticketsService: TicketsService,
     private locationService: LocationService,
     private usersService: UsersService,

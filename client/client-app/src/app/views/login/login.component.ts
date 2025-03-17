@@ -44,8 +44,15 @@ export class LoginComponent {
         if (response.isFirstLogin === true) {
           this.showResetPasswordForm = true; 
         } else if (response.isFirstLogin === false) {
-          this.loginClicked.emit();
-          this.router.navigate(['/dashboard']);
+          if (response.roleName === 'Admin') {
+
+            this.loginClicked.emit();
+            this.router.navigate(['/dashboard']);
+          }
+          else {
+            this.loginClicked.emit();
+            this.router.navigate(['/tickets']);
+          }
         }
       },
       error: (error) => {
