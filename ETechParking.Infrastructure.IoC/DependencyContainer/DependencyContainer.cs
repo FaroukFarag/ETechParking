@@ -42,7 +42,6 @@ using ETechParking.Domain.Interfaces.UnitOfWork;
 using ETechParking.Domain.Models.Locations.Roles;
 using ETechParking.Domain.Models.Locations.Users;
 using ETechParking.Infrastructure.Data.Context;
-using ETechParking.Infrastructure.Data.Interceptors;
 using ETechParking.Infrastructure.Data.Repositories.Abstraction;
 using ETechParking.Infrastructure.Data.Repositories.Locations;
 using ETechParking.Infrastructure.Data.Repositories.Locations.Fares;
