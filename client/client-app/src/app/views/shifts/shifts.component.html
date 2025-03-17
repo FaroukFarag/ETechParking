@@ -8,7 +8,7 @@
       <dxi-item itemType="group" cssClass="form-group" [colCount]="2">
         <dxi-item dataField="fromDateTime" caption="Start Date" editorType="dxDateBox"
                   [editorOptions]="{ width: '100%' }"
-                  [label]="{ text: 'Start date' }"></dxi-item>
+                  [label]="{ text: 'Start date' }"   ></dxi-item>
         <dxi-item dataField="toDateTime" caption="End Date" editorType="dxDateBox"
                   [editorOptions]="{ width: '100%' }"
                   [label]="{ text: 'End date' }"></dxi-item>
@@ -73,7 +73,8 @@
         <dxo-popup title="Shift Info"
                    [showTitle]="true"
                    [width]="550"
-                   [height]="500">
+                   [height]="500"
+                   [hideOnOutsideClick]="true">
         </dxo-popup>
         <dxo-form>
           <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
@@ -127,7 +128,7 @@
 
     <!--CLOSE SHIFT POPUP-->
 
-    <dx-popup [(visible)]="viewPopupVisible" [width]="550" [height]="400" [showCloseButton]="true" [title]="'Confirm Shift'">
+    <dx-popup [(visible)]="viewPopupVisible" [width]="550" [height]="400" [showCloseButton]="true" [title]="'Confirm Shift'" [hideOnOutsideClick]="true">
       <dxi-toolbar-item widget="dxButton"
                         toolbar="bottom"
                         location="after"
@@ -135,13 +136,13 @@
         <dx-button stylingMode="contained"
                    type="default"
                    (onClick)="saveShift()"
-                   class="p-3">
+                   >
           Confirm
         </dx-button>
         <dx-button stylingMode="contained"
                    type="default"
                    (onClick)="cancel()"
-                   class="p-3">
+                  >
           Cancel
         </dx-button>
       </dxi-toolbar-item>
@@ -155,7 +156,7 @@
 
 
     <!--PREVIEW POPUP-->
-    <dx-popup [(visible)]="previewPopupVisible" [width]="850" [height]="600" [showCloseButton]="true" [title]="'Preview Shift'">
+    <dx-popup [(visible)]="previewPopupVisible" [width]="850" [height]="600" [showCloseButton]="true" [title]="'Preview Shift'" [hideOnOutsideClick]="true">
       <dx-form [formData]="previewFormData">
         <dxi-item itemType="group"
                   captionTemplate="Cashier"

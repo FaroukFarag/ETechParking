@@ -206,3 +206,16 @@
   display: flex !important;
   flex-direction: column !important;
 }
+
+
+::ng-deep .dx-texteditor.dx-editor-outlined {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px !important;
+}
+
+::ng-deep .dx-field-item-label-text {
+  color: #383838 !important;
+}
+
+

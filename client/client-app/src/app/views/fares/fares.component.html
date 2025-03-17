@@ -12,7 +12,7 @@
     </dxo-pager>
     <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
     <dxo-editing mode="popup" [allowUpdating]="true" [allowAdding]="true" [allowDeleting]="true" [useIcons]="true">
-      <dxo-popup title="Fare Info" [showTitle]="true" [width]="600" [height]="600" [hideOnOutsideClick]="true">
+      <dxo-popup title="Fare Info" [showTitle]="true" [width]="650" [height]="570" [hideOnOutsideClick]="true">
       </dxo-popup>
       <dxo-form>
         <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
@@ -36,12 +36,14 @@
           </dxi-item>
 
           <dxi-item dataField="enterGracePeriod" editorType="dxNumberBox"
-                    [editorOptions]="{ min: 0, showSpinButtons: true }">
+                    [editorOptions]="{ min: 0, showSpinButtons: true }"
+                    [label]="enterGracePeriodEditorOptions.label">
             <dxi-validation-rule type="required" message="Enter grace period is required">
             </dxi-validation-rule>
           </dxi-item>
           <dxi-item dataField="exitGracePeriod" caption="Exit grace period" alignment="left" editorType="dxNumberBox"
-                    [editorOptions]="{ min: 0, showSpinButtons: true }">
+                    [editorOptions]="{ min: 0, showSpinButtons: true }"
+                     [label]="exitGracePeriodEditorOptions.label">
             <dxi-validation-rule type="required" message="Exit grace period is required">
             </dxi-validation-rule>
           </dxi-item>

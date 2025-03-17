@@ -127,3 +127,9 @@
   height: 48px !important;
   // border-color: #f15b27 !important;
 }
+
+
+::ng-deep .dx-datagrid-edit-form-item.dx-field-item.dx-col-0.dx-field-item-required.dx-flex-layout.dx-label-h-align{
+    display:flex!important;
+    flex-direction:column!important;
+}

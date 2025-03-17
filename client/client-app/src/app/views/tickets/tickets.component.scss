@@ -212,3 +212,10 @@
     color: #f15b27;
   }
 }
+
+
+::ng-deep .dx-texteditor.dx-editor-outlined {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px !important;
+}
