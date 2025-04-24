@@ -38,6 +38,7 @@ export class LoginComponent {
     this.loading = true;
     this.loginService.login(this.loginModel).subscribe({
       next: (response) => {
+        debugger
         console.log('Token:', response.token);
         localStorage.setItem('token', response.token);
         localStorage.setItem('roleName', response.roleName);
@@ -58,6 +59,7 @@ export class LoginComponent {
       error: (error) => {
         console.error('Login failed', error);
         alert('Login failed. Please check your credentials.');
+        this.loading = false;
       },
       complete: () => {
         this.loading = false;
