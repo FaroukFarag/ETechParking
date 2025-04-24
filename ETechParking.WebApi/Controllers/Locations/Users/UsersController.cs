@@ -11,7 +11,7 @@ namespace ETechParking.WebApi.Controllers.Locations.Users;
 [ApiController]
 [Authorize(Roles = "Admin,Supervisor")]
 public class UsersController(IUserService userService)
-    : BaseController<IUserService, User, UserDto, int>(userService)
+    : BaseCrudController<IUserService, User, UserDto, int>(userService)
 {
     private readonly IUserService _userService = userService;
 

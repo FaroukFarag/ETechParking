@@ -1,4 +1,5 @@
-﻿using ETechParking.Reporting.Dtos;
+﻿using ETechParking.Application.Interfaces.Locations.Users;
+using ETechParking.Reporting.Dtos;
 using ETechParking.Reporting.Dtos.Tickets;
 using ETechParking.Reporting.ETechParkingDataSetTableAdapters;
 using ETechParking.Reporting.Interfaces;
@@ -8,9 +9,11 @@ using System.Reflection;
 
 namespace ETechParking.Reporting.Services;
 
-public class ReportService : IReportService
+public class ReportService(IUserService userService) : IReportService
 {
-    public (byte[] ReportData, string ContentType, string FileExtension) GetShiftsReport(ShiftReportFilterDto shiftReportFilterDto)
+    private readonly IUserService _userService = userService;
+
+    public async Task<(byte[] ReportData, string ContentType, string FileExtension)> GetShiftsReport(ShiftReportFilterDto shiftReportFilterDto, int userId)
     {
         string reportName = "Shifts";
         var adapter = new ShiftsDataTableTableAdapter();
@@ -21,10 +24,10 @@ public class ReportService : IReportService
             shiftReportFilterDto.CashierUserId,
             shiftReportFilterDto.AccountantUserId);
 
-        return GenerateReport(reportName, "ShiftDataSet", dataTable, shiftReportFilterDto.Format);
+        return await GenerateReport(reportName, "ShiftDataSet", dataTable, shiftReportFilterDto.Format, userId);
     }
 
-    public (byte[] ReportData, string ContentType, string FileExtension) GetTicketsReport(TicketReportFilterDto ticketReportFilterDto)
+    public async Task<(byte[] ReportData, string ContentType, string FileExtension)> GetTicketsReport(TicketReportFilterDto ticketReportFilterDto, int userId)
     {
         string reportName = "Tickets";
         var adapter = new TicketsDataTableTableAdapter();
@@ -35,21 +38,31 @@ public class ReportService : IReportService
             ticketReportFilterDto.CreateUserId,
             ticketReportFilterDto.CloseUserId);
 
-        return GenerateReport(reportName, "TicketDataSet", dataTable, ticketReportFilterDto.Format);
+        return await GenerateReport(reportName, "TicketDataSet", dataTable, ticketReportFilterDto.Format, userId);
     }
 
-    private static (byte[] ReportData, string ContentType, string FileExtension) GenerateReport(string reportName, string dataSet, DataTable dataTable, string format)
+    private async Task<(byte[] ReportData, string ContentType, string FileExtension)> GenerateReport(
+        string reportName,
+        string dataSet,
+        DataTable dataTable,
+        string format,
+        int userId)
     {
         var localReport = new LocalReport();
         string rdlcPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "Reports", $"{reportName}.rdlc");
+        var user = await _userService.GetAsync(userId);
 
         if (!File.Exists(rdlcPath))
         {
             throw new FileNotFoundException($"RDLC file '{reportName}.rdlc' not found.");
         }
 
+        ReportParameter createdByParam = new("CreatedBy", user.UserName);
+        ReportParameter createdAtParam = new("CreatedAt", DateTime.Now.ToString());
+
         localReport.ReportPath = rdlcPath;
         localReport.DataSources.Add(new ReportDataSource(dataSet, dataTable));
+        localReport.SetParameters(new[] { createdByParam, createdAtParam });
 
         string outputFormat = format.ToUpper() switch
         {

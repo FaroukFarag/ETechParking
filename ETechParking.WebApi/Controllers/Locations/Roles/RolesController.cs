@@ -11,7 +11,7 @@ namespace ETechParking.WebApi.Controllers.Locations.Roles;
 [ApiController]
 [Authorize(Roles = "Admin")]
 public class RolesController(IRoleService roleService) :
-    BaseController<IRoleService, Role, RoleDto, int>(roleService)
+    BaseCrudController<IRoleService, Role, RoleDto, int>(roleService)
 {
     private readonly IRoleService _roleService = roleService;
 }

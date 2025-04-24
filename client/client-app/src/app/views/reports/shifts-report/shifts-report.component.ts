@@ -103,8 +103,8 @@ export class ShiftsReportComponent {
       return;
     }
 
-    const format = this.selectedFormat;
     const filters = {
+      format: this.selectedFormat,
       fromDateTime: this.filterData.fromDateTime,
       toDateTime: this.filterData.toDateTime,
       locationId: this.filterData.locationId,
@@ -112,12 +112,13 @@ export class ShiftsReportComponent {
       accountantUserId: this.filterData.accountantUserId,
     }
 
-    this.shiftsService.generateReport(`Reports/DownloadShiftsReport?format=${format}`, filters).subscribe(
+    this.shiftsService.generateReport(`Reports/DownloadShiftsReport`, filters).subscribe(
       (blob: Blob | null) => {
         if (blob) { // Check if blob is not null
+          debugger
           const link = document.createElement('a');
           link.href = window.URL.createObjectURL(blob);
-          link.download = `Shifts Report.${format}`;
+          link.download = `Shifts Report`;
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);

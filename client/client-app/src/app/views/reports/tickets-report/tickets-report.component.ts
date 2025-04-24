@@ -141,8 +141,8 @@ export class TicketsReportComponent {
       return;
     }
 
-    const format = this.selectedFormat;
     const filters = {
+      format: this.selectedFormat,
       fromDateTime: this.filterData.fromDateTime,
       toDateTime: this.filterData.toDateTime,
       locationId: this.filterData.locationId,
@@ -150,12 +150,12 @@ export class TicketsReportComponent {
       closeUserId: this.filterData.closeUserId,
     }
 
-    this.ticketsService.generateReport(`Reports/DownloadTicketsReport?format=${format}`, filters).subscribe(
+    this.ticketsService.generateReport(`Reports/DownloadTicketsReport`, filters).subscribe(
       (blob: Blob | null) => {
         if (blob) { 
           const link = document.createElement('a');
           link.href = window.URL.createObjectURL(blob);
-          link.download = `Tickets Report.${format}`;
+          link.download = `Tickets Report`;
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);

@@ -49,7 +49,7 @@ public class TokensService : ITokensService
             issuer: _settings.CurrentValue.ValidIssuer,
             audience: _settings.CurrentValue.ValidAudience,
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(_settings.CurrentValue.LifeTime),
+            expires: DateTime.UtcNow.AddHours(_settings.CurrentValue.LifeTime),
             signingCredentials: signingCredentials);
     }
 }

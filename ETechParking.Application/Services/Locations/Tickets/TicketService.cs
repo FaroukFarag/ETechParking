@@ -188,7 +188,7 @@ public class TicketService(
 
     public async Task<IEnumerable<TicketTransactionTypeDto>> GetClientTypeStatisticsAsync(TicketDashboardFilterDto ticketDashboardFilterDto)
     {
-        var statistics = await _ticketRepository.GetTransactionTypeStatisticsAsync(ticketDashboardFilterDto);
+        var statistics = await _ticketRepository.GetClientTypeStatisticsAsync(ticketDashboardFilterDto);
 
         return _mapper.Map<IEnumerable<TicketTransactionTypeDto>>(statistics);
     }

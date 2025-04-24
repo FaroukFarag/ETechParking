@@ -5,6 +5,6 @@ namespace ETechParking.Reporting.Interfaces;
 
 public interface IReportService
 {
-    (byte[] ReportData, string ContentType, string FileExtension) GetShiftsReport(ShiftReportFilterDto shiftReportFilterDto);
-    (byte[] ReportData, string ContentType, string FileExtension) GetTicketsReport(TicketReportFilterDto ticketReportFilterDto);
+    Task<(byte[] ReportData, string ContentType, string FileExtension)> GetShiftsReport(ShiftReportFilterDto shiftReportFilterDto, int userId);
+    Task<(byte[] ReportData, string ContentType, string FileExtension)> GetTicketsReport(TicketReportFilterDto ticketReportFilterDto, int userId);
 }

@@ -26,6 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ETechParking.Application\ETechParking.Application.csproj" />
+    <ProjectReference Include="..\ETechParking.Domain\ETechParking.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="ETechParkingDataSet.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

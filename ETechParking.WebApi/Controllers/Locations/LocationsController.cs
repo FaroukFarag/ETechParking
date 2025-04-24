@@ -11,7 +11,7 @@ namespace ETechParking.WebApi.Controllers.Locations;
 [ApiController]
 [Authorize(Roles = "Admin")]
 public class LocationsController(ILocationService locationService) :
-    BaseController<ILocationService, Location, LocationDto, int>(locationService)
+    BaseCrudController<ILocationService, Location, LocationDto, int>(locationService)
 {
     private readonly ILocationService _locationService = locationService;
 

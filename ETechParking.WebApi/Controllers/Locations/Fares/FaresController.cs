@@ -11,6 +11,6 @@ namespace ETechParking.WebApi.Controllers.Locations.Fares;
 [ApiController]
 [Authorize(Roles = "Admin,Supervisor")]
 public class FaresController(IFareService fareService) :
-    BaseController<IFareService, Fare, FareDto, int>(fareService)
+    BaseCrudController<IFareService, Fare, FareDto, int>(fareService)
 {
 }

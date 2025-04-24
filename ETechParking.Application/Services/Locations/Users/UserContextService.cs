@@ -3,24 +3,21 @@ using Microsoft.AspNetCore.Http;
 
 namespace ETechParking.Application.Services.Locations.Users;
 
-public class UserContextService : IUserContextService
+public class UserContextService(IHttpContextAccessor httpContextAccessor) : IUserContextService
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
-    public UserContextService(IHttpContextAccessor httpContextAccessor)
-    {
-        _httpContextAccessor = httpContextAccessor;
-    }
+    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
 
     public bool IsAuthenticated()
     {
         var user = _httpContextAccessor.HttpContext?.User;
+
         return user?.Identity?.IsAuthenticated ?? false;
     }
 
     public bool IsAdmin()
     {
         var user = _httpContextAccessor.HttpContext?.User;
+
         return user?.IsInRole("Admin") ?? false;
     }
 

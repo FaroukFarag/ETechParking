@@ -11,7 +11,7 @@ namespace ETechParking.WebApi.Controllers.Locations.Tickets;
 [ApiController]
 [Authorize(Roles = "Admin,Supervisor,Accountant,Cashier")]
 public class TicketsController(ITicketService ticketService) :
-    BaseController<ITicketService, Ticket, TicketDto, int>(ticketService)
+    BaseCrudController<ITicketService, Ticket, TicketDto, int>(ticketService)
 {
     private readonly ITicketService _ticketService = ticketService;
 
