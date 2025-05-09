@@ -34,9 +34,9 @@ public class ShiftProfile : Profile
                 .MapFrom(src => src.AccountantTotalCredit - src.Tickets
                     .Where(t => t.TransactionType == TransactionType.Credit).Sum(t => t.TotalAmount)))
             .ForMember(des => des.TotalVisitors, opt => opt
-                .MapFrom(src => src.Tickets.Where(t => t.ClientType == ClientType.Visitor).Count()))
+                .MapFrom(src => src.Tickets.Where(t => t.ClientType == ClientType.Car).Count()))
             .ForMember(des => des.TotalGuests, opt => opt
-                .MapFrom(src => src.Tickets.Where(t => t.ClientType == ClientType.Guest).Count()));
+                .MapFrom(src => src.Tickets.Where(t => t.ClientType == ClientType.Bus).Count()));
 
         CreateMap<ShiftDto, Shift>();
     }

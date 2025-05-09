@@ -21,6 +21,10 @@
             <dxi-validation-rule type="required" message="Location Name is required">
             </dxi-validation-rule>
           </dxi-item>
+          <dxi-item dataField="firstHourAmount" caption="First Hour Amount">
+            <dxi-validation-rule type="required" message="First Hour Amount is required">
+            </dxi-validation-rule>
+          </dxi-item>
           <dxi-item dataField="amount" caption="Amount">
             <dxi-validation-rule type="required" message="Amount is required">
             </dxi-validation-rule>
@@ -52,6 +56,7 @@
       </dxo-form>
     </dxo-editing>
 
+    <dxi-column dataField="firstHourAmount" caption="First Hour Amount" alignment="left"></dxi-column>
     <dxi-column dataField="amount" caption="Amount" alignment="left"></dxi-column>
     <dxi-column [visible]="false" dataField="fareType" caption="Fare type" alignment="left"></dxi-column>
     <dxi-column dataField="fareTypeName" caption="Fare type" alignment="left"></dxi-column>

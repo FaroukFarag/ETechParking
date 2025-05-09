@@ -9,7 +9,7 @@ namespace ETechParking.WebApi.Controllers.Locations.Users;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize(Roles = "Admin,Supervisor")]
+//[Authorize(Roles = "Admin,Supervisor")]
 public class UsersController(IUserService userService)
     : BaseCrudController<IUserService, User, UserDto, int>(userService)
 {

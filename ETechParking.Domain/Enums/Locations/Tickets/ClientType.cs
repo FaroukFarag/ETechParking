@@ -2,6 +2,6 @@
 
 public enum ClientType
 {
-    Visitor = 1,
-    Guest
+    Car = 1,
+    Bus
 }

@@ -206,9 +206,9 @@ public class TicketService(
 
     private static decimal CalculateTotal(Ticket ticket, bool includeVat = false)
     {
-        ITicketCalculationStrategy ticketStrategy = ticket.ClientType == ClientType.Visitor
-            ? new VisitorTicketCalculationStrategy()
-            : new GuestTicketCalculationStrategy();
+        ITicketCalculationStrategy ticketStrategy = ticket.ClientType == ClientType.Car
+            ? new CarTicketCalculationStrategy()
+            : new BusTicketCalculationStrategy();
 
         decimal totalFare = ticketStrategy.CalculateTotalFare(ticket);
 

@@ -5,12 +5,12 @@ using ETechParking.Domain.Models.Locations.Tickets;
 
 namespace ETechParking.Domain.Services.Locations.Tickets;
 
-public class VisitorTicketCalculationStrategy : ITicketCalculationStrategy
+public class BusTicketCalculationStrategy : ITicketCalculationStrategy
 {
     public decimal CalculateTotalFare(Ticket ticket)
     {
-        Fare fare = ticket.Location.Fares.FirstOrDefault(f => f.FareType == FareType.Hourly)!
-            ?? throw new InvalidOperationException("No hourly fare found for the visitor.");
+        Fare fare = ticket.Location.Fares.FirstOrDefault(f => f.FareType == FareType.Bus)!
+            ?? throw new InvalidOperationException("No fare found for the car.");
         TimeSpan duration = ticket.ExitDateTime!.Value - ticket.EntryDateTime;
 
         if (duration.TotalMinutes <= fare.EnterGracePeriod)
@@ -18,10 +18,10 @@ public class VisitorTicketCalculationStrategy : ITicketCalculationStrategy
             return 0m;
         }
 
-        return CalculateVisitorFareWithMaxLimit(ticket.EntryDateTime, ticket.ExitDateTime!.Value, fare);
+        return CalculateFareWithMaxLimit(ticket.EntryDateTime, ticket.ExitDateTime!.Value, fare);
     }
 
-    private decimal CalculateVisitorFareWithMaxLimit(DateTime entryDateTime, DateTime exitDateTime, Fare fare)
+    private decimal CalculateFareWithMaxLimit(DateTime entryDateTime, DateTime exitDateTime, Fare fare)
     {
         decimal totalFare = 0m;
         DateTime currentPeriodStart = entryDateTime;
@@ -40,7 +40,10 @@ public class VisitorTicketCalculationStrategy : ITicketCalculationStrategy
             if (fare.MaxLimit.HasValue && hours > fare.MaxLimit)
                 hours = fare.MaxLimit.Value;
 
-            totalFare += hours * fare.Amount;
+            if (hours > 0)
+            {
+                totalFare += fare.FirstHourAmount + (hours - 1) * fare.Amount;
+            }
 
             currentPeriodStart = currentPeriodEnd;
         }

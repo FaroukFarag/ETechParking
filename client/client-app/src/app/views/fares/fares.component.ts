@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
-import { } from 'devextreme-angular';
 import { FareService } from '../../services/locations/fares/fare.service';
 import { LocationService } from '../../services/locations/location.service';
 import { Location } from '../../models/locations/location.model';
 import { exportDataGrid } from 'devextreme/excel_exporter';
-import { DxDataGridTypes } from 'devextreme-angular/ui/data-grid';
 import { Workbook } from 'exceljs';
 import { saveAs } from 'file-saver';
 import { CommonModule } from '@angular/common';
@@ -25,34 +23,30 @@ export class FaresComponent {
   allowedPageSizes: (number | "auto")[] = [10, 20, 50];
   locationId: any;
   locationEditorOptions: any;
-  fareTypes = [{ id: 1, name: 'Hourly' }, { id: 2, name: 'Daily' }]
+  fareTypes = [{ id: 1, name: 'Car' }, { id: 2, name: 'Bus' }]
   fareTypeEditorOptions: any;
-  showMaxLimit = false;
   enterGracePeriodEditorOptions: any;
   exitGracePeriodEditorOptions: any;
   fareType: any;
+  showMaxLimit = true;
+  
   constructor(private faresService: FareService, private locationService: LocationService) {
     this.enterGracePeriodEditorOptions = {
       editorType: 'dxNumberBox',
       label: this.getGracePeriodLabel('enter')
     };
+
     this.exitGracePeriodEditorOptions = {
       editorType: 'dxNumberBox',
       label: this.getGracePeriodLabel('exit')
     };
-
   }
-
 
   ngOnInit() {
     this.getAllFares();
     this.getAllLocations();
     this.loadFareTypeEditorOptions();
   }
-
-
-
-
 
   getAllFares() {
     this.faresService.getAll('Fares/GetAll').subscribe((data: any) => {
@@ -88,11 +82,10 @@ export class FaresComponent {
   }
 
   onInitNewRow(e: any) {
-    this.showMaxLimit = false;
+    //this.showMaxLimit = false;
   }
 
   onRowInserting(e: any) {
-    debugger
     e.data.fareType = this.fareType;
 
     this.faresService.create('Fares/Create', e.data).subscribe(() => {
@@ -121,7 +114,7 @@ export class FaresComponent {
 
   onEditingStart(e: any) {
     this.fareType = e.data.fareType;
-    this.showMaxLimit = this.fareType === 1;
+    //this.showMaxLimit = this.fareType === 1;
   }
 
   /*EXPORT TO EXCEL */
@@ -143,7 +136,7 @@ export class FaresComponent {
   onFareTypeChange(event: any) {
     this.fareType = event.value;
     this.fareTypeEditorOptions.value = event.value;
-    this.showMaxLimit = this.fareType === 1;
+    //this.showMaxLimit = this.fareType === 1;
 
     // Update the labels for grace periods
     this.enterGracePeriodEditorOptions.label = this.getGracePeriodLabel('enter');
@@ -155,13 +148,14 @@ export class FaresComponent {
 
   getGracePeriodLabel(type: string) {
     let labelText = `${type.charAt(0).toUpperCase() + type.slice(1)} grace period`;
-    if (this.fareType === 1) {
-      labelText += ' (Minutes)';
-    } else if (this.fareType === 2) { 
-      labelText += ' (Hours)';
-    }
-    return { text: labelText };
+    
+    // if (this.fareType === 1) {
+    //   labelText += ' (Minutes)';
+    // } else if (this.fareType === 2) { 
+    //   labelText += ' (Hours)';
+    // }
 
+    return { text: labelText };
   }
 
 }

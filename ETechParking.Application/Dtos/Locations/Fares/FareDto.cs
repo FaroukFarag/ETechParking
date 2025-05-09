@@ -5,6 +5,7 @@ namespace ETechParking.Application.Dtos.Locations.Fares;
 
 public class FareDto : BaseModelDto<int>
 {
+    public decimal FirstHourAmount { get; set; }
     public decimal Amount { get; set; }
     public FareType FareType { get; set; }
     public string? FareTypeName { get; set; }

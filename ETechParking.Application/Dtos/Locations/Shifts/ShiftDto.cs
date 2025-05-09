@@ -21,9 +21,9 @@ public class ShiftDto : BaseModelDto<int>
     public decimal? TotalGuests { get; set; }
     public ShiftStatus Status { get; set; } = ShiftStatus.Opened;
     public int LocationId { get; set; }
-    public string LocationName { get; set; } = default!;
+    public string? LocationName { get; set; }
     public int CashierUserId { get; set; }
-    public string CashierUserName { get; set; } = default!;
+    public string? CashierUserName { get; set; }
     public int AccountantUserId { get; set; }
-    public string AccountantUserName { get; set; } = default!;
+    public string? AccountantUserName { get; set; }
 }
