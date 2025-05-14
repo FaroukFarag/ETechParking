@@ -82,23 +82,10 @@ public class UserService(
     public async override Task<UserDto> Update(UserDto newUserDto)
     {
         var existingUser = await _userManager.FindByIdAsync(newUserDto.Id.ToString());
+        if (existingUser == null) return default!;
 
-        if (existingUser == null)
-        {
-            return default!;
-        }
-
-        _mapper.Map(newUserDto, existingUser);
-
-        if (string.IsNullOrEmpty(existingUser.SecurityStamp))
-        {
-            existingUser.SecurityStamp = Guid.NewGuid().ToString();
-        }
-
-        var result = await _userManager.UpdateAsync(existingUser);
-
-        if (!result.Succeeded)
-            return default!;
+        await UpdateUserProperties(existingUser, newUserDto);
+        await UpdateUserRoleIfChanged(existingUser, newUserDto.RoleId);
 
         return newUserDto;
     }
@@ -166,6 +153,30 @@ public class UserService(
         return addPasswordResult.Succeeded;
     }
 
+    private async Task UpdateUserProperties(User user, UserDto userDto)
+    {
+        _mapper.Map(userDto, user);
+
+        if (string.IsNullOrEmpty(user.SecurityStamp))
+            user.SecurityStamp = Guid.NewGuid().ToString();
+
+        var result = await _userManager.UpdateAsync(user);
+
+        if (!result.Succeeded) throw new Exception("Failed to update user properties");
+    }
+
+    private async Task UpdateUserRoleIfChanged(User user, int newRoleId)
+    {
+        var currentRoles = await _userManager.GetRolesAsync(user);
+        var newRole = (await _roleRepository.GetAsync(newRoleId))?.Name;
+
+        if (newRole == null || (currentRoles.Any() && currentRoles.First() == newRole))
+            return;
+
+        await _userManager.RemoveFromRolesAsync(user, currentRoles);
+        await _userManager.AddToRoleAsync(user, newRole);
+    }
+
     private async Task<User> AuthenticateUserAsync(LoginDto model)
     {
         var result = await _signInManager.PasswordSignInAsync(
@@ -209,7 +220,7 @@ public class UserService(
             new("userId", user.Id.ToString()),
             new("userName", user.UserName!),
             new("email", user.Email!),
-            new("role", user.Role.Name!),
+            new("role", user.Role?.Name!),
             new("locationId", user.LocationId.ToString())
         };
 
