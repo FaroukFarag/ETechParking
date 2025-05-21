@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ETechParking.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ETechParkingDbContext))]
-    [Migration("20250424181930_AddFirstHourAmountToFare")]
-    partial class AddFirstHourAmountToFare
+    [Migration("20250516110051_MakePlateNumberOptionalInTicket")]
+    partial class MakePlateNumberOptionalInTicket
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,12 +43,12 @@ namespace ETechParking.Infrastructure.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Car"
+                            Name = "Normal"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Bus"
+                            Name = "VIP"
                         });
                 });
 
@@ -70,12 +70,12 @@ namespace ETechParking.Infrastructure.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Car"
+                            Name = "Normal"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Bus"
+                            Name = "VIP"
                         });
                 });
 
@@ -126,9 +126,6 @@ namespace ETechParking.Infrastructure.Data.Migrations
 
                     b.Property<int>("FareType")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("FirstHourAmount")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("LocationId")
                         .HasColumnType("int");
@@ -299,7 +296,6 @@ namespace ETechParking.Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("PlateNumber")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 

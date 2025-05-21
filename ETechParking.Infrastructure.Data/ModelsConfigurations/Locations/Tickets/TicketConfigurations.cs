@@ -14,7 +14,7 @@ public class TicketConfigurations : IEntityTypeConfiguration<Ticket>
 
         builder.Property(t => t.PlateNumber)
             .HasMaxLength(50)
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(t => t.PhoneNumber)
             .HasMaxLength(50)

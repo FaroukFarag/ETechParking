@@ -5,7 +5,6 @@ namespace ETechParking.Domain.Models.Locations.Fares;
 
 public class Fare : BaseModel<int>
 {
-    public decimal FirstHourAmount { get; set; }
     public decimal Amount { get; set; }
     public FareType FareType { get; set; }
     public int EnterGracePeriod { get; set; }

@@ -53,7 +53,6 @@ export class UsersComponent implements OnInit {
   }
 
   onRowInserting(e: any) {
-    debugger
     this.usersService.create('Users/Create', e.data).subscribe(() => {
       this.getAllUsers();
     });

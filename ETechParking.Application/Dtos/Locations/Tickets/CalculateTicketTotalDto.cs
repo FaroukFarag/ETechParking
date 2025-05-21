@@ -2,6 +2,6 @@
 
 public class CalculateTicketTotalDto
 {
-    public string PlateNumber { get; set; } = default!;
+    public string TicketNumber { get; set; } = default!;
     public DateTime ExitDateTime { get; set; } = default!;
 }

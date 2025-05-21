@@ -5,54 +5,43 @@
 namespace ETechParking.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddFirstHourAmountToFare : Migration
+    public partial class DeleteFirstHourAmountFromFare : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<decimal>(
-                name: "FirstHourAmount",
-                table: "Fares",
-                type: "decimal(18,2)",
-                nullable: false,
-                defaultValue: 0m);
-
             migrationBuilder.UpdateData(
                 table: "ClientTypes",
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "Name",
-                value: "Car");
+                value: "Normal");
 
             migrationBuilder.UpdateData(
                 table: "ClientTypes",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "Name",
-                value: "Bus");
+                value: "VIP");
 
             migrationBuilder.UpdateData(
                 table: "FareTypes",
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "Name",
-                value: "Car");
+                value: "Normal");
 
             migrationBuilder.UpdateData(
                 table: "FareTypes",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "Name",
-                value: "Bus");
+                value: "VIP");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "FirstHourAmount",
-                table: "Fares");
-
             migrationBuilder.UpdateData(
                 table: "ClientTypes",
                 keyColumn: "Id",

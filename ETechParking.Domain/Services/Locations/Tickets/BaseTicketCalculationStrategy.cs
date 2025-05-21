@@ -8,7 +8,7 @@ namespace ETechParking.Domain.Services.Locations.Tickets;
 
 public abstract class BaseTicketCalculationStrategy : ITicketCalculationStrategy
 {
-    protected abstract FareType VehicleFareType { get; }
+    protected abstract FareType FareType { get; }
 
     public decimal CalculateTotalFare(Ticket ticket)
     {
@@ -23,8 +23,8 @@ public abstract class BaseTicketCalculationStrategy : ITicketCalculationStrategy
 
     protected Fare GetValidFare(Location location)
     {
-        return location.Fares.FirstOrDefault(f => f.FareType == VehicleFareType)
-               ?? throw new InvalidOperationException($"{VehicleFareType} fare not configured");
+        return location.Fares.FirstOrDefault(f => f.FareType == FareType)
+               ?? throw new InvalidOperationException($"{FareType} fare not configured");
     }
 
     protected virtual bool IsWithinFirstHourGrace(TimeSpan duration, int graceMinutes)
@@ -60,12 +60,13 @@ public abstract class BaseTicketCalculationStrategy : ITicketCalculationStrategy
 
     protected virtual decimal CalculatePeriodCharge(int billableHours, Fare fare)
     {
-        return fare.FirstHourAmount + (billableHours - 1) * fare.Amount;
+        return billableHours * fare.Amount;
     }
 
     protected DateTime Get24HourPeriodEnd(DateTime start, DateTime exitTime)
     {
         DateTime dailyEnd = start.AddHours(24);
+
         return exitTime < dailyEnd ? exitTime : dailyEnd;
     }
 

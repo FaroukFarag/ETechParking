@@ -2,6 +2,6 @@
 
 public enum FareType
 {
-    Car = 1,
-    Bus
+    Normal = 1,
+    VIP
 }

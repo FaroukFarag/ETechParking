@@ -115,7 +115,6 @@ export class ShiftsReportComponent {
     this.shiftsService.generateReport(`Reports/DownloadShiftsReport`, filters).subscribe(
       (blob: Blob | null) => {
         if (blob) { // Check if blob is not null
-          debugger
           const link = document.createElement('a');
           link.href = window.URL.createObjectURL(blob);
           link.download = `Shifts Report`;

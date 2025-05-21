@@ -2,14 +2,13 @@
 using ETechParking.Application.Interfaces.Locations.Tickets;
 using ETechParking.Domain.Models.Locations.Tickets;
 using ETechParking.WebApi.Controllers.Abstraction;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ETechParking.WebApi.Controllers.Locations.Tickets;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize(Roles = "Admin,Supervisor,Accountant,Cashier")]
+//[Authorize(Roles = "Admin,Supervisor,Accountant,Cashier")]
 public class TicketsController(ITicketService ticketService) :
     BaseCrudController<ITicketService, Ticket, TicketDto, int>(ticketService)
 {
@@ -36,6 +35,16 @@ public class TicketsController(ITicketService ticketService) :
         return Ok(dto);
     }
 
+    [HttpGet("GetByTicketNumber")]
+    public virtual async Task<IActionResult> GetByTicketNumber(string ticketNumber)
+    {
+        var dto = await _ticketService.GetByTicketNumberAsync(ticketNumber);
+
+        if (dto == null)
+            return NotFound();
+
+        return Ok(dto);
+    }
     [HttpPost("GetAllFiltered")]
     public async Task<IActionResult> GetAllFiltered(TicketFilterDto ticketFilterDto)
     {

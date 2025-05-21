@@ -79,8 +79,8 @@
         <dxo-form>
           <dxi-item itemType="group" [colCount]="1" [colSpan]="2">
             <dxi-item dataField="userName" caption="user name"></dxi-item>
-            <dxi-item dataField="totalGuests" caption="Guests"></dxi-item>
-            <dxi-item dataField="totalVisitors" caption="Visitors"></dxi-item>
+            <dxi-item dataField="totalGuests" caption="VIP Users"></dxi-item>
+            <dxi-item dataField="totalVisitors" caption="Normal Users"></dxi-item>
             <dxi-item dataField="startDateTime"
                       [editorOptions]="{ width: '100%'}"
                       [label]="{ text: 'Start date' }"></dxi-item>
@@ -94,10 +94,10 @@
       <dxi-column [visible]="false" dataField="id"></dxi-column>
       <dxi-column dataField="cashierUserName" caption="Cashier" alignment="left"></dxi-column>
       <dxi-column dataField="locationName" caption="Location Name" alignment="left"></dxi-column>
-      <dxi-column dataField="totalGuests" caption="Guests" alignment="left" width="120"></dxi-column>
+      <dxi-column dataField="totalGuests" caption="VIPs" alignment="left" width="120"></dxi-column>
       <dxi-column dataField="startDateTime" dataType="date" caption="Start Date" alignment="left"></dxi-column>
       <dxi-column dataField="endDateTime" dataType="date" caption="End Date" alignment="left"></dxi-column>
-      <dxi-column dataField="totalVisitors" caption="Visitors" alignment="left"  width="120"></dxi-column>
+      <dxi-column dataField="totalVisitors" caption="Normals" alignment="left"  width="120"></dxi-column>
       <dxi-column dataField="totalCashCaculated" caption="Total Cash" alignment="left"></dxi-column>
       <dxi-column dataField="totalCreditCaculated" caption="Total Credit" alignment="left"></dxi-column>
       <dxi-column dataField="status" caption="Status" alignment="left" cellTemplate="statusTemplate"></dxi-column>
@@ -183,8 +183,8 @@
                   captionTemplate="Tickets"
                   caption="Tickets Count"
                   [colCount]="2">
-          <dxi-item dataField="totalVisitors" label="Visitors Tickets" [disabled]="true"></dxi-item>
-          <dxi-item dataField="totalGuests" label="Guests Tickets" [disabled]="true"></dxi-item>
+          <dxi-item dataField="totalVisitors" label="Normal Tickets" [disabled]="true"></dxi-item>
+          <dxi-item dataField="totalGuests" label="VIP Tickets" [disabled]="true"></dxi-item>
         </dxi-item>
       </dx-form>
       <!-- Review Tickets Button -->

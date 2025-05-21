@@ -8,7 +8,7 @@ namespace ETechParking.Domain.Models.Locations.Tickets;
 public class Ticket : BaseModel<int>
 {
     public string TicketNumber { get; set; } = default!;
-    public string PlateNumber { get; set; } = default!;
+    public string? PlateNumber { get; set; }
     public string PhoneNumber { get; set; } = default!;
     public DateTime EntryDateTime { get; set; } = default!;
     public DateTime? ExitDateTime { get; set; }

@@ -5,8 +5,8 @@ namespace ETechParking.Application.Dtos.Locations.Tickets
 {
     public class TicketDto : BaseModelDto<int>
     {
-        public Guid? TicketNumber { get; } = Guid.NewGuid();
-        public string PlateNumber { get; set; } = default!;
+        public Guid? TicketNumber { get; set; }
+        public string? PlateNumber { get; set; }
         public string PhoneNumber { get; set; } = default!;
         public DateTime EntryDateTime { get; set; } = default!;
         public DateTime? ExitDateTime { get; set; }

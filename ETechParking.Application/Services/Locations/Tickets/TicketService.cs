@@ -10,7 +10,6 @@ using ETechParking.Domain.Interfaces.Services.Locations.Tickets;
 using ETechParking.Domain.Interfaces.UnitOfWork;
 using ETechParking.Domain.Models.Locations.Tickets;
 using ETechParking.Domain.Models.Shared;
-using ETechParking.Domain.Services.Locations.Tickets;
 using System.Linq.Expressions;
 
 namespace ETechParking.Application.Services.Locations.Tickets;
@@ -30,12 +29,14 @@ public class TicketService(
     public async override Task<TicketDto> CreateAsync(TicketDto ticketDto)
     {
         var existingTickets = await _ticketRepository.GetAllAsync(
-            filter: t => t.PlateNumber == ticketDto.PlateNumber && !t.IsPaid);
+            filter: t => t.TicketNumber == ticketDto.TicketNumber.ToString() && !t.IsPaid);
 
         if (existingTickets.Any())
         {
             throw new InvalidOperationException("An unpaid ticket already exists for this plate number.");
         }
+
+        ticketDto.TicketNumber = Guid.NewGuid();
 
         var ticket = await base.CreateAsync(ticketDto);
 
@@ -54,6 +55,18 @@ public class TicketService(
             .GetAllAsync(
                 filter: t => t.PlateNumber == plateNumber,
                 orderBy: q => q.OrderByDescending(t => t.EntryDateTime),
+                includeProperties: t => t.Location
+            );
+        var ticketDto = _mapper.Map<TicketDto>(tickets.FirstOrDefault());
+
+        return ticketDto;
+    }
+
+    public async Task<TicketDto> GetByTicketNumberAsync(string ticketNumber)
+    {
+        var tickets = await _ticketRepository
+            .GetAllAsync(
+                filter: t => t.TicketNumber == ticketNumber,
                 includeProperties: t => t.Location
             );
         var ticketDto = _mapper.Map<TicketDto>(tickets.FirstOrDefault());
@@ -115,7 +128,7 @@ public class TicketService(
 
     public async Task<TicketDto> CalculateTicketTotal(CalculateTicketTotalDto ticketTotalDto)
     {
-        var ticket = await GetLatestUnpaidTicketAsync(ticketTotalDto.PlateNumber);
+        var ticket = await GetLatestUnpaidTicketAsync(ticketTotalDto.TicketNumber);
 
         if (ticketTotalDto.ExitDateTime < ticket.EntryDateTime)
         {
@@ -138,11 +151,12 @@ public class TicketService(
 
     public async Task<TicketDto> PayTicket(PayTicketDto payTicketDto)
     {
-        var ticket = await GetLatestUnpaidTicketAsync(payTicketDto.PlateNumber);
+        var ticket = await GetLatestUnpaidTicketAsync(payTicketDto.TicketNumber);
 
         ticket.IsPaid = true;
         ticket.TransactionType = payTicketDto.TransactionType;
         ticket.ExitDateTime = payTicketDto.ExitDateTime;
+        ticket.ShiftId = payTicketDto.ShiftId;
         ticket.CloseUserId = payTicketDto.CloseUserId;
         ticket.TotalAmount = CalculateTotal(ticket, true);
 
@@ -193,11 +207,11 @@ public class TicketService(
         return _mapper.Map<IEnumerable<TicketTransactionTypeDto>>(statistics);
     }
 
-    private async Task<Ticket> GetLatestUnpaidTicketAsync(string plateNumber)
+    private async Task<Ticket> GetLatestUnpaidTicketAsync(string ticketNumber)
     {
         var tickets = await _ticketRepository
             .GetAllAsync(
-                filter: t => t.PlateNumber == plateNumber && !t.IsPaid,
+                filter: t => t.TicketNumber == ticketNumber && !t.IsPaid,
                 includeProperties: t => t.Location.Fares);
         var ticket = tickets.LastOrDefault();
 
@@ -206,9 +220,9 @@ public class TicketService(
 
     private static decimal CalculateTotal(Ticket ticket, bool includeVat = false)
     {
-        ITicketCalculationStrategy ticketStrategy = ticket.ClientType == ClientType.Car
-            ? new CarTicketCalculationStrategy()
-            : new BusTicketCalculationStrategy();
+        ITicketCalculationStrategy ticketStrategy = ticket.ClientType == ClientType.Normal
+            ? new NormalTicketCalculationStrategy()
+            : new VIPTicketCalculationStrategy();
 
         decimal totalFare = ticketStrategy.CalculateTotalFare(ticket);
 

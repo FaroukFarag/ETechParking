@@ -23,7 +23,7 @@ export class FaresComponent {
   allowedPageSizes: (number | "auto")[] = [10, 20, 50];
   locationId: any;
   locationEditorOptions: any;
-  fareTypes = [{ id: 1, name: 'Car' }, { id: 2, name: 'Bus' }]
+  fareTypes = [{ id: 1, name: 'Normal' }, { id: 2, name: 'VIP' }]
   fareTypeEditorOptions: any;
   enterGracePeriodEditorOptions: any;
   exitGracePeriodEditorOptions: any;
@@ -76,8 +76,8 @@ export class FaresComponent {
       dataSource: this.fareTypes,
       valueExpr: 'id',
       displayExpr: 'name',
-      value: this.fareType,
-      onValueChanged: this.onFareTypeChange.bind(this)
+      //value: this.fareType,
+      //onValueChanged: this.onFareTypeChange.bind(this)
     }
   }
 
@@ -95,6 +95,7 @@ export class FaresComponent {
 
   onRowUpdating(e: any) {
     const updatedData = { ...e.oldData, ...e.newData };
+
     this.faresService.update('Fares/Update', updatedData).subscribe(
       () => {
         this.getAllFares();

@@ -7,7 +7,7 @@ public class CalculateTicketTotalDtoValidator : AbstractValidator<CalculateTicke
 {
     public CalculateTicketTotalDtoValidator()
     {
-        RuleFor(ctt => ctt.PlateNumber)
+        RuleFor(ctt => ctt.TicketNumber)
            .NotEmpty()
            .MaximumLength(50);
 

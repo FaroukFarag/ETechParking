@@ -7,11 +7,14 @@ public class PayTicketDtoValidator : AbstractValidator<PayTicketDto>
 {
     public PayTicketDtoValidator()
     {
-        RuleFor(pt => pt.PlateNumber)
+        RuleFor(pt => pt.TicketNumber)
            .NotEmpty()
            .MaximumLength(50);
 
         RuleFor(pt => pt.TransactionType)
+            .NotNull();
+
+        RuleFor(pt => pt.ShiftId)
             .NotNull();
 
         RuleFor(pt => pt.CloseUserId)

@@ -134,7 +134,6 @@ export class TicketsComponent {
 
   getAllTickets() {
     this.ticketsService.getAll('Tickets/GetAll').subscribe((data: any) => {
-      debugger
       this.ticketsList = data;
       this.totalTicketsCount = this.ticketsList.length;
     });
